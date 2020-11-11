@@ -21,3 +21,15 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+/Auction/nbproject/private/
+/Auction/Auction-war/nbproject/private/
+/Auction/Auction-ejb/nbproject/private/
+/Auction/Librairie/nbproject/private/
+/Auction/Auction-ejb/build/
+/Auction/Librairie/build/
+/Auction/Librairie/dist/
+/Auction/dist/
+/Auction/build/
+/Auction/Auction-war/dist/
+/Auction/Auction-war/build/
+/Auction/Auction-ejb/dist/
