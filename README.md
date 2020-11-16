@@ -1,5 +1,11 @@
 # Auction-JEE
 
+## Documentation
+
+Vous pouvez trouver le sujet [ici](https://github.com/Reynault/Auction-JEE/blob/main/doc/PROJET-2013-En.pdf).
+
+Lien vers le Trello utilisé : https://github.com/Reynault/Auction-JEE/blob/main/doc/PROJET-2013-En.pdf
+
 ## Intitulé du projet
 
 On souhaite développer une application web de vente aux enchères. L’application doit
