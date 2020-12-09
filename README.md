@@ -4,7 +4,7 @@
 
 Vous pouvez trouver le sujet [ici](https://github.com/Reynault/Auction-JEE/blob/main/doc/PROJET-2013-En.pdf).
 
-Lien vers le Trello utilisé : https://github.com/Reynault/Auction-JEE/blob/main/doc/PROJET-2013-En.pdf
+Lien vers le Trello utilisé : https://trello.com/b/IxLgXvV6/auction
 
 ## Intitulé du projet
 
