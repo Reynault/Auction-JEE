@@ -21,6 +21,6 @@ public class ArticleController implements ArticleControllerLocal{
     @GET
     public Response getAll() {
         Collection<Article> articles = service.getAll();
-        return Response.ok("Hello World !").build();
+        return Response.ok(articles).build();
     }
 }

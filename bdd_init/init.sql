@@ -1,14 +1,21 @@
-DROP TABLE IF EXISTS `User`;
-DROP TABLE IF EXISTS `Article`;
+-- DROP TABLE IF EXISTS `User`;
+-- DROP TABLE IF EXISTS `Article`;
 
-CREATE TABLE `User` (
-	id INT AUTO_INCREMENT,
-	login VARCHAR(255),
-	PRIMARY KEY(id)
-);
+-- CREATE TABLE `User` (
+-- 	id INT AUTO_INCREMENT,
+-- 	login VARCHAR(255),
+-- 	pass CHAR(60),
+-- 	salt CHAR(60),
+-- 	name VARCHAR(255),
+-- 	lastname VARCHAR(255),
+-- 	PRIMARY KEY(id)
+-- );
 
-CREATE TABLE `Article` (
-	id INT AUTO_INCREMENT,
-	name VARCHAR(255),
-	PRIMARY KEY(id)
-);
+-- CREATE TABLE `Article` (
+-- 	id INT AUTO_INCREMENT,
+-- 	name VARCHAR(255),
+-- 	description TEXT,
+-- 	firstPrice DECIMAL(14,2),
+-- 	timeLimit DATE,
+-- 	PRIMARY KEY(id)
+-- );

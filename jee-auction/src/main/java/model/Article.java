@@ -1,19 +1,39 @@
 package model;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  * POJO for an article to map with the BDD
  */
-public class Article {
+@Entity
+@Table
+@NamedQueries({
+        @NamedQuery(
+                name = "Article.findAll",
+                query = "SELECT a FROM Article a"
+        )
+})
+public class Article implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
+    @Column(columnDefinition = "TEXT")
     private String description;
     private double firstPrice;
     private LocalDate timeLimit;
 
     public Article(long id, String name, String description, double firstPrice, LocalDate timeLimit) {
         this.id = id;
+        this.name = name;
+        this.description = description;
+        this.firstPrice = firstPrice;
+        this.timeLimit = timeLimit;
+    }
+
+    public Article(String name, String description, double firstPrice, LocalDate timeLimit) {
         this.name = name;
         this.description = description;
         this.firstPrice = firstPrice;
