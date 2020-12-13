@@ -3,3 +3,4 @@
 target/
 data/
 conf.properties
+nb-configuration.xml

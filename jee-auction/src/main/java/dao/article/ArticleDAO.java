@@ -14,8 +14,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * DAO that'll communicate with the database in order to
- * fetch and modify information linked with an article
+ * DAO qui va communiquer avec la base de données avec l'aide
+ * de l'ORM JPA pour récupérer des informations à propos des articles.
  */
 @Stateless
 public class ArticleDAO implements ArticleDAOLocal{

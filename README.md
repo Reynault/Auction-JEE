@@ -21,7 +21,9 @@ Les fonctionnalités demandées sont les suivantes:
 
 ## Mise en place de l'environnement
 
-
+Chaque dépôt possède un readme indiquant comment l'installer. Il y a deux back, chaqu'un fournissant
+les mêmes fonctionnalités mais d'une manière différente. L'un va être fait à l'aide de JEE et des EJB, l'autre
+à l'aide de Spring Boot. Il y a également un front en Angular.
 
 ## Développeurs
 

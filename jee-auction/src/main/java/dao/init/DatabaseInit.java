@@ -16,7 +16,7 @@ import javax.persistence.Query;
 import java.time.LocalDate;
 
 /**
- * Singleton bean that will initialise test values in database
+ * Singleton qui va initialiser les données de test
  */
 @Singleton
 @Startup
