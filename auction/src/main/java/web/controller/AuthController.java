@@ -1,9 +1,9 @@
-package web.controller.auth;
+package web.controller;
 
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
@@ -20,26 +20,27 @@ import shared.dto.UserInscription;
  * https://stackoverflow.com/questions/26777083/best-practice-for-rest-token-based-authentication-with-jax-rs-and-jersey
  * https://developer.okta.com/blog/2018/10/31/jwts-with-java
  */
-@Stateless
 @Path("/")
-public class AuthController implements AuthControllerLocal {
+public class AuthController {
 
     @EJB
     private AuthServiceLocal service;
 
-    @Override
-    @GET
-    @Consumes(MediaType.APPLICATION_JSON)
+    @POST
     @Path("login")
-    public Response login(UserConnection userConnection) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response login(
+            @NotNull(message = "Veuillez fournir vos identifiants de connexion")
+            @Valid UserConnection userConnection) {
         return Response.ok(service.login(userConnection)).build();
     }
 
-    @Override
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
     @Path("register")
-    public Response register(UserInscription userInscription) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response register(
+            @NotNull(message = "Veuillez fournir vos données d'inscription")
+            @Valid UserInscription userInscription) {
         return Response.ok(service.register(userInscription)).build();
     }
 }
