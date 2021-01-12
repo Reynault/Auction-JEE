@@ -7,29 +7,33 @@ import javax.persistence.*;
  */
 @Entity
 @Table
-public class User{
+@NamedQueries({
+    @NamedQuery(
+            name = "User.findOne",
+            query = "SELECT u FROM User u WHERE u.login = :login"
+    )
+})
+public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String login;
     private String pass;
-    private String salt;
     private String name;
     private String lastname;
 
-    public User(long id, String login, String pass, String salt, String name, String lastname) {
+    public User(long id, String login, String pass, String name, String lastname) {
         this.id = id;
         this.login = login;
         this.pass = pass;
-        this.salt = salt;
         this.name = name;
         this.lastname = lastname;
     }
 
-    public User(String login, String pass, String salt, String name, String lastname) {
+    public User(String login, String pass, String name, String lastname) {
         this.login = login;
         this.pass = pass;
-        this.salt = salt;
         this.name = name;
         this.lastname = lastname;
     }
@@ -59,14 +63,6 @@ public class User{
 
     public void setPass(String pass) {
         this.pass = pass;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
     }
 
     public String getName() {

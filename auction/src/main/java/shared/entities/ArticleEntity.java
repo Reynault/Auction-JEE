@@ -1,11 +1,10 @@
 package shared.entities;
 
-import model.Article;
-
 import java.io.Serializable;
 import java.time.LocalDate;
+import model.Article;
 
-public class ArticleEntity implements Serializable {
+public class ArticleEntity implements Serializable, Entity {
 
     private long id;
     private String name;

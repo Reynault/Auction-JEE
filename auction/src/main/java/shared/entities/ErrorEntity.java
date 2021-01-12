@@ -1,14 +1,20 @@
 package shared.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class ErrorEntity implements Serializable {
+public class ErrorEntity implements Serializable, Entity {
 
     private List<String> messages;
 
     public ErrorEntity(List<String> message) {
         this.messages = message;
+    }
+
+    public ErrorEntity(String message) {
+        this.messages = new ArrayList<>();
+        this.messages.add(message);
     }
 
     public ErrorEntity() {

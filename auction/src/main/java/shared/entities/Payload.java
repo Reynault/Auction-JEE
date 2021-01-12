@@ -2,7 +2,8 @@ package shared.entities;
 
 import java.io.Serializable;
 
-public class Payload implements Serializable {
+public class Payload implements Serializable, Entity {
+
     private String login;
     private String token;
     private String exp;

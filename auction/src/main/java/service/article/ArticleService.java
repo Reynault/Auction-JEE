@@ -22,9 +22,9 @@ public class ArticleService implements ArticleServiceLocal {
 
     private Collection<ArticleEntity> convertListToEntities(Collection<Article> articles) {
         List<ArticleEntity> entities = new ArrayList<>();
-        for (Article a : articles) {
+        articles.forEach(a -> {
             entities.add(ArticleEntity.convertArticleToEntity(a));
-        }
+        });
         return entities;
     }
 }
