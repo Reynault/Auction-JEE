@@ -60,6 +60,13 @@
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.mycompany</groupId>
+            <artifactId>persistence-auction</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -1,7 +1,8 @@
 package com.ul.springauction.services.article;
 
 import com.ul.springauction.DAO.ArticleRepository;
-import com.ul.springauction.model.Article;
+//import com.ul.springauction.model.Article;
+import model.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

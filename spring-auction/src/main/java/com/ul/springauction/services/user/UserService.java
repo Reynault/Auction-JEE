@@ -1,11 +1,13 @@
 package com.ul.springauction.services.user;
 
 import com.ul.springauction.DAO.UserRepository;
-import com.ul.springauction.model.User;
+//import com.ul.springauction.model.User;
 import com.ul.springauction.services.auth.JwtUtil;
 import com.ul.springauction.shared.auth.AuthResponse;
 import com.ul.springauction.shared.auth.Login;
 import com.ul.springauction.shared.auth.Register;
+
+import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
