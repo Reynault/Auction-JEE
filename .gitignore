@@ -4,3 +4,9 @@ target/
 data/
 conf.properties
 nb-configuration.xml
+/TP4-librairie/build/
+/TP4-librairie/dist/
+/TP4-librairie/nbproject/private/
+/persistence-auction/build/
+/persistence-auction/dist/
+/persistence-auction/nbproject/private/
