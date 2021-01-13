@@ -8,6 +8,8 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import model.Article;
 import shared.entities.ArticleEntity;
+import shared.entities.Entity;
+import shared.entities.ErrorEntity;
 
 @Stateless
 public class ArticleService implements ArticleServiceLocal {
@@ -18,6 +20,16 @@ public class ArticleService implements ArticleServiceLocal {
     @Override
     public Collection<ArticleEntity> getAll() {
         return convertListToEntities(dao.getAll());
+    }
+
+    @Override
+    public Entity getOne(long id) {
+        Article a = dao.getOne(id);
+        if (a != null) {
+            return ArticleEntity.convertArticleToEntity(a);
+        } else {
+            return new ErrorEntity("Article non trouvé");
+        }
     }
 
     private Collection<ArticleEntity> convertListToEntities(Collection<Article> articles) {

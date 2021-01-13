@@ -3,6 +3,7 @@ package web.controller;
 import javax.ejb.EJB;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -23,4 +24,11 @@ public class ArticleController {
     public Response getAll() {
         return Response.ok(service.getAll()).build();
     }
+
+    @GET
+    @Path("{id}")
+    public Response getOne(@PathParam("id") long id) {
+        return Response.ok(service.getOne(id)).build();
+    }
+
 }

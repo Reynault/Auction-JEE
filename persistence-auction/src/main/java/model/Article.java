@@ -1,7 +1,7 @@
 package model;
 
-import javax.persistence.*;
 import java.time.LocalDate;
+import javax.persistence.*;
 
 /**
  * POJO for an article to map with the BDD
@@ -9,12 +9,17 @@ import java.time.LocalDate;
 @Entity
 @Table
 @NamedQueries({
-        @NamedQuery(
-                name = "Article.findAll",
-                query = "SELECT a FROM Article a"
-        )
+    @NamedQuery(
+            name = "Article.findAll",
+            query = "SELECT a FROM Article a"
+    ),
+    @NamedQuery(
+            name = "Article.findOne",
+            query = "SELECT a FROM Article a WHERE a.id = :id"
+    )
 })
-public class Article{
+public class Article {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;

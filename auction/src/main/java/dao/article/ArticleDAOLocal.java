@@ -7,5 +7,8 @@ import java.util.Collection;
 
 @Local
 public interface ArticleDAOLocal {
+
     Collection<Article> getAll();
+
+    public Article getOne(long id);
 }
