@@ -1,5 +1,6 @@
 package model;
 
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -26,21 +27,39 @@ public class User {
     @OneToOne(targetEntity = Address.class)
     private Address home;
 
-    public User(long id, String login, String pass, String name, String lastname, Address home) {
+    @OneToMany(targetEntity = Participation.class, mappedBy = "bidder")
+    private List<Participation> participate;
+
+    @OneToMany(targetEntity = Delivery.class, mappedBy = "user")
+    private List<Delivery> deliveries;
+
+    @OneToMany(targetEntity = Article.class, mappedBy = "owner")
+    private List<Article> sold;
+
+    public User(long id, String login, String pass, String name, String lastname,
+            Address home, List<Participation> participate, List<Delivery> deliveries,
+            List<Article> sold) {
         this.id = id;
         this.login = login;
         this.pass = pass;
         this.name = name;
         this.lastname = lastname;
         this.home = home;
+        this.participate = participate;
+        this.deliveries = deliveries;
+        this.sold = sold;
     }
 
-    public User(String login, String pass, String name, String lastname, Address home) {
+    public User(String login, String pass, String name, String lastname, Address home,
+            List<Participation> participate, List<Delivery> deliveries, List<Article> sold) {
         this.login = login;
         this.pass = pass;
         this.name = name;
         this.lastname = lastname;
         this.home = home;
+        this.participate = participate;
+        this.deliveries = deliveries;
+        this.sold = sold;
     }
 
     public User() {
@@ -92,6 +111,30 @@ public class User {
 
     public void setHome(Address home) {
         this.home = home;
+    }
+
+    public List<Participation> getParticipate() {
+        return participate;
+    }
+
+    public void setParticipate(List<Participation> participate) {
+        this.participate = participate;
+    }
+
+    public List<Delivery> getDeliveries() {
+        return deliveries;
+    }
+
+    public void setDeliveries(List<Delivery> deliveries) {
+        this.deliveries = deliveries;
+    }
+
+    public List<Article> getSold() {
+        return sold;
+    }
+
+    public void setSold(List<Article> sold) {
+        this.sold = sold;
     }
 
 }

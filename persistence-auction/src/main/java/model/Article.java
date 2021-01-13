@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -28,6 +29,17 @@ public class Article {
     private String description;
     private double firstPrice;
     private LocalDate timeLimit;
+
+    @ManyToOne(targetEntity = User.class)
+    private User owner;
+    @OneToMany(targetEntity = Delivery.class, mappedBy = "article")
+    private List<Delivery> deliveries;
+    @OneToMany(targetEntity = Category.class)
+    private List<Category> categories;
+    @OneToMany(targetEntity = Participation.class, mappedBy = "article")
+    private List<Participation> participations;
+    @ManyToOne(targetEntity = Participation.class)
+    private Participation best;
 
     public Article(long id, String name, String description, double firstPrice, LocalDate timeLimit) {
         this.id = id;
