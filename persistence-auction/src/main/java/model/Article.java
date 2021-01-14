@@ -1,6 +1,7 @@
 package model;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
@@ -17,6 +18,10 @@ import javax.persistence.*;
     @NamedQuery(
             name = "Article.findOne",
             query = "SELECT a FROM Article a WHERE a.id = :id"
+    ),
+    @NamedQuery(
+            name = "Article.findMine",
+            query = "SELECT a FROM Article a WHERE a.owner.login = :login"
     )
 })
 public class Article {
@@ -28,13 +33,16 @@ public class Article {
     @Column(columnDefinition = "TEXT")
     private String description;
     private double firstPrice;
-    private LocalDate timeLimit;
+    @Temporal(value = TemporalType.DATE)
+    private Date timeLimit;
 
     @ManyToOne(targetEntity = User.class)
     private User owner;
     @OneToMany(mappedBy = "article")
     private List<Delivery> deliveries;
-    @OneToMany(targetEntity = Category.class)
+    @OneToMany(targetEntity = Category.class, cascade = {
+        CascadeType.MERGE, CascadeType.REFRESH,
+        CascadeType.DETACH, CascadeType.PERSIST})
     private List<Category> categories;
     @OneToMany(mappedBy = "article")
     private List<Participation> participations;
@@ -42,7 +50,7 @@ public class Article {
     private Participation best;
 
     public Article(long id, String name, String description, double firstPrice,
-            LocalDate timeLimit, User owner, List<Delivery> deliveries,
+            Date timeLimit, User owner, List<Delivery> deliveries,
             List<Category> categories, List<Participation> participations, Participation best) {
         this.id = id;
         this.name = name;
@@ -56,7 +64,7 @@ public class Article {
         this.best = best;
     }
 
-    public Article(String name, String description, double firstPrice, LocalDate timeLimit,
+    public Article(String name, String description, double firstPrice, Date timeLimit,
             User owner, List<Delivery> deliveries, List<Category> categories,
             List<Participation> participations, Participation best) {
         this.name = name;
@@ -71,6 +79,22 @@ public class Article {
     }
 
     public Article() {
+    }
+
+    public List<String> getCategoriesAsStrings() {
+        ArrayList<String> c = new ArrayList();
+        categories.forEach(cat -> {
+            c.add(cat.getName());
+        });
+        return c;
+    }
+
+    public static List<Category> getStringAsCategories(List<String> categories) {
+        ArrayList<Category> c = new ArrayList();
+        categories.forEach(s -> {
+            c.add(new Category(s));
+        });
+        return c;
     }
 
     public long getId() {
@@ -105,11 +129,11 @@ public class Article {
         this.firstPrice = firstPrice;
     }
 
-    public LocalDate getTimeLimit() {
+    public Date getTimeLimit() {
         return timeLimit;
     }
 
-    public void setTimeLimit(LocalDate timeLimit) {
+    public void setTimeLimit(Date timeLimit) {
         this.timeLimit = timeLimit;
     }
 

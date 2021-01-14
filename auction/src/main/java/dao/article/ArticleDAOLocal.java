@@ -1,14 +1,18 @@
 package dao.article;
 
-import model.Article;
-
-import javax.ejb.Local;
 import java.util.Collection;
+import javax.ejb.Local;
+import model.Article;
+import shared.dto.ArticleCreation;
 
 @Local
 public interface ArticleDAOLocal {
 
     Collection<Article> getAll();
 
-    public Article getOne(long id);
+    Article getOne(long id);
+
+    Collection<Article> getMine(String login);
+
+    Article postOne(ArticleCreation article, String login);
 }

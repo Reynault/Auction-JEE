@@ -1,4 +1,4 @@
-package web.config;
+package web.config.exceptionMapper;
 
 import java.util.ArrayList;
 import javax.validation.ConstraintViolationException;

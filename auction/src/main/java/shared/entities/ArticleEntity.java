@@ -1,7 +1,8 @@
 package shared.entities;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
 import model.Article;
 
 public class ArticleEntity implements Serializable, Entity {
@@ -10,14 +11,16 @@ public class ArticleEntity implements Serializable, Entity {
     private String name;
     private String description;
     private double firstPrice;
-    private LocalDate timeLimit;
+    private List<String> categories;
+    private Date timeLimit;
     private double bestPrice;
 
-    public ArticleEntity(long id, String name, String description, double firstPrice, LocalDate timeLimit, double bestPrice) {
+    public ArticleEntity(long id, String name, String description, double firstPrice, List<String> categories, Date timeLimit, double bestPrice) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.firstPrice = firstPrice;
+        this.categories = categories;
         this.timeLimit = timeLimit;
         this.bestPrice = bestPrice;
     }
@@ -28,6 +31,7 @@ public class ArticleEntity implements Serializable, Entity {
                 article.getName(),
                 article.getDescription(),
                 article.getFirstPrice(),
+                article.getCategoriesAsStrings(),
                 article.getTimeLimit(),
                 article.getBestPrice()
         );
@@ -65,11 +69,11 @@ public class ArticleEntity implements Serializable, Entity {
         this.firstPrice = firstPrice;
     }
 
-    public LocalDate getTimeLimit() {
+    public Date getTimeLimit() {
         return timeLimit;
     }
 
-    public void setTimeLimit(LocalDate timeLimit) {
+    public void setTimeLimit(Date timeLimit) {
         this.timeLimit = timeLimit;
     }
 
@@ -79,6 +83,14 @@ public class ArticleEntity implements Serializable, Entity {
 
     public void setBestPrice(double bestPrice) {
         this.bestPrice = bestPrice;
+    }
+
+    public List<String> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
     }
 
 }

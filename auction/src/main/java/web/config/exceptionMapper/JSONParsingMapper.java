@@ -1,4 +1,4 @@
-package web.config;
+package web.config.exceptionMapper;
 
 import javax.json.stream.JsonParsingException;
 import javax.ws.rs.core.Response;

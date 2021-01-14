@@ -1,7 +1,6 @@
 package service.auth;
 
-import dao.auth.AuthDAOLocal;
-import java.util.List;
+import dao.auth.UserDAOLocal;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import model.User;
@@ -16,7 +15,7 @@ import web.exceptions.BadValuesException;
 public class AuthService implements AuthServiceLocal {
 
     @EJB
-    private AuthDAOLocal dao;
+    private UserDAOLocal dao;
 
     @EJB
     private CryptServiceLocal crypt;
@@ -30,11 +29,10 @@ public class AuthService implements AuthServiceLocal {
      */
     @Override
     public User authentificate(String login, String pass) {
-        List<User> users = (List<User>) dao.getOne(login);
-        if (users.isEmpty()) { // verify if user exists
+        User u = dao.getOne(login);
+        if (u == null) { // verify if user exists
             throw new BadValuesException("Le login n'existe pas");
         } else { // verify pass with given one
-            User u = users.get(0);
             if (crypt.verif(u.getPass(), pass)) {
                 return u;
             } else {
@@ -54,7 +52,7 @@ public class AuthService implements AuthServiceLocal {
 
     @Override
     public Payload register(UserInscription inscriptionInfo) {
-        if (dao.getOne(inscriptionInfo.getLogin()).isEmpty()) {
+        if (dao.getOne(inscriptionInfo.getLogin()) == null) {
             // get encrypted password
             inscriptionInfo.setPass(crypt.hash(inscriptionInfo.getPass()));
             // insert user

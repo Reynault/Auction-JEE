@@ -12,8 +12,8 @@ import javax.ejb.Stateless;
 @Stateless
 public class JWTService implements JWTServiceLocal {
 
-    private int NUMBER_OF_MINUTES = 10;
-    private String SECRET_KEY = "secret";
+    private final int NUMBER_OF_MINUTES = 30;
+    private final String SECRET_KEY = "secret";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -36,6 +36,7 @@ public class JWTService implements JWTServiceLocal {
         return extractExpiration(token).before(new Date());
     }
 
+    @Override
     public String generateToken(String login) {
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, login);
@@ -47,6 +48,7 @@ public class JWTService implements JWTServiceLocal {
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 
+    @Override
     public Boolean validateToken(String token, String login) {
         final String username = extractUsername(token);
         return (username.equals(login) && !isTokenExpired(token));

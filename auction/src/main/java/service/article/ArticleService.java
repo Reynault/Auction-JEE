@@ -7,6 +7,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import model.Article;
+import shared.dto.ArticleCreation;
 import shared.entities.ArticleEntity;
 import shared.entities.Entity;
 import shared.entities.ErrorEntity;
@@ -32,6 +33,16 @@ public class ArticleService implements ArticleServiceLocal {
         }
     }
 
+    @Override
+    public Collection<ArticleEntity> getMine(String login) {
+        return convertListToEntities(dao.getMine(login));
+    }
+
+    @Override
+    public ArticleEntity postOne(ArticleCreation article, String login) {
+        return ArticleEntity.convertArticleToEntity(dao.postOne(article, login));
+    }
+
     private Collection<ArticleEntity> convertListToEntities(Collection<Article> articles) {
         List<ArticleEntity> entities = new ArrayList<>();
         articles.forEach(a -> {
@@ -39,4 +50,5 @@ public class ArticleService implements ArticleServiceLocal {
         });
         return entities;
     }
+
 }
