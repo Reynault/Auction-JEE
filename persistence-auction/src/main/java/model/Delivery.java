@@ -8,7 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name = "DELIVERY")
 public class Delivery {
 
     @Id
@@ -18,7 +18,7 @@ public class Delivery {
     @ManyToOne(targetEntity = User.class)
     private User user;
 
-    @ManyToOne(targetEntity = User.class)
+    @ManyToOne(targetEntity = Article.class)
     private Article article;
 
     public Delivery(long id, User user, Article article) {

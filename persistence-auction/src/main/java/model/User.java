@@ -7,7 +7,7 @@ import javax.persistence.*;
  * POJO for a user to map with the BDD
  */
 @Entity
-@Table
+@Table(name = "USER")
 @NamedQueries({
     @NamedQuery(
             name = "User.findOne",
@@ -24,16 +24,16 @@ public class User {
     private String name;
     private String lastname;
 
-    @OneToOne(targetEntity = Address.class)
+    @OneToOne(targetEntity = Address.class, cascade = CascadeType.ALL)
     private Address home;
 
-    @OneToMany(targetEntity = Participation.class, mappedBy = "bidder")
+    @OneToMany(mappedBy = "bidder")
     private List<Participation> participate;
 
-    @OneToMany(targetEntity = Delivery.class, mappedBy = "user")
+    @OneToMany(mappedBy = "user")
     private List<Delivery> deliveries;
 
-    @OneToMany(targetEntity = Article.class, mappedBy = "owner")
+    @OneToMany(mappedBy = "owner")
     private List<Article> sold;
 
     public User(long id, String login, String pass, String name, String lastname,

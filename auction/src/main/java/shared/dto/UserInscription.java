@@ -1,6 +1,8 @@
 package shared.dto;
 
 import java.io.Serializable;
+import java.util.Optional;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -21,12 +23,15 @@ public class UserInscription implements Serializable {
     @NotNull(message = "Veuillez fournir un nom")
     @Size(min = 1, max = 255, message = "Le nom ne doit pas être vide et doit faire moins de 255 caractères")
     private String lastname;
+    @Valid
+    private UserAddress address;
 
-    public UserInscription(String login, String pass, String name, String lastname) {
+    public UserInscription(String login, String pass, String name, String lastname, UserAddress address) {
         this.login = login;
         this.pass = pass;
         this.name = name;
         this.lastname = lastname;
+        this.address = address;
     }
 
     public UserInscription() {
@@ -63,4 +68,13 @@ public class UserInscription implements Serializable {
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
+
+    public Optional<UserAddress> getAddress() {
+        return Optional.ofNullable(address);
+    }
+
+    public void setAddress(UserAddress address) {
+        this.address = address;
+    }
+
 }

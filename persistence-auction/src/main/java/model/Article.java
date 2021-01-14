@@ -8,7 +8,7 @@ import javax.persistence.*;
  * POJO for an article to map with the BDD
  */
 @Entity
-@Table
+@Table(name = "ARTICLE")
 @NamedQueries({
     @NamedQuery(
             name = "Article.findAll",
@@ -32,28 +32,42 @@ public class Article {
 
     @ManyToOne(targetEntity = User.class)
     private User owner;
-    @OneToMany(targetEntity = Delivery.class, mappedBy = "article")
+    @OneToMany(mappedBy = "article")
     private List<Delivery> deliveries;
     @OneToMany(targetEntity = Category.class)
     private List<Category> categories;
-    @OneToMany(targetEntity = Participation.class, mappedBy = "article")
+    @OneToMany(mappedBy = "article")
     private List<Participation> participations;
     @ManyToOne(targetEntity = Participation.class)
     private Participation best;
 
-    public Article(long id, String name, String description, double firstPrice, LocalDate timeLimit) {
+    public Article(long id, String name, String description, double firstPrice,
+            LocalDate timeLimit, User owner, List<Delivery> deliveries,
+            List<Category> categories, List<Participation> participations, Participation best) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.firstPrice = firstPrice;
         this.timeLimit = timeLimit;
+        this.owner = owner;
+        this.deliveries = deliveries;
+        this.categories = categories;
+        this.participations = participations;
+        this.best = best;
     }
 
-    public Article(String name, String description, double firstPrice, LocalDate timeLimit) {
+    public Article(String name, String description, double firstPrice, LocalDate timeLimit,
+            User owner, List<Delivery> deliveries, List<Category> categories,
+            List<Participation> participations, Participation best) {
         this.name = name;
         this.description = description;
         this.firstPrice = firstPrice;
         this.timeLimit = timeLimit;
+        this.owner = owner;
+        this.deliveries = deliveries;
+        this.categories = categories;
+        this.participations = participations;
+        this.best = best;
     }
 
     public Article() {
@@ -98,4 +112,45 @@ public class Article {
     public void setTimeLimit(LocalDate timeLimit) {
         this.timeLimit = timeLimit;
     }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public List<Delivery> getDeliveries() {
+        return deliveries;
+    }
+
+    public void setDeliveries(List<Delivery> deliveries) {
+        this.deliveries = deliveries;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public List<Participation> getParticipations() {
+        return participations;
+    }
+
+    public void setParticipations(List<Participation> participations) {
+        this.participations = participations;
+    }
+
+    public Participation getBest() {
+        return best;
+    }
+
+    public void setBest(Participation best) {
+        this.best = best;
+    }
+
 }
