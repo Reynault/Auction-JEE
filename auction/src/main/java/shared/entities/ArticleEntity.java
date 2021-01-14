@@ -11,13 +11,15 @@ public class ArticleEntity implements Serializable, Entity {
     private String description;
     private double firstPrice;
     private LocalDate timeLimit;
+    private double bestPrice;
 
-    private ArticleEntity(long id, String name, String description, double firstPrice, LocalDate timeLimit) {
+    public ArticleEntity(long id, String name, String description, double firstPrice, LocalDate timeLimit, double bestPrice) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.firstPrice = firstPrice;
         this.timeLimit = timeLimit;
+        this.bestPrice = bestPrice;
     }
 
     public static ArticleEntity convertArticleToEntity(Article article) {
@@ -26,7 +28,8 @@ public class ArticleEntity implements Serializable, Entity {
                 article.getName(),
                 article.getDescription(),
                 article.getFirstPrice(),
-                article.getTimeLimit()
+                article.getTimeLimit(),
+                article.getBestPrice()
         );
     }
 
@@ -69,4 +72,13 @@ public class ArticleEntity implements Serializable, Entity {
     public void setTimeLimit(LocalDate timeLimit) {
         this.timeLimit = timeLimit;
     }
+
+    public double getBestPrice() {
+        return bestPrice;
+    }
+
+    public void setBestPrice(double bestPrice) {
+        this.bestPrice = bestPrice;
+    }
+
 }

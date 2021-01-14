@@ -153,4 +153,12 @@ public class Article {
         this.best = best;
     }
 
+    public double getBestPrice() {
+        if (best == null) {
+            return firstPrice;
+        } else {
+            return best.getPrice();
+        }
+    }
+
 }
