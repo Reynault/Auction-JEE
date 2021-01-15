@@ -1,6 +1,5 @@
 package com.ul.springauction.controller;
 
-//import com.ul.springauction.model.Article;
 import com.ul.springauction.services.article.ArticleService;
 import model.Article;
 import org.springframework.beans.factory.annotation.Autowired;

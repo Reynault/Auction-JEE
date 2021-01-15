@@ -1,10 +1,17 @@
 package com.ul.springauction.shared.auth;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 public class Login implements Serializable {
 
+    @NotNull(message = "Veuillez entrer votre login")
+    @Size(min = 1, max = 255, message = "Votre login fait au moins 1 caractere")
     private String login;
+
+    @NotNull(message = "Veuillez entrer votre mot de passe")
+    @Size(min = 1, max = 255, message = "Votre mot de passe fait au moins 1 caractere")
     private String pass;
 
     //default constructor for JSON parsing
