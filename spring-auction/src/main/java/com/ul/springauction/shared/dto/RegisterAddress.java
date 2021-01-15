@@ -1,12 +1,11 @@
-package com.ul.springauction.shared.auth;
+package com.ul.springauction.shared.dto;
 
 import model.Address;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 
-public class RegisterAddress implements Serializable {
+public class RegisterAddress implements DtoObject {
 
     @NotNull(message = "Veuillez donner votre pays")
     @Size(min = 1, max = 255, message = "La taille du pays doit faire au moins 1 caractere")

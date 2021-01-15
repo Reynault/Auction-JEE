@@ -1,10 +1,9 @@
-package com.ul.springauction.shared.auth;
+package com.ul.springauction.shared.dto;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 
-public class Login implements Serializable {
+public class Login implements DtoObject{
 
     @NotNull(message = "Veuillez entrer votre login")
     @Size(min = 1, max = 255, message = "Votre login fait au moins 1 caractere")

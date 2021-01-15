@@ -1,12 +1,11 @@
-package com.ul.springauction.shared.auth;
+package com.ul.springauction.shared.dto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.Optional;
 
-public class RegisterUser implements Serializable {
+public class RegisterUser implements DtoObject {
 
     @NotNull(message = "Veuillez donner un login")
     @Size(min = 1, max = 255, message = "La taille du pseudo est au moins de 1 caractere")
