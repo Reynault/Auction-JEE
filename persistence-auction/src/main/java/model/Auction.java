@@ -24,6 +24,10 @@ import javax.persistence.TemporalType;
     @NamedQuery(
             name = "Auction.findOne",
             query = "SELECT a FROM Auction a WHERE a.article.id = :id"
+    ),
+    @NamedQuery(
+            name = "Auction.delete",
+            query = "DELETE FROM Auction a WHERE a.article.id = :id"
     )
 })
 public class Auction {
@@ -44,7 +48,7 @@ public class Auction {
     @OneToOne(targetEntity = Participation.class, cascade = CascadeType.ALL)
     private Participation best;
 
-    @OneToOne(targetEntity = Delivery.class, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Delivery.class)
     private Delivery deliveries;
 
     @JsonIgnore

@@ -60,18 +60,6 @@ public class ArticleDAO implements ArticleDAOLocal {
     }
 
     @Override
-    public boolean exists(long id) {
-        Query query = em.createNamedQuery("Article.findOne", Integer.class);
-        query.setParameter("id", id);
-        try {
-            query.getSingleResult();
-            return true;
-        } catch (NoResultException e) {
-            return false;
-        }
-    }
-
-    @Override
     public Article postOne(ArticleCreation article, String login) {
         Article a = new Article(
                 article.getName(),
@@ -152,16 +140,6 @@ public class ArticleDAO implements ArticleDAOLocal {
         query.setParameter("id", id);
         query.setParameter("login", login);
         return query.executeUpdate();
-    }
-
-    @Override
-    public int removeFromMarket(long id, String login) {
-//        Query query = em.createNamedQuery("Article.changeDate", Article.class);
-//        query.setParameter("id", id);
-//        query.setParameter("login", login);
-//        query.setParameter("date", Date.from(Instant.now()));
-//        return query.executeUpdate();
-        return 0;
     }
 
 }

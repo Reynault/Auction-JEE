@@ -16,13 +16,14 @@ public class AuctionDAO implements AuctionDAOLocal {
     private EntityManager em;
 
     @Override
-    public Auction isSold(long article_id) {
+    public boolean isSold(long article_id) {
         Query query = em.createNamedQuery("Auction.findOne", Auction.class);
         query.setParameter("id", article_id);
         try {
-            return (Auction) query.getSingleResult();
+            query.getSingleResult();
+            return true;
         } catch (NoResultException e) {
-            return null;
+            return false;
         }
     }
 
@@ -38,4 +39,10 @@ public class AuctionDAO implements AuctionDAOLocal {
         }
     }
 
+    @Override
+    public int remove(long id, String login) {
+        Query query = em.createNamedQuery("Auction.delete");
+        query.setParameter("id", id);
+        return query.executeUpdate();
+    }
 }

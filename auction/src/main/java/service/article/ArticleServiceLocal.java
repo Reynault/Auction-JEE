@@ -22,5 +22,5 @@ public interface ArticleServiceLocal {
 
     void delete(long id, String login);
 
-    void removeFromMarket(long id, String login);
+    void remove(long id, String login);
 }
