@@ -1,10 +1,12 @@
 package com.ul.springauction.DAO;
 
-//import com.ul.springauction.model.Article;
 import model.Article;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
+
+@Repository
 public interface ArticleRepository extends CrudRepository<Article, Long> {
 
-    Iterable<Article> findAll();
+    Iterable<Article> findById(long id);
 }
