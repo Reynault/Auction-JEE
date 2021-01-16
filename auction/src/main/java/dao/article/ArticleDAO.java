@@ -1,7 +1,9 @@
 package dao.article;
 
 import dao.auth.UserDAOLocal;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -9,6 +11,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import model.Article;
+import model.Category;
 import shared.dto.ArticleCreation;
 import shared.params.SearchParams;
 
@@ -25,13 +28,27 @@ public class ArticleDAO implements ArticleDAOLocal {
     @EJB
     private UserDAOLocal users;
 
+    private List<Category> mergeStringList(List<String> s) {
+        ArrayList<Category> cat = new ArrayList();
+        for (String c : s) {
+            Query query = em.createNamedQuery("Category.findOne", Integer.class);
+            query.setParameter("name", c);
+            try {
+                cat.add((Category) query.getSingleResult());
+            } catch (NoResultException e) {
+                cat.add(new Category(c));
+            }
+        }
+        return cat;
+    }
+
     @Override
     public Article postOne(ArticleCreation article, String login) {
         Article a = new Article(
                 article.getName(),
                 article.getDescription(),
                 users.getOne(login),
-                Article.getStringAsCategories(article.getCategories()),
+                mergeStringList(article.getCategories()),
                 null
         );
         return em.merge(a);
