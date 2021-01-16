@@ -10,7 +10,7 @@ import model.Article;
 import shared.dto.ArticleCreation;
 import shared.entities.ArticleEntity;
 import shared.entities.Entity;
-import shared.entities.ErrorEntity;
+import web.exceptions.BadValuesException;
 
 @Stateless
 public class ArticleService implements ArticleServiceLocal {
@@ -19,8 +19,9 @@ public class ArticleService implements ArticleServiceLocal {
     private ArticleDAOLocal dao;
 
     @Override
-    public Collection<ArticleEntity> getAll() {
-        return convertListToEntities(dao.getAll());
+    public Collection<Article> getAll() {
+//        return convertListToEntities(dao.getAll());
+        return dao.getAll();
     }
 
     @Override
@@ -29,26 +30,39 @@ public class ArticleService implements ArticleServiceLocal {
         if (a != null) {
             return ArticleEntity.convertArticleToEntity(a);
         } else {
-            return new ErrorEntity("Article non trouvé");
+            throw new BadValuesException("Article inexistant");
         }
     }
 
     @Override
-    public Collection<ArticleEntity> getMine(String login) {
+    public Collection<Entity> getMine(String login) {
         return convertListToEntities(dao.getMine(login));
     }
 
     @Override
-    public ArticleEntity postOne(ArticleCreation article, String login) {
+    public Entity postOne(ArticleCreation article, String login) {
         return ArticleEntity.convertArticleToEntity(dao.postOne(article, login));
     }
 
-    private Collection<ArticleEntity> convertListToEntities(Collection<Article> articles) {
-        List<ArticleEntity> entities = new ArrayList<>();
+    private Collection<Entity> convertListToEntities(Collection<Article> articles) {
+        List<Entity> entities = new ArrayList<>();
         articles.forEach(a -> {
             entities.add(ArticleEntity.convertArticleToEntity(a));
         });
         return entities;
     }
 
+    @Override
+    public void delete(long id, String login) {
+        if (dao.delete(id, login) == 0) {
+            throw new BadValuesException("Article inexistant pour cet utilisateur");
+        }
+    }
+
+    @Override
+    public void removeFromMarket(long id, String login) {
+        if (dao.removeFromMarket(id, login) == 0) {
+            throw new BadValuesException("Article inexistant pour cet utilisateur");
+        }
+    }
 }

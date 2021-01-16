@@ -4,14 +4,14 @@ import javax.ejb.Local;
 import model.User;
 import shared.dto.UserConnection;
 import shared.dto.UserInscription;
-import shared.entities.Payload;
+import shared.entities.Entity;
 
 @Local
 public interface AuthServiceLocal {
 
     User authentificate(String login, String pass);
 
-    Payload login(UserConnection connectionInfo);
+    Entity login(UserConnection connectionInfo);
 
-    Payload register(UserInscription inscriptionInfo);
+    Entity register(UserInscription inscriptionInfo);
 }

@@ -15,4 +15,8 @@ public interface ArticleDAOLocal {
     Collection<Article> getMine(String login);
 
     Article postOne(ArticleCreation article, String login);
+
+    int delete(long id, String login);
+
+    int removeFromMarket(long id, String login);
 }

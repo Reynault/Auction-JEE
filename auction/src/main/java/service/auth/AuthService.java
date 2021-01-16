@@ -8,6 +8,7 @@ import service.crypt.CryptServiceLocal;
 import service.jwt.JWTServiceLocal;
 import shared.dto.UserConnection;
 import shared.dto.UserInscription;
+import shared.entities.Entity;
 import shared.entities.Payload;
 import web.exceptions.BadValuesException;
 
@@ -42,7 +43,7 @@ public class AuthService implements AuthServiceLocal {
     }
 
     @Override
-    public Payload login(UserConnection connectionInfo) {
+    public Entity login(UserConnection connectionInfo) {
         if (authentificate(connectionInfo.getLogin(), connectionInfo.getPass()) != null) {
             return new Payload(jwt.generateToken(connectionInfo.getLogin()));
         } else {
@@ -51,7 +52,7 @@ public class AuthService implements AuthServiceLocal {
     }
 
     @Override
-    public Payload register(UserInscription inscriptionInfo) {
+    public Entity register(UserInscription inscriptionInfo) {
         if (dao.getOne(inscriptionInfo.getLogin()) == null) {
             // get encrypted password
             inscriptionInfo.setPass(crypt.hash(inscriptionInfo.getPass()));

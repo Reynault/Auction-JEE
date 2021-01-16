@@ -22,6 +22,14 @@ import javax.persistence.*;
     @NamedQuery(
             name = "Article.findMine",
             query = "SELECT a FROM Article a WHERE a.owner.login = :login"
+    ),
+    @NamedQuery(
+            name = "Article.delete",
+            query = "DELETE FROM Article a WHERE a.id = :id AND a.owner.login = :login"
+    ),
+    @NamedQuery(
+            name = "Article.changeDate",
+            query = "UPDATE Article a SET a.timeLimit = :date WHERE a.id = :id AND a.owner.login = :login"
     )
 })
 public class Article {
@@ -30,23 +38,29 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
+
     @Column(columnDefinition = "TEXT")
     private String description;
     private double firstPrice;
+
     @Temporal(value = TemporalType.DATE)
     private Date timeLimit;
 
     @ManyToOne(targetEntity = User.class)
     private User owner;
-    @OneToMany(mappedBy = "article")
+
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private List<Delivery> deliveries;
+
     @OneToMany(targetEntity = Category.class, cascade = {
         CascadeType.MERGE, CascadeType.REFRESH,
         CascadeType.DETACH, CascadeType.PERSIST})
     private List<Category> categories;
-    @OneToMany(mappedBy = "article")
+
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private List<Participation> participations;
-    @ManyToOne(targetEntity = Participation.class)
+
+    @OneToOne(targetEntity = Participation.class, cascade = CascadeType.ALL)
     private Participation best;
 
     public Article(long id, String name, String description, double firstPrice,

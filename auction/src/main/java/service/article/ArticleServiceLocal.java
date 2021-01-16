@@ -2,18 +2,22 @@ package service.article;
 
 import java.util.Collection;
 import javax.ejb.Local;
+import model.Article;
 import shared.dto.ArticleCreation;
-import shared.entities.ArticleEntity;
 import shared.entities.Entity;
 
 @Local
 public interface ArticleServiceLocal {
 
-    Collection<ArticleEntity> getAll();
+    Collection<Article> getAll();
 
     Entity getOne(long id);
 
-    public Collection<ArticleEntity> getMine(String login);
+    Collection<Entity> getMine(String login);
 
-    public ArticleEntity postOne(ArticleCreation article, String login);
+    Entity postOne(ArticleCreation article, String login);
+
+    void delete(long id, String login);
+
+    void removeFromMarket(long id, String login);
 }

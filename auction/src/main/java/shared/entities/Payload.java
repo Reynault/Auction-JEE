@@ -1,8 +1,6 @@
 package shared.entities;
 
-import java.io.Serializable;
-
-public class Payload implements Serializable, Entity {
+public class Payload implements Entity {
 
     private String token;
 

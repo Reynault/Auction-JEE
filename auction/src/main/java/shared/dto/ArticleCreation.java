@@ -20,7 +20,7 @@ public class ArticleCreation implements Serializable {
     private String description;
 
     @NotNull(message = "Veuillez fournir un prix de base")
-    @DecimalMax("99999999.99999999")
+    @DecimalMax("99999999.99")
     @DecimalMin("0.00")
     private double firstPrice;
 

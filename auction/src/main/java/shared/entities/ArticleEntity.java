@@ -1,16 +1,17 @@
 package shared.entities;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 import java.util.List;
 import model.Article;
 
-public class ArticleEntity implements Serializable, Entity {
+public class ArticleEntity implements Entity {
 
     private long id;
     private String name;
     private String description;
     private double firstPrice;
+    @JsonProperty("caqsdqsdtegories")
     private List<String> categories;
     private Date timeLimit;
     private double bestPrice;

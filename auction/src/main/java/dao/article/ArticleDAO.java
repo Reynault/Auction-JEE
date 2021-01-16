@@ -2,6 +2,7 @@ package dao.article;
 
 import dao.auth.UserDAOLocal;
 import java.sql.Date;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.ejb.EJB;
@@ -64,5 +65,22 @@ public class ArticleDAO implements ArticleDAOLocal {
                 null
         );
         return em.merge(a);
+    }
+
+    @Override
+    public int delete(long id, String login) {
+        Query query = em.createNamedQuery("Article.delete", Article.class);
+        query.setParameter("id", id);
+        query.setParameter("login", login);
+        return query.executeUpdate();
+    }
+
+    @Override
+    public int removeFromMarket(long id, String login) {
+        Query query = em.createNamedQuery("Article.removeFromMarket", Article.class);
+        query.setParameter("id", id);
+        query.setParameter("login", login);
+        query.setParameter("data", Date.from(Instant.now()));
+        return query.executeUpdate();
     }
 }

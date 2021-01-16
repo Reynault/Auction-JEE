@@ -1,11 +1,11 @@
 package web.config;
 
-import web.config.exceptionMapper.JSONParsingMapper;
-import web.config.exceptionMapper.JSONBExceptionMapper;
-import web.config.exceptionMapper.ConstraintMapper;
 import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
+import web.config.exceptionMapper.ConstraintMapper;
+import web.config.exceptionMapper.JSONBExceptionMapper;
+import web.config.exceptionMapper.JSONParsingMapper;
 
 @ApplicationPath("/")
 public class ApplicationConfig extends Application {

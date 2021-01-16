@@ -1,11 +1,14 @@
 package web.controller;
 
+import dao.article.ArticleDAOLocal;
 import javax.ejb.EJB;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -24,6 +27,8 @@ public class ArticleController {
 
     @EJB
     private ArticleServiceLocal service;
+    @EJB
+    private ArticleDAOLocal dao;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -54,5 +59,25 @@ public class ArticleController {
             @NotNull(message = "Veuillez fournir les informations nécéssaires pour créer l'article")
             @Valid ArticleCreation article) {
         return Response.ok(service.postOne(article, login)).build();
+    }
+
+    @DELETE
+    @Secured
+    @Path("delete")
+    public Response deleteArticle(
+            @HeaderParam("login") String login,
+            @PathParam("id") long id) {
+        service.delete(id, login);
+        return Response.noContent().build();
+    }
+
+    @PUT
+    @Secured
+    @Path("remove")
+    public Response removeFromMarket(
+            @HeaderParam("login") String login,
+            @PathParam("id") long id) {
+        service.removeFromMarket(id, login);
+        return Response.noContent().build();
     }
 }
