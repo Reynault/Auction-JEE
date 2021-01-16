@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
@@ -26,11 +25,11 @@ import javax.persistence.*;
     @NamedQuery(
             name = "Article.delete",
             query = "DELETE FROM Article a WHERE a.id = :id AND a.owner.login = :login"
-    ),
-    @NamedQuery(
-            name = "Article.changeDate",
-            query = "UPDATE Article a SET a.timeLimit = :date WHERE a.id = :id AND a.owner.login = :login"
     )
+//    @NamedQuery(
+//            name = "Article.changeDate",
+//            query = "UPDATE Article a SET a.timeLimit = :date WHERE a.id = :id AND a.owner.login = :login"
+//    )
 })
 public class Article {
 
@@ -41,55 +40,34 @@ public class Article {
 
     @Column(columnDefinition = "TEXT")
     private String description;
-    private double firstPrice;
-
-    @Temporal(value = TemporalType.DATE)
-    private Date timeLimit;
 
     @ManyToOne(targetEntity = User.class)
     private User owner;
-
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
-    private List<Delivery> deliveries;
 
     @OneToMany(targetEntity = Category.class, cascade = {
         CascadeType.MERGE, CascadeType.REFRESH,
         CascadeType.DETACH, CascadeType.PERSIST})
     private List<Category> categories;
 
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
-    private List<Participation> participations;
+    @OneToOne(mappedBy = "article", targetEntity = Auction.class, cascade = CascadeType.ALL)
+    @JoinColumn(nullable = true)
+    private Auction auction;
 
-    @OneToOne(targetEntity = Participation.class, cascade = CascadeType.ALL)
-    private Participation best;
-
-    public Article(long id, String name, String description, double firstPrice,
-            Date timeLimit, User owner, List<Delivery> deliveries,
-            List<Category> categories, List<Participation> participations, Participation best) {
+    public Article(long id, String name, String description, User owner, List<Category> categories, Auction auction) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.firstPrice = firstPrice;
-        this.timeLimit = timeLimit;
         this.owner = owner;
-        this.deliveries = deliveries;
         this.categories = categories;
-        this.participations = participations;
-        this.best = best;
+        this.auction = auction;
     }
 
-    public Article(String name, String description, double firstPrice, Date timeLimit,
-            User owner, List<Delivery> deliveries, List<Category> categories,
-            List<Participation> participations, Participation best) {
+    public Article(String name, String description, User owner, List<Category> categories, Auction auction) {
         this.name = name;
         this.description = description;
-        this.firstPrice = firstPrice;
-        this.timeLimit = timeLimit;
         this.owner = owner;
-        this.deliveries = deliveries;
         this.categories = categories;
-        this.participations = participations;
-        this.best = best;
+        this.auction = auction;
     }
 
     public Article() {
@@ -135,36 +113,12 @@ public class Article {
         this.description = description;
     }
 
-    public double getFirstPrice() {
-        return firstPrice;
-    }
-
-    public void setFirstPrice(double firstPrice) {
-        this.firstPrice = firstPrice;
-    }
-
-    public Date getTimeLimit() {
-        return timeLimit;
-    }
-
-    public void setTimeLimit(Date timeLimit) {
-        this.timeLimit = timeLimit;
-    }
-
     public User getOwner() {
         return owner;
     }
 
     public void setOwner(User owner) {
         this.owner = owner;
-    }
-
-    public List<Delivery> getDeliveries() {
-        return deliveries;
-    }
-
-    public void setDeliveries(List<Delivery> deliveries) {
-        this.deliveries = deliveries;
     }
 
     public List<Category> getCategories() {
@@ -175,28 +129,12 @@ public class Article {
         this.categories = categories;
     }
 
-    public List<Participation> getParticipations() {
-        return participations;
+    public Auction getAuction() {
+        return auction;
     }
 
-    public void setParticipations(List<Participation> participations) {
-        this.participations = participations;
-    }
-
-    public Participation getBest() {
-        return best;
-    }
-
-    public void setBest(Participation best) {
-        this.best = best;
-    }
-
-    public double getBestPrice() {
-        if (best == null) {
-            return firstPrice;
-        } else {
-            return best.getPrice();
-        }
+    public void setAuction(Auction auction) {
+        this.auction = auction;
     }
 
 }

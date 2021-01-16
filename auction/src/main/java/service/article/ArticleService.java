@@ -10,6 +10,7 @@ import model.Article;
 import shared.dto.ArticleCreation;
 import shared.entities.ArticleEntity;
 import shared.entities.Entity;
+import shared.params.SearchParams;
 import web.exceptions.BadValuesException;
 
 @Stateless
@@ -19,8 +20,8 @@ public class ArticleService implements ArticleServiceLocal {
     private ArticleDAOLocal dao;
 
     @Override
-    public Collection<Entity> getAll() {
-        return convertListToEntities(dao.getAll());
+    public Collection<Entity> getAll(SearchParams search) {
+        return convertListToEntities(dao.getAll(search));
     }
 
     @Override

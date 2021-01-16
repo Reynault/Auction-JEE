@@ -4,11 +4,12 @@ import java.util.Collection;
 import javax.ejb.Local;
 import model.Article;
 import shared.dto.ArticleCreation;
+import shared.params.SearchParams;
 
 @Local
 public interface ArticleDAOLocal {
 
-    Collection<Article> getAll();
+    Collection<Article> getAll(SearchParams search);
 
     Article getOne(long id);
 

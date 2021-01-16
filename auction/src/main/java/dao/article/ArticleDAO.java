@@ -1,18 +1,18 @@
 package dao.article;
 
 import dao.auth.UserDAOLocal;
-import java.sql.Date;
-import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import model.Article;
 import shared.dto.ArticleCreation;
+import shared.params.SearchParams;
 
 /**
  * DAO qui va communiquer avec la base de donnees avec l'aide de l'ORM JPA pour
@@ -28,7 +28,16 @@ public class ArticleDAO implements ArticleDAOLocal {
     private UserDAOLocal users;
 
     @Override
-    public Collection<Article> getAll() {
+    public Collection<Article> getAll(SearchParams search) {
+        String stringQuery = "SELECT a FROM Article a WHERE a.name LIKE %:name% AND ";
+
+        Iterator<String> i = search.getCategories().iterator();
+
+        while (i.hasNext()) {
+
+        }
+
+        TypedQuery<Article> a = (TypedQuery<Article>) em.createQuery(stringQuery);
         Query query = em.createNamedQuery("Article.findAll", Article.class);
         return query.getResultList();
     }
@@ -53,17 +62,7 @@ public class ArticleDAO implements ArticleDAOLocal {
 
     @Override
     public Article postOne(ArticleCreation article, String login) {
-        Article a = new Article(
-                article.getName(),
-                article.getDescription(),
-                article.getFirstPrice(),
-                Date.valueOf(article.getTimeLimit()),
-                users.getOne(login),
-                new ArrayList(),
-                Article.getStringAsCategories(article.getCategories()),
-                new ArrayList(),
-                null
-        );
+        Article a = new Article();
         return em.merge(a);
     }
 
@@ -77,10 +76,11 @@ public class ArticleDAO implements ArticleDAOLocal {
 
     @Override
     public int removeFromMarket(long id, String login) {
-        Query query = em.createNamedQuery("Article.changeDate", Article.class);
-        query.setParameter("id", id);
-        query.setParameter("login", login);
-        query.setParameter("date", Date.from(Instant.now()));
-        return query.executeUpdate();
+//        Query query = em.createNamedQuery("Article.changeDate", Article.class);
+//        query.setParameter("id", id);
+//        query.setParameter("login", login);
+//        query.setParameter("date", Date.from(Instant.now()));
+//        return query.executeUpdate();
+        return 0;
     }
 }

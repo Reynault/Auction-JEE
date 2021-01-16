@@ -3,6 +3,7 @@ package web.controller;
 import javax.ejb.EJB;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -15,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import service.article.ArticleServiceLocal;
 import shared.dto.ArticleCreation;
+import shared.params.SearchParams;
 import web.config.authentification.Secured;
 
 /**
@@ -26,11 +28,6 @@ public class ArticleController {
 
     @EJB
     private ArticleServiceLocal service;
-
-    @GET
-    public Response getAll() {
-        return Response.ok(service.getAll()).build();
-    }
 
     @GET
     @Secured
@@ -75,5 +72,10 @@ public class ArticleController {
             @PathParam("id") long id) {
         service.removeFromMarket(id, login);
         return Response.noContent().build();
+    }
+
+    @GET
+    public Response getAll(@BeanParam SearchParams search) {
+        return Response.ok(service.getAll(search)).build();
     }
 }

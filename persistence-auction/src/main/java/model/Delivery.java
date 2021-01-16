@@ -18,18 +18,18 @@ public class Delivery {
     @ManyToOne(targetEntity = User.class)
     private User user;
 
-    @ManyToOne(targetEntity = Article.class)
-    private Article article;
+    @ManyToOne(targetEntity = Auction.class)
+    private Auction auction;
 
-    public Delivery(long id, User user, Article article) {
+    public Delivery(long id, User user, Auction auction) {
         this.id = id;
         this.user = user;
-        this.article = article;
+        this.auction = auction;
     }
 
-    public Delivery(User user, Article article) {
+    public Delivery(User user, Auction auction) {
         this.user = user;
-        this.article = article;
+        this.auction = auction;
     }
 
     public Delivery() {
@@ -51,12 +51,12 @@ public class Delivery {
         this.user = user;
     }
 
-    public Article getArticle() {
-        return article;
+    public Auction getAuction() {
+        return auction;
     }
 
-    public void setArticle(Article article) {
-        this.article = article;
+    public void setAuction(Auction auction) {
+        this.auction = auction;
     }
 
 }

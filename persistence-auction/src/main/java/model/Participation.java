@@ -15,24 +15,27 @@ public class Participation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private double price;
+    private boolean isBest;
 
     @ManyToOne(targetEntity = User.class)
     private User bidder;
 
-    @ManyToOne(targetEntity = Article.class)
-    private Article article;
+    @ManyToOne(targetEntity = Auction.class)
+    private Auction auction;
 
-    public Participation(long id, double price, User bidder, Article article) {
+    public Participation(long id, double price, boolean isBest, User bidder, Auction auction) {
         this.id = id;
         this.price = price;
+        this.isBest = isBest;
         this.bidder = bidder;
-        this.article = article;
+        this.auction = auction;
     }
 
-    public Participation(double price, User bidder, Article article) {
+    public Participation(double price, boolean isBest, User bidder, Auction auction) {
         this.price = price;
+        this.isBest = isBest;
         this.bidder = bidder;
-        this.article = article;
+        this.auction = auction;
     }
 
     public Participation() {
@@ -62,12 +65,20 @@ public class Participation {
         this.bidder = bidder;
     }
 
-    public Article getArticle() {
-        return article;
+    public Auction getAuction() {
+        return auction;
     }
 
-    public void setArticle(Article article) {
-        this.article = article;
+    public void setAuction(Auction auction) {
+        this.auction = auction;
+    }
+
+    public boolean isIsBest() {
+        return isBest;
+    }
+
+    public void setIsBest(boolean isBest) {
+        this.isBest = isBest;
     }
 
 }
