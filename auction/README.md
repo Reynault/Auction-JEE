@@ -19,7 +19,10 @@ Pour ce projet, il vous faudra:
 
 Voici les étapes à suivre:
 
-- Lancer le container docker pour avoir une base de données
+- Lancer le container docker pour avoir une base de données, il y a un docker-compose à la racine du projet et pour le lancer il vous faudra executer la commande :
+```
+$ docker-compose up
+```
 - Importer le projet sur NetBeans
 - La version du projet est Java 11
 - Ajouter le Serveur GlassFish 5.0 qui doit utiliser Java 1.8
