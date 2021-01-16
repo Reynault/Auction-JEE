@@ -1,5 +1,5 @@
 // Se connecter
-http://localhost:8080/auction/login
+POST -> http://localhost:8080/auction/login
 
 {
 	"login":"qsdfqsd",
@@ -7,7 +7,7 @@ http://localhost:8080/auction/login
 }
 
 // S'inscrire
-http://localhost:8080/auction/register
+POST -> http://localhost:8080/auction/register
 
 {
     "login": "bobo",
@@ -18,35 +18,35 @@ http://localhost:8080/auction/register
 
 // Récupérer les articles qui sont en vente sur le marché dont la date limite n'est pas
 // encore passée
-http://localhost:8080/auction/articles?n=nom&c=categorie1&c=categorie2...
+GET -> http://localhost:8080/auction/articles?n=nom&c=categorie1&c=categorie2...
 
 // Récupérer les informations d'un article, avec les informations de l'enchère liée,
 // s'il n'y a pas d'enchère, ça marche pas
-http://localhost:8080/auction/articles/{id}
+GET -> http://localhost:8080/auction/articles/{id}
 
 // Récupérer les informations spécifiques d'un article qu'on possède, les informations
 // de l'enchère liée ou pas si pas d'enchère
-http://localhost:8080/auction/articles/my/{id}
+GET -> http://localhost:8080/auction/articles/my/{id}
 
 // En tant qu'utilisateur, je peux fournir un article à vendre
-http://localhost:8080/auction/articles/submit
+POST -> http://localhost:8080/auction/articles/submit
 
 // En tant qu'utilisateur, je peux voir tous mes articles
-http://localhost:8080/auction/articles/my
+GET -> http://localhost:8080/auction/articles/my
 
 // En tant qu'utilisateur, je peux mettre un de mes articles en vente, et donc
 // créer une enchère
-http://localhost:8080/auction/articles/sell/{id}
+POST -> http://localhost:8080/auction/articles/sell/{id}
 
 // En tant qu'utilisateur, je peux enlever un de mes articles en vente, et donc
 // supprimer une enchère
-http://localhost:8080/auction/articles/remove/{id}
+POST -> http://localhost:8080/auction/articles/remove/{id}
 
 // En tant qu'utilisateur, je peux supprimer un de mes articles. (enchère supprimée aussi)
-http://localhost:8080/auction/articles/delete/{id}
+DELETE -> http://localhost:8080/auction/articles/delete/{id}
 
 // En tant qu'utilisateur, je peux participer à une enchère
-http://localhost:8080/auction/articles/participate/{id}
+POST -> http://localhost:8080/auction/articles/participate/{id}
 
 {
 	"price": 15646
@@ -56,7 +56,7 @@ http://localhost:8080/auction/articles/participate/{id}
 // L’acheteur peut voir, à tout moment, toutes les informations liées à ses enchères en cours
 // ou gagnées (finie ou non, valeur actuelle,...) et aux articles concernées (commandé, en
 // cours de livraison, ...)
-http://localhost:8080/auction/articles/participate
+GET -> http://localhost:8080/auction/articles/participate
 
 // En tant qu'utilisateur, je peux commander un article gagné
-http://localhost:8080/auction/articles/deliver/{id}
+POST -> http://localhost:8080/auction/articles/deliver/{id}
