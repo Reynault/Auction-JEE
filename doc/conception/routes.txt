@@ -26,7 +26,7 @@ GET -> http://localhost:8080/auction/articles/{id}
 
 // Récupérer les informations spécifiques d'un article qu'on possède, les informations
 // de l'enchère liée ou pas si pas d'enchère
-GET -> http://localhost:8080/auction/articles/my/{id}
+GET -> http://localhost:8080/auction/articles/{id}/my
 
 // En tant qu'utilisateur, je peux fournir un article à vendre
 POST -> http://localhost:8080/auction/articles/submit
@@ -36,17 +36,17 @@ GET -> http://localhost:8080/auction/articles/my
 
 // En tant qu'utilisateur, je peux mettre un de mes articles en vente, et donc
 // créer une enchère
-POST -> http://localhost:8080/auction/articles/sell/{id}
+POST -> http://localhost:8080/auction/articles/{id}/sell
 
 // En tant qu'utilisateur, je peux enlever un de mes articles en vente, et donc
 // supprimer une enchère
-POST -> http://localhost:8080/auction/articles/remove/{id}
+POST -> http://localhost:8080/auction/articles/{id}/remove
 
 // En tant qu'utilisateur, je peux supprimer un de mes articles. (enchère supprimée aussi)
-DELETE -> http://localhost:8080/auction/articles/delete/{id}
+DELETE -> http://localhost:8080/auction/articles/{id}/delete
 
 // En tant qu'utilisateur, je peux participer à une enchère
-POST -> http://localhost:8080/auction/articles/participate/{id}
+POST -> http://localhost:8080/auction/articles/{id}/participate
 
 {
 	"price": 15646
@@ -59,4 +59,4 @@ POST -> http://localhost:8080/auction/articles/participate/{id}
 GET -> http://localhost:8080/auction/articles/participate
 
 // En tant qu'utilisateur, je peux commander un article gagné
-POST -> http://localhost:8080/auction/articles/deliver/{id}
+POST -> http://localhost:8080/auction/articles/{id}/deliver
