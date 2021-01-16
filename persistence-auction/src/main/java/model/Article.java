@@ -75,14 +75,7 @@ public class Article {
     public Article() {
     }
 
-    public List<String> getCategoriesAsStrings() {
-        ArrayList<String> c = new ArrayList();
-        categories.forEach(cat -> {
-            c.add(cat.getName());
-        });
-        return c;
-    }
-
+    @JsonIgnore
     public static List<Category> getStringAsCategories(List<String> categories) {
         ArrayList<Category> c = new ArrayList();
         categories.forEach(s -> {

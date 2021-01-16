@@ -5,7 +5,6 @@
  */
 package dao.init;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.annotation.PostConstruct;
@@ -49,12 +48,16 @@ public class DatabaseInit {
 
         em.persist(u1);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Category c1 = new Category("jeux");
         Category c2 = new Category("retro");
         Category c3 = new Category("nintendo");
         Category c4 = new Category("mauvais");
+
+        em.persist(c1);
+        em.persist(c2);
+        em.persist(c3);
+        em.persist(c4);
 
         Article a1 = new Article(
                 "Zelda: Ocarina of time",
@@ -73,9 +76,8 @@ public class DatabaseInit {
                 Arrays.asList(c1, c2, c4),
                 null
         );
-
-        em.merge(a1);
-        em.merge(a2);
+        em.persist(a1);
+        em.persist(a2);
         System.out.println("----DATABASE INITIALIZED----");
     }
 }
