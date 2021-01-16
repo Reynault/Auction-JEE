@@ -7,9 +7,6 @@ services:
       "MYSQL_USER": 'test'
       "MYSQL_PASSWORD": 'test'
       "MYSQL_DATABASE": auction
-    volumes:
-       - ./data:/var/lib/mysql
-       - ./bdd_init:/docker-entrypoint-initdb.d/
     ports:
       - "3306:3306"
     restart: unless-stopped

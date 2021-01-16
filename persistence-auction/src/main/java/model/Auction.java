@@ -1,5 +1,8 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -7,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -15,6 +20,12 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "AUCTION")
+@NamedQueries({
+    @NamedQuery(
+            name = "Auction.findOne",
+            query = "SELECT a FROM Auction a WHERE a.article.id = :id"
+    )
+})
 public class Auction {
 
     @Id
@@ -23,6 +34,7 @@ public class Auction {
 
     private double firstPrice;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Temporal(value = TemporalType.DATE)
     private Date timeLimit;
 
@@ -35,6 +47,7 @@ public class Auction {
     @OneToOne(targetEntity = Delivery.class, cascade = CascadeType.ALL)
     private Delivery deliveries;
 
+    @JsonIgnore
     @OneToOne(targetEntity = Article.class)
     private Article article;
 
@@ -68,6 +81,10 @@ public class Auction {
         this.best = best;
     }
 
+    public Date getRemainingTime() {
+        return this.timeLimit;
+    }
+
     public double getBestPrice() {
         if (best == null) {
             return firstPrice;
@@ -93,6 +110,7 @@ public class Auction {
     }
 
     public Date getTimeLimit() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return timeLimit;
     }
 

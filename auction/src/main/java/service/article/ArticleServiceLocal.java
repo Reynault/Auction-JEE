@@ -12,7 +12,7 @@ public interface ArticleServiceLocal {
 
     Article postOne(ArticleCreation article, String login);
 
-    Article sellOne(AuctionCreation auction, String login);
+    Article sellOne(AuctionCreation auction, String login, long id);
 
     Collection<Article> getAll(SearchParams search);
 

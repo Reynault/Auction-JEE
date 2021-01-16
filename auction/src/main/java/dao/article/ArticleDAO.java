@@ -1,6 +1,8 @@
 package dao.article;
 
 import dao.auth.UserDAOLocal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -11,8 +13,10 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import model.Article;
+import model.Auction;
 import model.Category;
 import shared.dto.ArticleCreation;
+import shared.dto.AuctionCreation;
 import shared.params.SearchParams;
 
 /**
@@ -43,6 +47,31 @@ public class ArticleDAO implements ArticleDAOLocal {
     }
 
     @Override
+    public boolean ownArticle(long id, String login) {
+        Query query = em.createNamedQuery("Article.own", Article.class);
+        query.setParameter("id", id);
+        query.setParameter("login", login);
+        try {
+            query.getSingleResult();
+            return true;
+        } catch (NoResultException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean exists(long id) {
+        Query query = em.createNamedQuery("Article.findOne", Integer.class);
+        query.setParameter("id", id);
+        try {
+            query.getSingleResult();
+            return true;
+        } catch (NoResultException e) {
+            return false;
+        }
+    }
+
+    @Override
     public Article postOne(ArticleCreation article, String login) {
         Article a = new Article(
                 article.getName(),
@@ -52,6 +81,29 @@ public class ArticleDAO implements ArticleDAOLocal {
                 null
         );
         return em.merge(a);
+    }
+
+    @Override
+    public Article sellOne(AuctionCreation auction, String login, long id) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        Article a = this.getOne(id);
+
+        try {
+            a.setAuction(new Auction(
+                    auction.getFirstPrice(),
+                    sdf.parse(auction.getTimeLimit()),
+                    new ArrayList(),
+                    null,
+                    null,
+                    a
+            ));
+        } catch (ParseException ex) {
+            return null;
+        }
+
+        em.merge(a);
+        return a;
     }
 
     @Override
@@ -111,4 +163,5 @@ public class ArticleDAO implements ArticleDAOLocal {
 //        return query.executeUpdate();
         return 0;
     }
+
 }

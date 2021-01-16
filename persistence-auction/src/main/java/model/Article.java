@@ -26,11 +26,11 @@ import javax.persistence.*;
     @NamedQuery(
             name = "Article.delete",
             query = "DELETE FROM Article a WHERE a.id = :id AND a.owner.login = :login"
+    ),
+    @NamedQuery(
+            name = "Article.own",
+            query = "SELECT a FROM Article a WHERE a.id = :id AND a.owner.login = :login"
     )
-//    @NamedQuery(
-//            name = "Article.changeDate",
-//            query = "UPDATE Article a SET a.timeLimit = :date WHERE a.id = :id AND a.owner.login = :login"
-//    )
 })
 public class Article {
 

@@ -1,6 +1,7 @@
 package service.article;
 
 import dao.article.ArticleDAOLocal;
+import dao.auction.AuctionDAOLocal;
 import java.util.Collection;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -15,6 +16,34 @@ public class ArticleService implements ArticleServiceLocal {
 
     @EJB
     private ArticleDAOLocal dao;
+
+    @EJB
+    private AuctionDAOLocal auc;
+
+    @Override
+    public Article postOne(ArticleCreation article, String login) {
+        return dao.postOne(article, login);
+    }
+
+    @Override
+    public Article sellOne(AuctionCreation auction, String login, long id) {
+        // if article exist
+        if (dao.exists(id)) {
+            // if user has article
+            if (dao.ownArticle(id, login)) {
+                // if article isn't in an auction
+                if (auc.isSold(id) == null) {
+                    return dao.sellOne(auction, login, id);
+                } else {
+                    throw new BadValuesException("Article déjà en vente");
+                }
+            } else {
+                throw new BadValuesException("L'utilisateur ne possède pas l'article");
+            }
+        } else {
+            throw new BadValuesException("Article inexistant");
+        }
+    }
 
     @Override
     public Collection<Article> getAll(SearchParams search) {
@@ -34,17 +63,6 @@ public class ArticleService implements ArticleServiceLocal {
     @Override
     public Collection<Article> getMine(String login) {
         return dao.getMine(login);
-    }
-
-    @Override
-    public Article postOne(ArticleCreation article, String login) {
-//        return ArticleEntity.convertArticleToEntity(dao.postOne(article, login));
-        return dao.postOne(article, login);
-    }
-
-    @Override
-    public Article sellOne(AuctionCreation auction, String login) {
-        return null;
     }
 
     @Override

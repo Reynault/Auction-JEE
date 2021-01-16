@@ -48,7 +48,6 @@ public class DatabaseInit {
 
         em.persist(u1);
 
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Category c1 = new Category("jeux");
         Category c2 = new Category("retro");
         Category c3 = new Category("nintendo");
