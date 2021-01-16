@@ -4,6 +4,7 @@ import com.ul.springauction.DAO.UserRepository;
 import com.ul.springauction.services.DtoValidator;
 import com.ul.springauction.services.auth.JwtUtil;
 import com.ul.springauction.shared.dto.RegisterAddress;
+import com.ul.springauction.shared.exception.BadRequestException;
 import com.ul.springauction.shared.response.ErrorResponse;
 import com.ul.springauction.shared.response.TokenResponse;
 import com.ul.springauction.shared.dto.Login;
@@ -17,6 +18,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 public class UserService {
@@ -35,27 +38,27 @@ public class UserService {
     private DtoValidator dtoValidator;
 
 
-    public Response save(RegisterUser register){
+    public Response save(RegisterUser register) throws BadRequestException {
         ErrorResponse errors = dtoValidator.validate(register);
         if (errors.getMessages().size() > 0){
-            return errors;
+            throw new BadRequestException(errors.getMessages().get(0));
         } else {
             User find = userRepo.findByLogin(register.getLogin());
             if (find == null){
-                User u = new User(register.getLogin(), register.getPass(), register.getName(), register.getLastname(), RegisterAddress.convertToAddress(register.getAddress().orElse(null)), null, null, null);
+                User u = new User(register.getLogin(), register.getPass(), register.getName(), register.getLastname(), RegisterAddress.convertToAddress(register.getAddress().orElse(null)), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
                 u.setPass(bCryptPasswordEncoder.encode(u.getPass()));
                 userRepo.save(u);
                 UserDetails userDetails = userDetailService.loadUserByUsername(u.getLogin());
                 String jwt = util.generateToken(userDetails);
                 return new TokenResponse(jwt);
             } else {
-                return new ErrorResponse("L'utilisateur existe deja");
+                throw new BadRequestException("L'utilisateur est deja present");
             }
         }
     }
 
 
-    public Response login(Login login) {
+    public Response login(Login login) throws BadRequestException {
         ErrorResponse errors = dtoValidator.validate(login);
         if (errors.getMessages().size() > 0) {
             return errors;
@@ -63,7 +66,7 @@ public class UserService {
             try{
                 authManager.authenticate(new UsernamePasswordAuthenticationToken(login.getLogin(), login.getPass()));
             } catch (BadCredentialsException e){
-                return new ErrorResponse("Le login ou le mot de passe n'est pas bon");
+                throw new BadRequestException("Le login ou le mot de passe est incorrect");
             }
             UserDetails userDetails = userDetailService.loadUserByUsername(login.getLogin());
             String jwt = util.generateToken(userDetails);
