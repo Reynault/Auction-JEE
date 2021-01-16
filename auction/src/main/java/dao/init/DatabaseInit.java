@@ -56,6 +56,11 @@ public class DatabaseInit {
         Category c3 = new Category("nintendo");
         Category c4 = new Category("mauvais");
 
+        em.persist(c1);
+        em.persist(c2);
+        em.persist(c3);
+        em.persist(c4);
+
         Article a1 = new Article(
                 "Zelda: Ocarina of time",
                 "The Legend of Zelda: Ocarina of Time is an action-adventure game developed and published by Nintendo for the Nintendo 64. It was released in Japan and North America in November 1998, and in PAL regions the following month. Ocarina of Time is the fifth game in The Legend of Zelda series, and the first with 3D graphics.\n"

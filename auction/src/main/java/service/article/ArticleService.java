@@ -1,21 +1,15 @@
 package service.article;
 
 import dao.article.ArticleDAOLocal;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import javax.ejb.EJB;
-import javax.ejb.Local;
 import javax.ejb.Stateless;
 import model.Article;
 import shared.dto.ArticleCreation;
 import shared.dto.AuctionCreation;
-import shared.entities.ArticleEntity;
-import shared.entities.Entity;
 import shared.params.SearchParams;
 import web.exceptions.BadValuesException;
 
-@Local
 @Stateless
 public class ArticleService implements ArticleServiceLocal {
 
@@ -23,23 +17,23 @@ public class ArticleService implements ArticleServiceLocal {
     private ArticleDAOLocal dao;
 
     @Override
-    public Collection<Entity> getAll(SearchParams search) {
-        return convertListToEntities(dao.getAll(search));
+    public Collection<Article> getAll(SearchParams search) {
+        return dao.getAll(search);
     }
 
     @Override
-    public Entity getOne(long id) {
+    public Article getOne(long id) {
         Article a = dao.getOne(id);
         if (a != null) {
-            return ArticleEntity.convertArticleToEntity(a);
+            return a;
         } else {
             throw new BadValuesException("Article inexistant");
         }
     }
 
     @Override
-    public Collection<Entity> getMine(String login) {
-        return convertListToEntities(dao.getMine(login));
+    public Collection<Article> getMine(String login) {
+        return dao.getMine(login);
     }
 
     @Override
@@ -49,16 +43,8 @@ public class ArticleService implements ArticleServiceLocal {
     }
 
     @Override
-    public Entity sellOne(AuctionCreation auction, String login) {
+    public Article sellOne(AuctionCreation auction, String login) {
         return null;
-    }
-
-    private Collection<Entity> convertListToEntities(Collection<Article> articles) {
-        List<Entity> entities = new ArrayList<>();
-        articles.forEach(a -> {
-            entities.add(ArticleEntity.convertArticleToEntity(a));
-        });
-        return entities;
     }
 
     @Override
