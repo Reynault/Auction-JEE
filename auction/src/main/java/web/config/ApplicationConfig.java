@@ -3,6 +3,7 @@ package web.config;
 import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
+import org.glassfish.jersey.jackson.JacksonFeature;
 import web.config.exceptionMapper.ConstraintMapper;
 import web.config.exceptionMapper.JSONBExceptionMapper;
 import web.config.exceptionMapper.JSONParsingMapper;
@@ -18,6 +19,7 @@ public class ApplicationConfig extends Application {
         resources.add(JSONBExceptionMapper.class);
         resources.add(ConstraintMapper.class);
         resources.add(JSONParsingMapper.class);
+        resources.add(JacksonFeature.class);
 
         return resources;
     }

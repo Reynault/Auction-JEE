@@ -1,5 +1,6 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
@@ -42,6 +43,7 @@ public class Article {
     private String description;
 
     @ManyToOne(targetEntity = User.class)
+    @JsonIgnore
     private User owner;
 
     @OneToMany(targetEntity = Category.class, cascade = {

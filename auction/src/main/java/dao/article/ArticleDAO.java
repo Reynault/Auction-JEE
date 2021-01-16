@@ -2,14 +2,12 @@ package dao.article;
 
 import dao.auth.UserDAOLocal;
 import java.util.Collection;
-import java.util.Iterator;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import model.Article;
 import shared.dto.ArticleCreation;
 import shared.params.SearchParams;
@@ -28,18 +26,37 @@ public class ArticleDAO implements ArticleDAOLocal {
     private UserDAOLocal users;
 
     @Override
+    public Article postOne(ArticleCreation article, String login) {
+        Article a = new Article(
+                article.getName(),
+                article.getDescription(),
+                users.getOne(login),
+                Article.getStringAsCategories(article.getCategories()),
+                null
+        );
+        return em.merge(a);
+    }
+
+    @Override
     public Collection<Article> getAll(SearchParams search) {
-        String stringQuery = "SELECT a FROM Article a WHERE a.name LIKE %:name% AND ";
-
-        Iterator<String> i = search.getCategories().iterator();
-
-        while (i.hasNext()) {
-
-        }
-
-        TypedQuery<Article> a = (TypedQuery<Article>) em.createQuery(stringQuery);
-        Query query = em.createNamedQuery("Article.findAll", Article.class);
-        return query.getResultList();
+//        String stringQuery = "SELECT a FROM Article a WHERE "
+//                + "a.name LIKE :n' AND ";
+//
+//        Iterator<String> i = search.getCategories().iterator();
+//
+//        if (i.hasNext()) {
+//            stringQuery += "(0 < LOCATE(:c, a.name))";
+//            i.next();
+//        }
+//
+//        while (i.hasNext()) {
+//
+//        }
+//
+//        TypedQuery<Article> a = (TypedQuery<Article>) em.createQuery(stringQuery);
+//        Query query = em.createNamedQuery("Article.findAll", Article.class);
+//        return query.getResultList();
+        return null;
     }
 
     @Override
@@ -58,12 +75,6 @@ public class ArticleDAO implements ArticleDAOLocal {
         Query query = em.createNamedQuery("Article.findMine", Article.class);
         query.setParameter("login", login);
         return query.getResultList();
-    }
-
-    @Override
-    public Article postOne(ArticleCreation article, String login) {
-        Article a = new Article();
-        return em.merge(a);
     }
 
     @Override

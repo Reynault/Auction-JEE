@@ -5,14 +5,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.ejb.Local;
 import javax.ejb.Stateless;
 import model.Article;
 import shared.dto.ArticleCreation;
+import shared.dto.AuctionCreation;
 import shared.entities.ArticleEntity;
 import shared.entities.Entity;
 import shared.params.SearchParams;
 import web.exceptions.BadValuesException;
 
+@Local
 @Stateless
 public class ArticleService implements ArticleServiceLocal {
 
@@ -40,8 +43,14 @@ public class ArticleService implements ArticleServiceLocal {
     }
 
     @Override
-    public Entity postOne(ArticleCreation article, String login) {
-        return ArticleEntity.convertArticleToEntity(dao.postOne(article, login));
+    public Article postOne(ArticleCreation article, String login) {
+//        return ArticleEntity.convertArticleToEntity(dao.postOne(article, login));
+        return dao.postOne(article, login);
+    }
+
+    @Override
+    public Entity sellOne(AuctionCreation auction, String login) {
+        return null;
     }
 
     private Collection<Entity> convertListToEntities(Collection<Article> articles) {
