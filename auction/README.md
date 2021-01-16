@@ -27,7 +27,6 @@ Voici les étapes à suivre:
 - Placer le connecteur JDBC pour mysql qui se trouve dans /lib à la racine
   du projet dans les librairies pour le domaine sur lequel on va servir l'application, c'est
   à dire, ici : Votre installation Glassfish/domains/domain1/lib/ext/
-- Créer le pool de connexion avec les bons paramètres de la manière
-  suivante:
-- Créer la ressource utilisée par l'application de la manière suivante:
-  Avec les paramètres suivants
+- Créer le pool de connexion de la manière suivante: ![connection pool][https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_connection_pools_deployement.PNG]
+  Avec les paramètres suivants : ![connection pool parameters][https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_connection_pools_parameters_deployement.PNG]
+- Créer la ressource utilisée par l'application de la manière suivante: ![ressources][https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_resources_deployment.PNG]
