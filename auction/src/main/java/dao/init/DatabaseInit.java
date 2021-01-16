@@ -86,8 +86,8 @@ public class DatabaseInit {
                     null
             );
 
-            em.persist(a1);
-            em.persist(a2);
+            em.merge(a1);
+            em.merge(a2);
         } catch (ParseException ex) {
             Logger.getLogger(DatabaseInit.class.getName()).log(Level.SEVERE, null, ex);
         }

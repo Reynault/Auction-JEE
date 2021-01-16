@@ -77,10 +77,10 @@ public class ArticleDAO implements ArticleDAOLocal {
 
     @Override
     public int removeFromMarket(long id, String login) {
-        Query query = em.createNamedQuery("Article.removeFromMarket", Article.class);
+        Query query = em.createNamedQuery("Article.changeDate", Article.class);
         query.setParameter("id", id);
         query.setParameter("login", login);
-        query.setParameter("data", Date.from(Instant.now()));
+        query.setParameter("date", Date.from(Instant.now()));
         return query.executeUpdate();
     }
 }

@@ -2,14 +2,13 @@ package service.article;
 
 import java.util.Collection;
 import javax.ejb.Local;
-import model.Article;
 import shared.dto.ArticleCreation;
 import shared.entities.Entity;
 
 @Local
 public interface ArticleServiceLocal {
 
-    Collection<Article> getAll();
+    Collection<Entity> getAll();
 
     Entity getOne(long id);
 

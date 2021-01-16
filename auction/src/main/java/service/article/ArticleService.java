@@ -19,9 +19,8 @@ public class ArticleService implements ArticleServiceLocal {
     private ArticleDAOLocal dao;
 
     @Override
-    public Collection<Article> getAll() {
-//        return convertListToEntities(dao.getAll());
-        return dao.getAll();
+    public Collection<Entity> getAll() {
+        return convertListToEntities(dao.getAll());
     }
 
     @Override

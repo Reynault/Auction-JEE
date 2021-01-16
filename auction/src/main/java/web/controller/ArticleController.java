@@ -1,6 +1,5 @@
 package web.controller;
 
-import dao.article.ArticleDAOLocal;
 import javax.ejb.EJB;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -27,11 +26,8 @@ public class ArticleController {
 
     @EJB
     private ArticleServiceLocal service;
-    @EJB
-    private ArticleDAOLocal dao;
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getAll() {
         return Response.ok(service.getAll()).build();
     }
@@ -63,7 +59,7 @@ public class ArticleController {
 
     @DELETE
     @Secured
-    @Path("delete")
+    @Path("delete/{id}")
     public Response deleteArticle(
             @HeaderParam("login") String login,
             @PathParam("id") long id) {
@@ -73,7 +69,7 @@ public class ArticleController {
 
     @PUT
     @Secured
-    @Path("remove")
+    @Path("remove/{id}")
     public Response removeFromMarket(
             @HeaderParam("login") String login,
             @PathParam("id") long id) {
