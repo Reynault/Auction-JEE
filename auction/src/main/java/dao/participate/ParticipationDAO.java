@@ -29,7 +29,7 @@ public class ParticipationDAO implements ParticipationDAOLocal {
     private UserDAOLocal users;
 
     public boolean isABidder(String login, long id) {
-        Query query = em.createNamedQuery("User.isABidder");
+        Query query = em.createNamedQuery("Auction.isABidder");
         query.setParameter("id", id);
         query.setParameter("login", login);
         try {
@@ -73,7 +73,7 @@ public class ParticipationDAO implements ParticipationDAOLocal {
 
     @Override
     public Collection<Article> getMyParticipatedArticles(String login) {
-        Query query = em.createNamedQuery("User.getParticipations");
+        Query query = em.createNamedQuery("Auction.getParticipations");
         query.setParameter("login", login);
         query.setParameter("date", Date.from(Instant.now()));
         return (Collection<Article>) query.getResultList();
@@ -81,7 +81,7 @@ public class ParticipationDAO implements ParticipationDAOLocal {
 
     @Override
     public Article getOneParticipatedArticle(String login, long id) {
-        Query query = em.createNamedQuery("User.getOneParticipation");
+        Query query = em.createNamedQuery("Auction.getOneParticipation");
         query.setParameter("login", login);
         query.setParameter("id", id);
         query.setParameter("date", Date.from(Instant.now()));
