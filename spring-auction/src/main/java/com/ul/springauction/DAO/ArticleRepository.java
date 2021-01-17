@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface ArticleRepository extends CrudRepository<Article, Long> {
 
     Iterable<Article> findById(long id);
+
 }

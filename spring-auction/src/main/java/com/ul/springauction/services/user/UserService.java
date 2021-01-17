@@ -45,7 +45,7 @@ public class UserService {
         } else {
             User find = userRepo.findByLogin(register.getLogin());
             if (find == null){
-                User u = new User(register.getLogin(), register.getPass(), register.getName(), register.getLastname(), RegisterAddress.convertToAddress(register.getAddress().orElse(null)), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+                User u = new User(register.getLogin(), register.getPass(), register.getName(), register.getLastname(), RegisterAddress.convertToAddress(register.getAddress().orElse(null)), new ArrayList<>(), new ArrayList<>());
                 u.setPass(bCryptPasswordEncoder.encode(u.getPass()));
                 userRepo.save(u);
                 UserDetails userDetails = userDetailService.loadUserByUsername(u.getLogin());
