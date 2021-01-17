@@ -94,6 +94,12 @@ public class ArticleController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    public Response getOne(@BeanParam SearchParams search) {
+        return Response.ok(service.getAll(search)).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getAll(@BeanParam SearchParams search) {
         return Response.ok(service.getAll(search)).build();
     }
