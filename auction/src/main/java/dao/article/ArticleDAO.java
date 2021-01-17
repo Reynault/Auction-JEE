@@ -2,7 +2,6 @@ package dao.article;
 
 import dao.auth.UserDAOLocal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,6 +17,8 @@ import javax.persistence.TypedQuery;
 import model.Article;
 import model.Auction;
 import model.Category;
+import model.User;
+import service.date.DateServiceLocal;
 import shared.dto.ArticleCreation;
 import shared.dto.AuctionCreation;
 import shared.params.SearchParams;
@@ -35,6 +36,9 @@ public class ArticleDAO implements ArticleDAOLocal {
     @EJB
     private UserDAOLocal users;
 
+    @EJB
+    private DateServiceLocal date;
+
     private List<Category> mergeStringList(List<String> s) {
         ArrayList<Category> cat = new ArrayList();
         for (String c : s) {
@@ -51,7 +55,7 @@ public class ArticleDAO implements ArticleDAOLocal {
 
     @Override
     public boolean ownArticle(long id, String login) {
-        Query query = em.createNamedQuery("Article.own", Article.class);
+        Query query = em.createNamedQuery("User.own", User.class);
         query.setParameter("id", id);
         query.setParameter("login", login);
         try {
@@ -64,28 +68,27 @@ public class ArticleDAO implements ArticleDAOLocal {
 
     @Override
     public Article postOne(ArticleCreation article, String login) {
+        User u = users.getOne(login);
         Article a = new Article(
                 article.getName(),
                 article.getDescription(),
-                users.getOne(login),
                 mergeStringList(article.getCategories()),
                 null
         );
-        return em.merge(a);
+
+        u.addArticle(a);
+        em.merge(u);
+        return a;
     }
 
     @Override
     public Article sellOne(AuctionCreation auction, String login, long id) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
         Article a = this.getOne(id);
 
         try {
             a.setAuction(new Auction(
                     auction.getFirstPrice(),
-                    sdf.parse(auction.getTimeLimit()),
-                    new ArrayList(),
-                    null,
+                    date.transformIntoDate(auction.getTimeLimit()),
                     null,
                     a
             ));
@@ -144,9 +147,11 @@ public class ArticleDAO implements ArticleDAOLocal {
 
     @Override
     public int delete(long id, String login) {
+        User u = users.getOne(login);
+        u.removeArticle(id);
+        em.merge(u);
         Query query = em.createNamedQuery("Article.delete", Article.class);
         query.setParameter("id", id);
-        query.setParameter("login", login);
         return query.executeUpdate();
     }
 

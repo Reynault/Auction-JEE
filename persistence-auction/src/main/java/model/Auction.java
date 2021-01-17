@@ -4,15 +4,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -28,6 +25,10 @@ import javax.persistence.TemporalType;
     @NamedQuery(
             name = "Auction.delete",
             query = "DELETE FROM Auction a WHERE a.article.id = :id"
+    ),
+    @NamedQuery(
+            name = "Auction.getBest",
+            query = "SELECT a.best FROM Auction a WHERE a.article.id = :id"
     )
 })
 public class Auction {
@@ -42,35 +43,25 @@ public class Auction {
     @Temporal(value = TemporalType.DATE)
     private Date timeLimit;
 
-    @OneToMany(mappedBy = "auction", cascade = CascadeType.ALL)
-    private List<Participation> participations;
-
-    @OneToOne(targetEntity = Participation.class, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Participation.class)
     private Participation best;
-
-    @OneToOne(targetEntity = Delivery.class)
-    private Delivery delivery;
 
     @JsonIgnore
     @OneToOne(targetEntity = Article.class)
     private Article article;
 
-    public Auction(long id, double firstPrice, Date timeLimit, List<Participation> participations, Participation best, Delivery delivery, Article article) {
+    public Auction(long id, double firstPrice, Date timeLimit, Participation best, Article article) {
         this.id = id;
         this.firstPrice = firstPrice;
         this.timeLimit = timeLimit;
-        this.participations = participations;
         this.best = best;
-        this.delivery = delivery;
         this.article = article;
     }
 
-    public Auction(double firstPrice, Date timeLimit, List<Participation> participations, Participation best, Delivery delivery, Article article) {
+    public Auction(double firstPrice, Date timeLimit, Participation best, Article article) {
         this.firstPrice = firstPrice;
         this.timeLimit = timeLimit;
-        this.participations = participations;
         this.best = best;
-        this.delivery = delivery;
         this.article = article;
     }
 
@@ -120,22 +111,6 @@ public class Auction {
 
     public void setTimeLimit(Date timeLimit) {
         this.timeLimit = timeLimit;
-    }
-
-    public List<Participation> getParticipations() {
-        return participations;
-    }
-
-    public void setParticipations(List<Participation> participations) {
-        this.participations = participations;
-    }
-
-    public Delivery getDelivery() {
-        return delivery;
-    }
-
-    public void setDelivery(Delivery delivery) {
-        this.delivery = delivery;
     }
 
     public Article getArticle() {

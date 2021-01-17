@@ -1,5 +1,6 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import javax.persistence.*;
 
@@ -10,9 +11,39 @@ import javax.persistence.*;
 @Table(name = "USER")
 @NamedQueries({
     @NamedQuery(
+            name = "User.isABidder",
+            query = "SELECT u FROM User u JOIN u.participate p "
+            + "WHERE u.login = :login "
+            + "AND p.auction.article.id = :id"
+    ),
+    @NamedQuery(
             name = "User.findOne",
             query = "SELECT u FROM User u WHERE u.login = :login"
+    ),
+    @NamedQuery(
+            name = "User.own",
+            query = "SELECT u FROM User u JOIN u.sold a WHERE a.id = :id AND u.login = :login"
+    ),
+    @NamedQuery(
+            name = "User.findMine",
+            query = "SELECT a FROM User u JOIN u.sold a WHERE u.login = :login"
+    ),
+    @NamedQuery(
+            name = "User.getParticipations",
+            query = "SELECT p FROM User u JOIN u.participate p"
+            + " WHERE u.login = :login"
+            + " AND p.auction.timeLimit  > :date"
+            + " OR p.auction.best.id = p.id"
+    ),
+    @NamedQuery(
+            name = "User.getOneParticipation",
+            query = "SELECT p FROM User u JOIN u.participate p"
+            + " WHERE u.login = :login"
+            + " AND p.auction.article.id = :id"
+            + " AND p.auction.timeLimit  > :date"
+            + " OR p.auction.best.id = p.id"
     )
+
 })
 public class User {
 
@@ -27,13 +58,16 @@ public class User {
     @OneToOne(targetEntity = Address.class, cascade = CascadeType.ALL)
     private Address home;
 
-    @OneToMany(mappedBy = "bidder")
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Participation> participate;
 
-    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Delivery> deliveries;
 
-    @OneToMany(mappedBy = "owner")
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Article> sold;
 
     public User(long id, String login, String pass, String name, String lastname,
@@ -63,6 +97,22 @@ public class User {
     }
 
     public User() {
+    }
+
+    public void removeArticle(long id) {
+        for (int i = 0; i < sold.size(); i++) {
+            if (sold.get(i).getId() == id) {
+
+            }
+        }
+    }
+
+    public void addArticle(Article a) {
+        sold.add(a);
+    }
+
+    public void addParticipation(Participation p) {
+        participate.add(p);
     }
 
     public long getId() {

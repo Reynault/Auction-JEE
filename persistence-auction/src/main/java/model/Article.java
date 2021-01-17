@@ -20,16 +20,8 @@ import javax.persistence.*;
             query = "SELECT a FROM Article a WHERE a.id = :id"
     ),
     @NamedQuery(
-            name = "Article.findMine",
-            query = "SELECT a FROM Article a WHERE a.owner.login = :login"
-    ),
-    @NamedQuery(
             name = "Article.delete",
-            query = "DELETE FROM Article a WHERE a.id = :id AND a.owner.login = :login"
-    ),
-    @NamedQuery(
-            name = "Article.own",
-            query = "SELECT a FROM Article a WHERE a.id = :id AND a.owner.login = :login"
+            query = "DELETE FROM Article a WHERE a.id = :id"
     )
 })
 public class Article {
@@ -42,10 +34,6 @@ public class Article {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @ManyToOne(targetEntity = User.class)
-    @JsonIgnore
-    private User owner;
-
     @OneToMany(targetEntity = Category.class, cascade = {
         CascadeType.MERGE, CascadeType.REFRESH,
         CascadeType.DETACH, CascadeType.PERSIST})
@@ -55,19 +43,17 @@ public class Article {
     @JoinColumn(nullable = true)
     private Auction auction;
 
-    public Article(long id, String name, String description, User owner, List<Category> categories, Auction auction) {
+    public Article(long id, String name, String description, List<Category> categories, Auction auction) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.owner = owner;
         this.categories = categories;
         this.auction = auction;
     }
 
-    public Article(String name, String description, User owner, List<Category> categories, Auction auction) {
+    public Article(String name, String description, List<Category> categories, Auction auction) {
         this.name = name;
         this.description = description;
-        this.owner = owner;
         this.categories = categories;
         this.auction = auction;
     }
@@ -106,14 +92,6 @@ public class Article {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
     }
 
     public List<Category> getCategories() {

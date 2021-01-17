@@ -2,10 +2,14 @@ package service.article;
 
 import dao.article.ArticleDAOLocal;
 import dao.auction.AuctionDAOLocal;
+import java.text.ParseException;
+import java.time.Instant;
 import java.util.Collection;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import model.Article;
+import service.date.DateServiceLocal;
 import shared.dto.ArticleCreation;
 import shared.dto.AuctionCreation;
 import shared.params.SearchParams;
@@ -20,6 +24,9 @@ public class ArticleService implements ArticleServiceLocal {
     @EJB
     private AuctionDAOLocal auc;
 
+    @EJB
+    private DateServiceLocal date;
+
     @Override
     public Article postOne(ArticleCreation article, String login) {
         return dao.postOne(article, login);
@@ -31,7 +38,16 @@ public class ArticleService implements ArticleServiceLocal {
         if (dao.ownArticle(id, login)) {
             // if article isn't in an auction
             if (!auc.isSold(id)) {
-                return dao.sellOne(auction, login, id);
+                try {
+                    // if date is valid
+                    if (date.isPast(auction.getTimeLimit(), Date.from(Instant.now()))) {
+                        return dao.sellOne(auction, login, id);
+                    } else {
+                        throw new BadValuesException("La date doit être dans le futur");
+                    }
+                } catch (ParseException ex) {
+                    throw new BadValuesException("Date non conforme");
+                }
             } else {
                 throw new BadValuesException("Article déjà en vente");
             }
@@ -42,8 +58,12 @@ public class ArticleService implements ArticleServiceLocal {
 
     @Override
     public void delete(long id, String login) {
-        if (dao.delete(id, login) == 0) {
-            throw new BadValuesException("Article inexistant pour cet utilisateur");
+        if (dao.ownArticle(id, login)) {
+            if (dao.delete(id, login) == 0) {
+                throw new BadValuesException("Article inexistant pour cet utilisateur");
+            }
+        } else {
+            throw new BadValuesException("L'utilisateur ne possède pas l'article");
         }
     }
 
