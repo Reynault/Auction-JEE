@@ -76,6 +76,7 @@ public class ArticleDAO implements ArticleDAOLocal {
                 null
         );
 
+        em.persist(a);
         u.addArticle(a);
         em.merge(u);
         return a;
@@ -85,19 +86,22 @@ public class ArticleDAO implements ArticleDAOLocal {
     public Article sellOne(AuctionCreation auction, String login, long id) {
         Article a = this.getOne(id);
 
+        System.out.println("TEST");
         try {
-            a.setAuction(new Auction(
+            Auction au = new Auction(
                     auction.getFirstPrice(),
                     date.transformIntoDate(auction.getTimeLimit()),
                     null,
-                    a
-            ));
+                    new ArrayList(),
+                    a);
+            System.out.println("TEST");
+            em.persist(au);
+            a.setAuction(au);
         } catch (ParseException ex) {
             return null;
         }
 
-        em.merge(a);
-        return a;
+        return em.merge(a);
     }
 
     @Override
@@ -140,19 +144,18 @@ public class ArticleDAO implements ArticleDAOLocal {
 
     @Override
     public Collection<Article> getMine(String login) {
-        Query query = em.createNamedQuery("Article.findMine", Article.class);
+        Query query = em.createNamedQuery("User.findMine", Article.class);
         query.setParameter("login", login);
         return query.getResultList();
     }
 
     @Override
-    public int delete(long id, String login) {
+    public void delete(long id, String login) {
+        Article a = em.find(Article.class, id);
         User u = users.getOne(login);
         u.removeArticle(id);
         em.merge(u);
-        Query query = em.createNamedQuery("Article.delete", Article.class);
-        query.setParameter("id", id);
-        return query.executeUpdate();
+        em.remove(a);
     }
 
 }

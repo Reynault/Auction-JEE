@@ -2,8 +2,8 @@ package dao.participate;
 
 import dao.auth.UserDAOLocal;
 import java.time.Instant;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -67,9 +67,9 @@ public class ParticipationDAO implements ParticipationDAOLocal {
             User user = users.getOne(login);
             Article a = em.find(Article.class, id);
             Auction au = a.getAuction();
-            p = new Participation(value, user, au);
+            p = new Participation(value, user);
 
-            user.addParticipation(p);
+            au.addParticipation(p);
             em.merge(user);
             au.setBest(p);
             em.merge(au);
@@ -79,11 +79,11 @@ public class ParticipationDAO implements ParticipationDAOLocal {
     }
 
     @Override
-    public List<Article> getMyParticipatedArticles(String login) {
+    public Collection<Article> getMyParticipatedArticles(String login) {
         Query query = em.createNamedQuery("User.getParticipations");
         query.setParameter("login", login);
         query.setParameter("date", Date.from(Instant.now()));
-        return (List<Article>) query.getResultList();
+        return (Collection<Article>) query.getResultList();
     }
 
     @Override

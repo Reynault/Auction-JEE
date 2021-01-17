@@ -36,7 +36,6 @@ public class UserDAO implements UserDAOLocal {
                 info.getLastname(),
                 UserAddress.convertToAddress(info.getAddress().orElse(null)),
                 new ArrayList(),
-                new ArrayList(),
                 new ArrayList()
         );
         em.persist(user);

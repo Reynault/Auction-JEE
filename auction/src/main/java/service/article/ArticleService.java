@@ -59,9 +59,7 @@ public class ArticleService implements ArticleServiceLocal {
     @Override
     public void delete(long id, String login) {
         if (dao.ownArticle(id, login)) {
-            if (dao.delete(id, login) == 0) {
-                throw new BadValuesException("Article inexistant pour cet utilisateur");
-            }
+            dao.delete(id, login);
         } else {
             throw new BadValuesException("L'utilisateur ne possède pas l'article");
         }
@@ -70,9 +68,7 @@ public class ArticleService implements ArticleServiceLocal {
     @Override
     public void remove(long id, String login) {
         if (dao.ownArticle(id, login)) {
-            if (auc.remove(id, login) == 0) {
-                throw new BadValuesException("L'article n'était pas en vente");
-            }
+            auc.remove(id, login);
         } else {
             throw new BadValuesException("L'utilisateur ne possède pas l'article");
         }

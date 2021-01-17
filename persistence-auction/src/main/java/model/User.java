@@ -12,9 +12,9 @@ import javax.persistence.*;
 @NamedQueries({
     @NamedQuery(
             name = "User.isABidder",
-            query = "SELECT u FROM User u JOIN u.participate p "
+            query = "SELECT u FROM User u JOIN u.sold a JOIN a.auction.participations p "
             + "WHERE u.login = :login "
-            + "AND p.auction.article.id = :id"
+            + "AND p.id = :id"
     ),
     @NamedQuery(
             name = "User.findOne",
@@ -29,19 +29,25 @@ import javax.persistence.*;
             query = "SELECT a FROM User u JOIN u.sold a WHERE u.login = :login"
     ),
     @NamedQuery(
-            name = "User.getParticipations",
-            query = "SELECT p FROM User u JOIN u.participate p"
+            name = "User.findOnePart",
+            query = "SELECT u FROM User u JOIN u.sold a JOIN a.auction.participations p "
             + " WHERE u.login = :login"
-            + " AND p.auction.timeLimit  > :date"
-            + " OR p.auction.best.id = p.id"
+            + " AND a.id = :id"
+    ),
+    @NamedQuery(
+            name = "User.getParticipations",
+            query = "SELECT p FROM User u JOIN u.sold a JOIN a.auction.participations p"
+            + " WHERE u.login = :login"
+            + " AND a.auction.timeLimit  > :date"
+            + " OR a.auction.best.id = p.id"
     ),
     @NamedQuery(
             name = "User.getOneParticipation",
-            query = "SELECT p FROM User u JOIN u.participate p"
+            query = "SELECT p FROM User u JOIN u.sold a JOIN a.auction.participations p"
             + " WHERE u.login = :login"
-            + " AND p.auction.article.id = :id"
-            + " AND p.auction.timeLimit  > :date"
-            + " OR p.auction.best.id = p.id"
+            + " AND a.id = :id"
+            + " AND a.auction.timeLimit  > :date"
+            + " OR a.auction.best.id = p.id"
     )
 
 })
@@ -60,10 +66,6 @@ public class User {
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Participation> participate;
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL)
     private List<Delivery> deliveries;
 
     @JsonIgnore
@@ -71,7 +73,7 @@ public class User {
     private List<Article> sold;
 
     public User(long id, String login, String pass, String name, String lastname,
-            Address home, List<Participation> participate, List<Delivery> deliveries,
+            Address home, List<Delivery> deliveries,
             List<Article> sold) {
         this.id = id;
         this.login = login;
@@ -79,19 +81,16 @@ public class User {
         this.name = name;
         this.lastname = lastname;
         this.home = home;
-        this.participate = participate;
         this.deliveries = deliveries;
         this.sold = sold;
     }
 
-    public User(String login, String pass, String name, String lastname, Address home,
-            List<Participation> participate, List<Delivery> deliveries, List<Article> sold) {
+    public User(String login, String pass, String name, String lastname, Address home, List<Delivery> deliveries, List<Article> sold) {
         this.login = login;
         this.pass = pass;
         this.name = name;
         this.lastname = lastname;
         this.home = home;
-        this.participate = participate;
         this.deliveries = deliveries;
         this.sold = sold;
     }
@@ -102,17 +101,13 @@ public class User {
     public void removeArticle(long id) {
         for (int i = 0; i < sold.size(); i++) {
             if (sold.get(i).getId() == id) {
-
+                sold.remove(i);
             }
         }
     }
 
     public void addArticle(Article a) {
         sold.add(a);
-    }
-
-    public void addParticipation(Participation p) {
-        participate.add(p);
     }
 
     public long getId() {
@@ -161,14 +156,6 @@ public class User {
 
     public void setHome(Address home) {
         this.home = home;
-    }
-
-    public List<Participation> getParticipate() {
-        return participate;
-    }
-
-    public void setParticipate(List<Participation> participate) {
-        this.participate = participate;
     }
 
     public List<Delivery> getDeliveries() {

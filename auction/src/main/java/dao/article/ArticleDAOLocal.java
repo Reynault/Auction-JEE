@@ -22,5 +22,5 @@ public interface ArticleDAOLocal {
 
     Article sellOne(AuctionCreation auction, String login, long id);
 
-    int delete(long id, String login);
+    void delete(long id, String login);
 }

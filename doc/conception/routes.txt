@@ -62,6 +62,9 @@ GET -> http://localhost:8080/participation/my
 // j'ai participé
 GET -> http://localhost:8080/participation/{id}/my
 
+
+
+
 // En tant qu'utilisateur, je peux récupérer la liste des promotions
 GET -> http://localhost:8080/participation/{id}/getPromotion
 

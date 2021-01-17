@@ -1,6 +1,6 @@
 package dao.participate;
 
-import java.util.List;
+import java.util.Collection;
 import javax.ejb.Local;
 import model.Article;
 import model.Participation;
@@ -12,7 +12,7 @@ public interface ParticipationDAOLocal {
 
     Participation updateParticipation(double value, String login, long id);
 
-    List<Article> getMyParticipatedArticles(String login);
+    Collection<Article> getMyParticipatedArticles(String login);
 
     Article getOneParticipatedArticle(String login, long id);
 

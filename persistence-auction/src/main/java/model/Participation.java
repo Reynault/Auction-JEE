@@ -1,6 +1,5 @@
 package model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,21 +19,15 @@ public class Participation {
     @ManyToOne(targetEntity = User.class)
     private User bidder;
 
-    @JsonIgnore
-    @ManyToOne(targetEntity = Auction.class)
-    private Auction auction;
-
-    public Participation(long id, double price, User bidder, Auction auction) {
+    public Participation(long id, double price, User bidder) {
         this.id = id;
         this.price = price;
         this.bidder = bidder;
-        this.auction = auction;
     }
 
-    public Participation(double price, User bidder, Auction auction) {
+    public Participation(double price, User bidder) {
         this.price = price;
         this.bidder = bidder;
-        this.auction = auction;
     }
 
     public Participation() {
@@ -63,13 +56,4 @@ public class Participation {
     public void setBidder(User bidder) {
         this.bidder = bidder;
     }
-
-    public Auction getAuction() {
-        return auction;
-    }
-
-    public void setAuction(Auction auction) {
-        this.auction = auction;
-    }
-
 }

@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import model.Article;
 import model.Auction;
 
 @Stateless
@@ -40,9 +41,13 @@ public class AuctionDAO implements AuctionDAOLocal {
     }
 
     @Override
-    public int remove(long id, String login) {
-        Query query = em.createNamedQuery("Auction.delete");
-        query.setParameter("id", id);
-        return query.executeUpdate();
+    public void remove(long id, String login) {
+        Article a = em.find(Article.class, id);
+        if (a.getAuction() != null) {
+            Auction au = a.getAuction();
+            a.setAuction(null);
+            em.merge(a);
+            em.remove(au);
+        }
     }
 }
