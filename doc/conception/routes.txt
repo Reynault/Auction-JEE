@@ -62,5 +62,12 @@ GET -> http://localhost:8080/participation/my
 // j'ai participé
 GET -> http://localhost:8080/participation/{id}/my
 
-// En tant qu'utilisateur, je peux commander un article gagné
-POST -> http://localhost:8080/participation/{id}/deliver
+// En tant qu'utilisateur, je peux récupérer la liste des promotions
+GET -> http://localhost:8080/participation/{id}/getPromotion
+
+// En tant qu'utilisateur, je peux demander de calculer le prix en fonction des promos pour avoir un aperçu
+GET -> http://localhost:8080/participation/{id}/checkPrice?o=offer1&o=offer2...
+
+// En tant qu'utilisateur, je peux commander un article gagné en précisant les promose à utiliser
+POST -> http://localhost:8080/participation/{id}/deliver?o=offer1&o=offer2...
+
