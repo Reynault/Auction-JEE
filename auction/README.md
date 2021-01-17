@@ -9,7 +9,7 @@ Ce dépôt contient la partie Back-End réalisée en utilisant JEE et les EJB.
 Attention: L'installation de ce projet peut être fastidieuse, 
 cependant, si vous suivez parfaitement ce README, le projet fonctionnera !
 
-Pour ce projet, il vous faudra:
+Pour installer ce projet, il vous faudra:
 - Java 1.8
 - Java 11
 - Docker  
@@ -36,3 +36,6 @@ $ docker-compose up
 ![connection pool parameters](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_connection_pools_parameters_deployement.PNG)
 - Créer la ressource utilisée par l'application de la manière suivante: 
 ![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_resources_deployment.PNG)
+- Il faut ouvrir projet persistence avec netBeans et réaliser un clean & build
+- Puis il faut clean&build le projet principal
+- Vous pouvez alors deployer le projet
