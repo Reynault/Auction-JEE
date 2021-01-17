@@ -3,8 +3,20 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  backend: {
+    protocol: 'http',
+    host: 'localhost',
+    port: '8080',
+    endpoints: {
+      oneUsers: '/users/:id',
+      oneUserByUsername: '/users/username/:username',
+      allUsers: '/users',
+      login: '/auction/login'
+    }
+  }
 };
+
 
 /*
  * For easier debugging in development mode, you can import the following file

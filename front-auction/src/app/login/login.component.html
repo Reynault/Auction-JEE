@@ -1,0 +1,50 @@
+<div class="container">
+
+  <h1 class="login_header">Login</h1>
+
+  <div class="form">
+    <form novalidate [formGroup]="form" class="main-div">
+      <mat-card class="card">
+        <mat-card-content style="text-align: center">
+          <p>
+            <mat-form-field appearance="standard">
+              <mat-label>Username</mat-label>
+              <input class="form__input" required formControlName="username" matInput placeholder="John">
+              <mat-error *ngIf="form.get('username').dirty && form.get('username').hasError('required')">
+                Username <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="form.get('username').dirty && form.get('username').hasError('maxLength')">
+                Max length: <strong>50</strong>
+              </mat-error>
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field appearance="standard">
+              <mat-label>Password</mat-label>
+              <input required formControlName="password" type="password" matInput placeholder="******">
+              <mat-error *ngIf="form.get('password').dirty && form.get('password').hasError('required')">
+                <strong>Password</strong> required
+              </mat-error>
+              <mat-error *ngIf="form.get('password').dirty && form.get('password').hasError('hasUpperCase')">
+                <strong>Uppercase</strong> required
+              </mat-error>
+              <mat-error *ngIf="form.get('password').dirty && form.get('password').hasError('hasNumber')">
+                <strong>Number</strong> required
+              </mat-error>
+              <mat-error *ngIf="form.get('password').dirty && form.get('password').hasError('maxLength')">
+                Max length: <strong>200</strong>
+              </mat-error>
+            </mat-form-field>
+          </p>
+          <mat-error><strong>{{this.err}}</strong></mat-error>
+        </mat-card-content>
+        <mat-card-actions style="text-align: center; margin-bottom: 15px;">
+          <button class="m-auto black-register-button" type="button" [routerLink]="['/home']" mat-button>Home</button>
+          <button class="m-auto black-register-button" type="submit" (click)="submit()" mat-raised-button>Login</button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+  </div>
+</div>
+
+

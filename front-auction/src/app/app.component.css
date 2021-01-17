@@ -1,0 +1,9 @@
+.main-root {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+app-searchbar{
+  position: sticky;
+}

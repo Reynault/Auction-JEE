@@ -1,0 +1,65 @@
+<mat-toolbar class="extend-toolbar">
+  <span>
+        <a [routerLink]="['/']">
+<!--      <img src="assets/images/logo.png" aria-label="nwt" alt="NWT">-->
+      Auction
+    </a>
+  </span>
+
+  <span class="flex">
+  </span>
+
+<!--  <form class="search-input-center">-->
+<!--    <mat-form-field class="search-input">-->
+<!--      <input type="text"-->
+<!--             placeholder="Search"-->
+<!--             aria-label="Number"-->
+<!--             matInput-->
+<!--             [formControl]=""-->
+<!--             [matAutocomplete]="auto">-->
+<!--      <mat-autocomplete #auto="matAutocomplete">-->
+<!--        <mat-option [value]="">-->
+<!--        </mat-option>-->
+<!--      </mat-autocomplete>-->
+<!--    </mat-form-field>-->
+<!--  </form>-->
+
+  <span>
+
+
+    <span *ngIf="isLogedIn">{{getUsername()}}</span>
+
+    <button mat-icon-button [matMenuTriggerFor]="menuConnected" aria-label="Example icon-button with a menu"
+            *ngIf="isLogedIn()">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+
+     <button mat-icon-button [matMenuTriggerFor]="menuNotConnected" aria-label="Example icon-button with a menu"
+             *ngIf="!isLogedIn()">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+
+    <mat-menu #menuNotConnected="matMenu">
+      <button mat-menu-item [routerLink]="[ '/login' ]">
+        <mat-icon>login</mat-icon>
+        <span>Login</span>
+      </button>
+      <button mat-menu-item [routerLink]="[ '/register' ]">
+        <mat-icon>create</mat-icon>
+        <span>Register</span>
+      </button>
+    </mat-menu>
+
+    <mat-menu #menuConnected="matMenu">
+     <button mat-menu-item [routerLink]="[ '/user' ]">
+        <mat-icon>account_box</mat-icon>
+        <span>My account</span>
+      </button>
+        <button mat-menu-item (click)="logout()" [routerLink]="[ '/logout' ]">
+        <mat-icon>login</mat-icon>
+        <span>Logout</span>
+      </button>
+    </mat-menu>
+  </span>
+
+</mat-toolbar>
