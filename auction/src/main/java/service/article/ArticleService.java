@@ -77,4 +77,13 @@ public class ArticleService implements ArticleServiceLocal {
     public Collection<Article> getMine(String login) {
         return dao.getMine(login);
     }
+
+    @Override
+    public Article getOneOfMine(long id, String login) {
+        if (dao.ownArticle(id, login)) {
+            return dao.getOne(id);
+        } else {
+            throw new BadValuesException("L'utilisateur ne possède pas l'article");
+        }
+    }
 }

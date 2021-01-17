@@ -4,6 +4,7 @@ import javax.ejb.EJB;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -69,6 +70,24 @@ public class ArticleController {
             @HeaderParam("login") String login) {
         service.remove(id, login);
         return Response.noContent().build();
+    }
+
+    @GET
+    @Secured
+    @Path("my")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMine(@HeaderParam("login") String login) {
+        return Response.ok(service.getMine(login)).build();
+    }
+
+    @GET
+    @Secured
+    @Path("{id}/my")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getOneOfMine(
+            @PathParam("id") long id,
+            @HeaderParam("login") String login) {
+        return Response.ok(service.getOneOfMine(id, login)).build();
     }
 
 //    @GET
