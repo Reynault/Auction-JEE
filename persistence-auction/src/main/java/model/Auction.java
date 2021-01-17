@@ -22,12 +22,14 @@ import javax.persistence.TemporalType;
 @Table(name = "AUCTION")
 @NamedQueries({
     @NamedQuery(
-            name = "Auction.findOne",
-            query = "SELECT a FROM Auction a WHERE a.article.id = :id"
-    ),
-    @NamedQuery(
             name = "Auction.getBest",
             query = "SELECT a.best FROM Auction a WHERE a.article.id = :id"
+    ),
+    @NamedQuery(
+            name = "Auction.findUserParticipation",
+            query = "SELECT p FROM Auction a JOIN a.participations p "
+            + " WHERE p.bidder.login = :login"
+            + " AND a.article.id = :id"
     )
 })
 public class Auction {

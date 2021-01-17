@@ -25,7 +25,7 @@ public class ParticipateService implements ParticipateServiceLocal {
     @Override
     public Participation participate(UserParticipate participation, String login, long id) {
         // if article is not expired
-        if (auctions.isFinished(id)) {
+        if (auctions.isSold(id) && !auctions.isFinished(id)) {
             // if user isn't owner
             if (!articles.ownArticle(id, login)) {
                 // if value is greater
@@ -38,7 +38,7 @@ public class ParticipateService implements ParticipateServiceLocal {
                 throw new BadValuesException("L'utilisateur possède l'article");
             }
         } else {
-            throw new BadValuesException("Article plus en vente");
+            throw new BadValuesException("L'article n'est pas en vente");
         }
     }
 

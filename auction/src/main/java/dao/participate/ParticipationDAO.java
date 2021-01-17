@@ -42,19 +42,13 @@ public class ParticipationDAO implements ParticipationDAOLocal {
 
     @Override
     public boolean valueIsGreater(double value, long id) {
-        Query query = em.createNamedQuery("Auction.findOne", Auction.class);
-        query.setParameter("id", id);
-        try {
-            Auction a = (Auction) query.getSingleResult();
-            return a.getBestPrice() < value;
-        } catch (NoResultException e) {
-            return false;
-        }
+        Auction a = em.find(Article.class, id).getAuction();
+        return a.getBestPrice() < value;
     }
 
     @Override
     public Participation updateParticipation(double value, String login, long id) {
-        Query query = em.createNamedQuery("User.findOnePart", User.class);
+        Query query = em.createNamedQuery("Auction.findUserParticipation", Participation.class);
         query.setParameter("login", login);
         query.setParameter("id", id);
 
@@ -68,13 +62,12 @@ public class ParticipationDAO implements ParticipationDAOLocal {
             Article a = em.find(Article.class, id);
             Auction au = a.getAuction();
             p = new Participation(value, user);
+            em.persist(p);
 
             au.addParticipation(p);
-            em.merge(user);
             au.setBest(p);
             em.merge(au);
         }
-
         return p;
     }
 

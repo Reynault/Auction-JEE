@@ -29,12 +29,6 @@ import javax.persistence.*;
             query = "SELECT a FROM User u JOIN u.sold a WHERE u.login = :login"
     ),
     @NamedQuery(
-            name = "User.findOnePart",
-            query = "SELECT u FROM User u JOIN u.sold a JOIN a.auction.participations p "
-            + " WHERE u.login = :login"
-            + " AND a.id = :id"
-    ),
-    @NamedQuery(
             name = "User.getParticipations",
             query = "SELECT p FROM User u JOIN u.sold a JOIN a.auction.participations p"
             + " WHERE u.login = :login"
@@ -57,11 +51,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String login;
+    @JsonIgnore
     private String pass;
     private String name;
     private String lastname;
 
     @OneToOne(targetEntity = Address.class, cascade = CascadeType.ALL)
+    @JsonIgnore
     private Address home;
 
     @JsonIgnore
