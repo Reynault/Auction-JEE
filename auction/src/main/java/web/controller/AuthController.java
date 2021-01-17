@@ -13,14 +13,6 @@ import service.auth.AuthServiceLocal;
 import shared.dto.UserConnection;
 import shared.dto.UserInscription;
 
-/**
- * Controleur utilise pour gerer l'authentification et l'inscription
- *
- * Documentation utilisee pour mettre en place l'authentification en java:
- *
- * https://stackoverflow.com/questions/26777083/best-practice-for-rest-token-based-authentication-with-jax-rs-and-jersey
- * https://developer.okta.com/blog/2018/10/31/jwts-with-java
- */
 @Path("/")
 public class AuthController {
 

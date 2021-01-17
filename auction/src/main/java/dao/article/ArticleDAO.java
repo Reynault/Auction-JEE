@@ -3,8 +3,10 @@ package dao.article;
 import dao.auth.UserDAOLocal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -12,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import model.Article;
 import model.Auction;
 import model.Category;
@@ -96,24 +99,29 @@ public class ArticleDAO implements ArticleDAOLocal {
 
     @Override
     public Collection<Article> getAll(SearchParams search) {
-//        String stringQuery = "SELECT a FROM Article a WHERE "
-//                + "a.name LIKE :n' AND ";
-//
-//        Iterator<String> i = search.getCategories().iterator();
-//
-//        if (i.hasNext()) {
-//            stringQuery += "(0 < LOCATE(:c, a.name))";
-//            i.next();
-//        }
-//
-//        while (i.hasNext()) {
-//
-//        }
-//
-//        TypedQuery<Article> a = (TypedQuery<Article>) em.createQuery(stringQuery);
-//        Query query = em.createNamedQuery("Article.findAll", Article.class);
-//        return query.getResultList();
-        return null;
+
+        List<String> c = search.getCategories();
+
+        String joins = "";
+        String params = "";
+
+        for (int i = 0; i < c.size(); i++) {
+            joins += " JOIN a.categories c" + i;
+            params += " AND c" + i + ".name LIKE :c" + i;
+        }
+
+        String stringQuery = "SELECT a FROM Article a " + joins + " WHERE "
+                + "a.name LIKE :n" + params + " AND a.auction <> NULL AND a.auction.timeLimit > :d";
+
+        TypedQuery<Article> a = (TypedQuery<Article>) em.createQuery(stringQuery);
+
+        a.setParameter("n", "%" + search.getName() + "%");
+        a.setParameter("d", Date.from(Instant.now()));
+        for (int i = 0; i < c.size(); i++) {
+            a.setParameter("c" + i, "%" + c.get(i) + "%");
+        }
+
+        return a.getResultList();
     }
 
     @Override
