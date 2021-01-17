@@ -24,6 +24,10 @@ import javax.persistence.TemporalType;
     @NamedQuery(
             name = "Auction.findOne",
             query = "SELECT a FROM Auction a WHERE a.article.id = :id"
+    ),
+    @NamedQuery(
+            name = "Auction.delete",
+            query = "DELETE FROM Auction a WHERE a.article.id = :id"
     )
 })
 public class Auction {
@@ -44,29 +48,29 @@ public class Auction {
     @OneToOne(targetEntity = Participation.class, cascade = CascadeType.ALL)
     private Participation best;
 
-    @OneToOne(targetEntity = Delivery.class, cascade = CascadeType.ALL)
-    private Delivery deliveries;
+    @OneToOne(targetEntity = Delivery.class)
+    private Delivery delivery;
 
     @JsonIgnore
     @OneToOne(targetEntity = Article.class)
     private Article article;
 
-    public Auction(long id, double firstPrice, Date timeLimit, List<Participation> participations, Participation best, Delivery deliveries, Article article) {
+    public Auction(long id, double firstPrice, Date timeLimit, List<Participation> participations, Participation best, Delivery delivery, Article article) {
         this.id = id;
         this.firstPrice = firstPrice;
         this.timeLimit = timeLimit;
         this.participations = participations;
         this.best = best;
-        this.deliveries = deliveries;
+        this.delivery = delivery;
         this.article = article;
     }
 
-    public Auction(double firstPrice, Date timeLimit, List<Participation> participations, Participation best, Delivery deliveries, Article article) {
+    public Auction(double firstPrice, Date timeLimit, List<Participation> participations, Participation best, Delivery delivery, Article article) {
         this.firstPrice = firstPrice;
         this.timeLimit = timeLimit;
         this.participations = participations;
         this.best = best;
-        this.deliveries = deliveries;
+        this.delivery = delivery;
         this.article = article;
     }
 
@@ -126,12 +130,12 @@ public class Auction {
         this.participations = participations;
     }
 
-    public Delivery getDeliveries() {
-        return deliveries;
+    public Delivery getDelivery() {
+        return delivery;
     }
 
-    public void setDeliveries(Delivery deliveries) {
-        this.deliveries = deliveries;
+    public void setDelivery(Delivery delivery) {
+        this.delivery = delivery;
     }
 
     public Article getArticle() {

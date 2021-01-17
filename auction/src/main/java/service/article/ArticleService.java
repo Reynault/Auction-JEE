@@ -27,21 +27,34 @@ public class ArticleService implements ArticleServiceLocal {
 
     @Override
     public Article sellOne(AuctionCreation auction, String login, long id) {
-        // if article exist
-        if (dao.exists(id)) {
-            // if user has article
-            if (dao.ownArticle(id, login)) {
-                // if article isn't in an auction
-                if (auc.isSold(id) == null) {
-                    return dao.sellOne(auction, login, id);
-                } else {
-                    throw new BadValuesException("Article déjà en vente");
-                }
+        // if user has article
+        if (dao.ownArticle(id, login)) {
+            // if article isn't in an auction
+            if (!auc.isSold(id)) {
+                return dao.sellOne(auction, login, id);
             } else {
-                throw new BadValuesException("L'utilisateur ne possède pas l'article");
+                throw new BadValuesException("Article déjà en vente");
             }
         } else {
-            throw new BadValuesException("Article inexistant");
+            throw new BadValuesException("L'utilisateur ne possède pas l'article");
+        }
+    }
+
+    @Override
+    public void delete(long id, String login) {
+        if (dao.delete(id, login) == 0) {
+            throw new BadValuesException("Article inexistant pour cet utilisateur");
+        }
+    }
+
+    @Override
+    public void remove(long id, String login) {
+        if (dao.ownArticle(id, login)) {
+            if (auc.remove(id, login) == 0) {
+                throw new BadValuesException("L'article n'était pas en vente");
+            }
+        } else {
+            throw new BadValuesException("L'utilisateur ne possède pas l'article");
         }
     }
 
@@ -52,9 +65,8 @@ public class ArticleService implements ArticleServiceLocal {
 
     @Override
     public Article getOne(long id) {
-        Article a = dao.getOne(id);
-        if (a != null) {
-            return a;
+        if (auc.isSold(id) && !auc.isFinished(id)) {
+            return dao.getOne(id);
         } else {
             throw new BadValuesException("Article inexistant");
         }
@@ -66,16 +78,11 @@ public class ArticleService implements ArticleServiceLocal {
     }
 
     @Override
-    public void delete(long id, String login) {
-        if (dao.delete(id, login) == 0) {
-            throw new BadValuesException("Article inexistant pour cet utilisateur");
-        }
-    }
-
-    @Override
-    public void removeFromMarket(long id, String login) {
-        if (dao.removeFromMarket(id, login) == 0) {
-            throw new BadValuesException("Article inexistant pour cet utilisateur");
+    public Article getOneOfMine(long id, String login) {
+        if (dao.ownArticle(id, login)) {
+            return dao.getOne(id);
+        } else {
+            throw new BadValuesException("L'utilisateur ne possède pas l'article");
         }
     }
 }

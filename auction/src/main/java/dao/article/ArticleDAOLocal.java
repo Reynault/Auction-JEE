@@ -14,8 +14,6 @@ public interface ArticleDAOLocal {
 
     boolean ownArticle(long id, String login);
 
-    boolean exists(long id);
-
     Article getOne(long id);
 
     Collection<Article> getMine(String login);
@@ -25,6 +23,4 @@ public interface ArticleDAOLocal {
     Article sellOne(AuctionCreation auction, String login, long id);
 
     int delete(long id, String login);
-
-    int removeFromMarket(long id, String login);
 }

@@ -3,6 +3,9 @@ package web.controller;
 import javax.ejb.EJB;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.BeanParam;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -13,6 +16,7 @@ import javax.ws.rs.core.Response;
 import service.article.ArticleServiceLocal;
 import shared.dto.ArticleCreation;
 import shared.dto.AuctionCreation;
+import shared.params.SearchParams;
 import web.config.authentification.Secured;
 
 /**
@@ -29,7 +33,7 @@ public class ArticleController {
     @Secured
     @Path("submit")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response submitArticle(
+    public Response submit(
             @HeaderParam("login") String login,
             @NotNull(message = "Veuillez fournir les informations nécéssaires pour créer l'article")
             @Valid ArticleCreation article) {
@@ -40,7 +44,7 @@ public class ArticleController {
     @Secured
     @Path("{id}/sell")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response sellArticle(
+    public Response sell(
             @PathParam("id") long id,
             @HeaderParam("login") String login,
             @NotNull(message = "Veuillez fournir les informations nécéssaires pour créer l'enchère")
@@ -48,8 +52,56 @@ public class ArticleController {
         return Response.ok(service.sellOne(auction, login, id)).build();
     }
 
-//    @GET
-//    public Response getAll(@BeanParam SearchParams search) {
-//        return Response.ok(service.getAll(search)).build();
-//    }
+    @DELETE
+    @Secured
+    @Path("{id}/delete")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response delete(
+            @PathParam("id") long id,
+            @HeaderParam("login") String login) {
+        service.delete(id, login);
+        return Response.noContent().build();
+    }
+
+    @POST
+    @Secured
+    @Path("{id}/remove")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response remove(
+            @PathParam("id") long id,
+            @HeaderParam("login") String login) {
+        service.remove(id, login);
+        return Response.noContent().build();
+    }
+
+    @GET
+    @Secured
+    @Path("my")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMine(@HeaderParam("login") String login) {
+        return Response.ok(service.getMine(login)).build();
+    }
+
+    @GET
+    @Secured
+    @Path("{id}/my")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getOneOfMine(
+            @PathParam("id") long id,
+            @HeaderParam("login") String login) {
+        return Response.ok(service.getOneOfMine(id, login)).build();
+    }
+
+    @GET
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getOne(@PathParam("id") long id) {
+        return Response.ok(service.getOne(id)).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAll(@BeanParam SearchParams search) {
+        return Response.ok(service.getAll(search)).build();
+    }
 }
