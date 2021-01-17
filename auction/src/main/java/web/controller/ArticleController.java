@@ -93,9 +93,10 @@ public class ArticleController {
     }
 
     @GET
+    @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getOne(@BeanParam SearchParams search) {
-        return Response.ok(service.getAll(search)).build();
+    public Response getOne(@PathParam("id") long id) {
+        return Response.ok(service.getOne(id)).build();
     }
 
     @GET

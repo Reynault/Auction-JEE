@@ -65,9 +65,8 @@ public class ArticleService implements ArticleServiceLocal {
 
     @Override
     public Article getOne(long id) {
-        Article a = dao.getOne(id);
-        if (a != null) {
-            return a;
+        if (auc.isSold(id) && !auc.isFinished(id)) {
+            return dao.getOne(id);
         } else {
             throw new BadValuesException("Article inexistant");
         }
