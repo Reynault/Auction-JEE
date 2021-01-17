@@ -30,8 +30,28 @@ import javax.persistence.TemporalType;
             query = "SELECT p FROM Auction a JOIN a.participations p "
             + " WHERE p.bidder.login = :login"
             + " AND a.article.id = :id"
-    )
-})
+    ),
+    @NamedQuery(
+            name = "Auction.getOneParticipation",
+            query = "SELECT a.article FROM Auction a JOIN a.participations p"
+            + " WHERE p.bidder.login = :login"
+            + " AND a.article.id = :id"
+            + " AND a.timeLimit  > :date"
+            + " OR a.best.id = p.id"
+    ),
+    @NamedQuery(
+            name = "Auction.getParticipations",
+            query = "SELECT a.article FROM Auction a JOIN a.participations p"
+            + " WHERE p.bidder.login = :login"
+            + " AND a.timeLimit  > :date"
+            + " OR a.best.id = p.id"
+    ),
+    @NamedQuery(
+            name = "Auction.isABidder",
+            query = "SELECT a FROM Auction a JOIN a.participations p "
+            + "WHERE p.bidder.login = :login "
+            + "AND a.article.id = :id"
+    ),})
 public class Auction {
 
     @Id
