@@ -35,11 +35,11 @@ export class LoginComponent implements OnInit {
 
   private static _buildForm(): FormGroup {
     return new FormGroup({
-      username: new FormControl('', Validators.compose([
+      login: new FormControl('', Validators.compose([
         Validators.required,
         Validators.maxLength(50)
       ])),
-      password: new FormControl('', Validators.compose([
+      pass: new FormControl('', Validators.compose([
         Validators.required,
         // PasswordValidators.hasUpperCase,
         // PasswordValidators.hasNumber,
@@ -53,9 +53,11 @@ export class LoginComponent implements OnInit {
 
   submit(): void {
     if (this.form.valid) {
-      console.log(this._auth.connect(this.form.value).subscribe(
+      console.log(this.form.value);
+      this._auth.connect(this.form.value).subscribe(
         (data) => {
           console.log(data);
+          this._auth.setUsernameStored(this.form.value.login);
           this._router.navigate(['/home']);
         },
         (error) => {
@@ -69,7 +71,7 @@ export class LoginComponent implements OnInit {
               break;
           }
         }
-      ));
+      );
     }
   }
 }

@@ -12,7 +12,8 @@ export const environment = {
       oneUsers: '/users/:id',
       oneUserByUsername: '/users/username/:username',
       allUsers: '/users',
-      login: '/auction/login'
+      login: '/auction/login',
+      register: '/auction/register'
     }
   }
 };

@@ -19,6 +19,7 @@ import {HttpErrorInterceptor} from './shared/interceptors/http-error.interceptor
 import {FormComponent} from './shared/form/form.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 
 @NgModule({
@@ -30,20 +31,21 @@ import { MatCardModule } from '@angular/material/card';
     SearchbarComponent,
     FormComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    MatButtonModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatAutocompleteModule,
-    MatIconModule,
-    MatMenuModule,
-    MatInputModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    MatCardModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        MatButtonModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatAutocompleteModule,
+        MatIconModule,
+        MatMenuModule,
+        MatInputModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatGridListModule
+    ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true  }],
   bootstrap: [AppComponent]
 })

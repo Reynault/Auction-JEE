@@ -15,7 +15,7 @@ export class PasswordValidators {
   }
 
   static checkConfirm(form: FormGroup): ValidationErrors | null {
-    return (form.get("password").value === form.get("confirmation").value) ? null : {
+    return (form.get('pass').value === form.get('confirmation').value) ? null : {
       checkConfirm: true
     };
   }

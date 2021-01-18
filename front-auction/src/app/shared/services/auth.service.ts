@@ -6,6 +6,7 @@ import {Token} from '../interfaces/token';
 import {Observable} from 'rxjs';
 import {TokenService} from './token-service';
 import {map} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -15,13 +16,14 @@ export class AuthService {
   private readonly _defaultUser: User;
 
   constructor(private _http: HttpClient,
-              private _token: TokenService) {
+              private _token: TokenService,
+              private router: Router) {
     this._defaultUser = {
       username: 'John',
-      email: 'John@mail.com',
       firstname: 'Joe',
       lastname: 'Mama',
-      password: 'Doe'
+      password: 'Doe',
+      address: 'null'
     };
     this._backendURL = {};
 
@@ -49,7 +51,7 @@ export class AuthService {
   }
 
   subscribe(user: User): Observable<any> {
-    return this._http.post<Token>(this._backendURL.subscribe, user).pipe(
+    return this._http.post<Token>(this._backendURL.register, user).pipe(
       map(_ => this._token.set(_)),
     );
   }
@@ -73,5 +75,22 @@ export class AuthService {
 
   logout(): void {
     this._token.del();
+    this.router.navigate(['/login']);
   }
+
+  setUsernameStored(user: string): void{
+    this._token.setUsername(user);
+  }
+
+  getUsernameStored(): string{
+    return this._token.getUser();
+  }
+
+  hasStoredToken(): boolean {
+    return (
+      this._token.get().access_token &&
+      this._token.get().access_token.length > 0
+    );
+  }
+
 }
