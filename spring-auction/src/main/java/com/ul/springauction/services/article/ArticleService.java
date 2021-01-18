@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,8 +31,22 @@ public class ArticleService {
         return u.getSold();
     }
 
-    public Article findArticlesWithAuction(long id) throws BadRequestException {
+    public Article findArticleWithAuction(long id) throws BadRequestException {
         Article a = articleRepo.findById(id);
+        return checkAuction(a);
+    }
+
+    public Article findOwnArticleWithAuction(String token, long id) throws BadRequestException {
+        List<Article> articles = findUserArticles(token);
+        for (Article a : articles){
+            if (a.getId() == id){
+                return checkAuction(a);
+            }
+        }
+        throw new BadRequestException("L'article avec cet id n'est pas a cet utilisateur");
+    }
+
+    public Article checkAuction(Article a) throws BadRequestException {
         if (a.getAuction() == null){
             throw new BadRequestException("L'article n'est pas aux encheres");
         } else {

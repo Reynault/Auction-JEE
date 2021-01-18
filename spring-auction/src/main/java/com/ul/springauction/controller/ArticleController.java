@@ -21,9 +21,14 @@ public class ArticleController {
         return articleService.findUserArticles(token);
     }
 
-    @GetMapping(value = "auction/articles/{id}")
+    @GetMapping(value = "/auction/articles/{id}")
     public Article findArticleWithAuction(@PathVariable long id) throws BadRequestException {
-        return articleService.findArticlesWithAuction(id);
+        return articleService.findArticleWithAuction(id);
+    }
+
+    @GetMapping(value = "/auction/articles/{id}/my")
+    public Article findOwnArticleWithAuction(@RequestHeader(name = "Authorization") String token, @PathVariable long id) throws BadRequestException {
+        return articleService.findOwnArticleWithAuction(token, id);
     }
 
     @ExceptionHandler(BadRequestException.class)
