@@ -5,6 +5,7 @@ import javax.ejb.Local;
 import model.Article;
 import model.Participation;
 import shared.dto.UserParticipate;
+import shared.entities.Promotion;
 
 @Local
 public interface ParticipateServiceLocal {
@@ -14,4 +15,6 @@ public interface ParticipateServiceLocal {
     Collection<Article> getMyParticipatedArticles(String login);
 
     Article getOneParticipatedArticle(String login, long id);
+
+    Collection<Promotion> getPromotions();
 }
