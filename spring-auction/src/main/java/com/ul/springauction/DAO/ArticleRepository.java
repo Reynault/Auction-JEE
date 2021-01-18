@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ArticleRepository extends CrudRepository<Article, Long> {
 
-    Iterable<Article> findById(long id);
+    Article findById(long id);
 
 }

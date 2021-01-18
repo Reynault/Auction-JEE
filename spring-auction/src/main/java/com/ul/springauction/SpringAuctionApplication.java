@@ -30,7 +30,7 @@ public class SpringAuctionApplication {
     public CommandLineRunner initDatabase(){
         return args -> {
             log.info("----Starting initialize database---");
-            //initDatabase.init();
+            initDatabase.init();
             log.info("----Ending initialize database---");
         };
     }
