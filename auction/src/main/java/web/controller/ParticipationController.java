@@ -30,6 +30,13 @@ public class ParticipationController {
     }
 
     @GET
+    @Path("promotions")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPromotions() {
+        return Response.ok(service.getPromotions()).build();
+    }
+
+    @GET
     @Secured
     @Path("{id}/my")
     @Produces(MediaType.APPLICATION_JSON)

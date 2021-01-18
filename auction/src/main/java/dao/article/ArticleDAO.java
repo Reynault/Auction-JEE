@@ -47,7 +47,7 @@ public class ArticleDAO implements ArticleDAOLocal {
             try {
                 cat.add((Category) query.getSingleResult());
             } catch (NoResultException e) {
-                cat.add(new Category(c));
+                cat.add(em.merge(new Category(c)));
             }
         }
         return cat;
