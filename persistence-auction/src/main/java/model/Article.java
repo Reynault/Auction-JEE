@@ -34,12 +34,11 @@ public class Article {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @OneToMany(targetEntity = Category.class, cascade = {
-        CascadeType.MERGE, CascadeType.REFRESH,
-        CascadeType.DETACH, CascadeType.PERSIST})
+    @ManyToMany(targetEntity = Category.class, cascade = {
+        CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private List<Category> categories;
 
-    @OneToOne(mappedBy = "article", targetEntity = Auction.class, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Auction.class, cascade = CascadeType.ALL)
     @JoinColumn(nullable = true)
     private Auction auction;
 

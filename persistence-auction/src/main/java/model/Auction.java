@@ -72,7 +72,7 @@ public class Auction {
     private List<Participation> participations;
 
     @JsonIgnore
-    @OneToOne(targetEntity = Article.class)
+    @OneToOne(mappedBy = "auction", targetEntity = Article.class)
     private Article article;
 
     public Auction(long id, double firstPrice, Date timeLimit, Participation best, List<Participation> participations, Article article) {
