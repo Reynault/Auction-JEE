@@ -49,7 +49,7 @@ DELETE -> http://localhost:8080/auction/articles/{id}/delete
 POST -> http://localhost:8080/participation/{id}
 
 {
-	"price": 15646
+	"value": 15646
 }
 
 // En tant qu'utilisateur, je peux voir mes participations
