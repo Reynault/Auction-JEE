@@ -152,8 +152,8 @@ public class DatabaseInit {
             a1.setAuction(au1);
             a2.setAuction(au2);
 
-            em.persist(au1);
-            em.persist(au2);
+            em.persist(a1);
+            em.persist(a3);
 
             Promotion p1 = new Promotion(
                     "Réduction de 100€ si l'article coûte plus de 1000€",
