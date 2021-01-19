@@ -1,12 +1,16 @@
 package com.ul.springauction.services.auth;
 
 import com.ul.springauction.services.user.UserDetailService;
+import com.ul.springauction.shared.response.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -41,8 +45,17 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(token);
+            } else {
+                handleUnauthorizedUser();
             }
         }
         chain.doFilter(request, response);
     }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public @ResponseBody
+    ErrorResponse handleUnauthorizedUser(){
+        return new ErrorResponse("Utilisateur non autorisé");
+    }
+
 }

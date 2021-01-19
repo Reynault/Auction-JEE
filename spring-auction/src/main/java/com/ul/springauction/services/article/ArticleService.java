@@ -14,8 +14,10 @@ import model.Category;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -74,14 +76,36 @@ public class ArticleService {
                 if (a.getAuction() != null){
                     throw new BadRequestException("Une enchere existe deja pour cet article");
                 } else {
-                    Auction auc = auctionService.createAuction(auction, a);
-                    a.setAuction(auc);
-                    articleRepo.save(a);
-                    return a;
+                    if (!a.isHasBeenSold()) {
+                        Auction auc = auctionService.createAuction(auction, a);
+                        a.setAuction(auc);
+                        articleRepo.save(a);
+                        return a;
+                    } else {
+                        throw new BadRequestException("L'article a deja ete vendu");
+                    }
                 }
             }
         }
         throw new BadRequestException("L'article avec cet id n'est pas a cet utilisateur");
+    }
+
+    public List<Article> getAllArticles(String name, List<String> categories){
+        List<Category> categoryList = categoryService.getAllByList(categories);
+        List<Article> articles = null;
+        if (name == null){
+            articles = (List<Article>) articleRepo.findAll();
+        } else {
+            articles = articleRepo.findByNameContaining(name);
+        }
+
+        if (categoryList != null) {
+            for (Category c : categoryList) {
+                articles = checkCategoryAndRemove(articles, c);
+            }
+        }
+        articles = checkAuctionAndRemove(articles);
+        return articles;
     }
 
     public Article checkAuction(Article a) throws BadRequestException {
@@ -94,5 +118,25 @@ public class ArticleService {
                 return a;
             }
         }
+    }
+
+    public List<Article> checkAuctionAndRemove(List<Article> articles){
+        List<Article> remove = new ArrayList<>();
+        for (Article a : articles){
+            if (a.getAuction() == null || a.isHasBeenSold()){
+                remove.add(a);
+            } else {
+                if (a.getAuction().getTimeLimit().before(Date.from(Instant.now()))) {
+                    remove.add(a);
+                }
+            }
+        }
+        articles.removeAll(remove);
+        return articles;
+    }
+
+    public List<Article> checkCategoryAndRemove(List<Article> articles, Category c){
+        articles.removeIf(a -> !a.getCategories().contains(c));
+        return articles;
     }
 }

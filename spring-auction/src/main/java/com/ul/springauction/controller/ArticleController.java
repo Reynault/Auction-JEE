@@ -13,13 +13,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
 
+    @GetMapping(value = "/auction/articles")
+    public List<Article> findAllArticles(@RequestParam(required = false) String n, @RequestParam(required = false) List<String> c){
+        return articleService.getAllArticles(n, c);
+    }
+
     @GetMapping(value = "/auction/articles/my")
-    public List<Article> findAllArticle(@RequestHeader(name = "Authorization") String token){
+    public List<Article> findAllOwnArticle(@RequestHeader(name = "Authorization") String token){
         return articleService.findUserArticles(token);
     }
 
@@ -42,6 +48,8 @@ public class ArticleController {
     public Article addAuctionToArticle(@RequestHeader(name = "Authorization") String token, @PathVariable long id, @RequestBody AuctionAdd auction) throws BadRequestException {
         return articleService.addAuctionToArticle(token, id, auction);
     }
+
+
 
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)

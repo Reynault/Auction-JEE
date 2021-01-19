@@ -28,4 +28,16 @@ public class CategoryService {
         }
         return categories;
     }
+
+    public List<Category> getAllByList(List<String> categories){
+        List<Category> categoryList = new ArrayList<>();
+        if (categories != null) {
+            for (String s : categories) {
+                categoryList.add(categoryRepository.findByName(s));
+            }
+            return categoryList;
+        } else {
+            return null;
+        }
+    }
 }

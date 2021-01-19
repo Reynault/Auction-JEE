@@ -1,7 +1,6 @@
 package com.ul.springauction.services.user;
 
 import com.ul.springauction.DAO.UserRepository;
-//import com.ul.springauction.model.User;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
