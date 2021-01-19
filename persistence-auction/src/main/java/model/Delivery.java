@@ -23,25 +23,26 @@ public class Delivery implements Serializable {
     @Enumerated(EnumType.ORDINAL)
     private DeliveryStep step;
 
-    private String message;
-
     private double price;
+
+    @OneToOne(targetEntity = Address.class, cascade = CascadeType.ALL)
+    private Address address;
 
     @OneToOne(targetEntity = ArticleToDeliver.class, cascade = CascadeType.ALL)
     private ArticleToDeliver article;
 
-    public Delivery(long id, DeliveryStep step, String message, double price, ArticleToDeliver article) {
+    public Delivery(long id, DeliveryStep step, double price, Address address, ArticleToDeliver article) {
         this.id = id;
         this.step = step;
-        this.message = message;
         this.price = price;
+        this.address = address;
         this.article = article;
     }
 
-    public Delivery(DeliveryStep step, String message, double price, ArticleToDeliver article) {
+    public Delivery(DeliveryStep step, double price, Address address, ArticleToDeliver article) {
         this.step = step;
-        this.message = message;
         this.price = price;
+        this.address = address;
         this.article = article;
     }
 
@@ -62,14 +63,6 @@ public class Delivery implements Serializable {
 
     public void setState(DeliveryStep step) {
         this.step = step;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public double getPrice() {
@@ -94,6 +87,14 @@ public class Delivery implements Serializable {
 
     public void setArticle(ArticleToDeliver article) {
         this.article = article;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
 }

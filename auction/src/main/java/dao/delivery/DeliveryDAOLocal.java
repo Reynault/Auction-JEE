@@ -13,4 +13,6 @@ public interface DeliveryDAOLocal {
     Collection<Delivery> getDeliveries(String login);
 
     Delivery getOneDelivery(String login, long id);
+
+    boolean hasDelivery(String login, long id);
 }

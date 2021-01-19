@@ -118,7 +118,9 @@ public class ArticleDAO implements ArticleDAOLocal {
         }
 
         String stringQuery = "SELECT a FROM Article a " + joins + " WHERE "
-                + "a.name LIKE :n" + params + " AND a.auction <> NULL AND a.auction.timeLimit > :d";
+                + "a.name LIKE :n" + params + " AND a.auction <> NULL "
+                + "AND a.auction.timeLimit > :d "
+                + "AND a.hasBeenSold = FALSE";
 
         TypedQuery<Article> a = (TypedQuery<Article>) em.createQuery(stringQuery);
 

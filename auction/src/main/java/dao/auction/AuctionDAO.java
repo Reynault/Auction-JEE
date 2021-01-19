@@ -26,6 +26,12 @@ public class AuctionDAO implements AuctionDAOLocal {
     }
 
     @Override
+    public boolean hasBeenSold(long article_id) {
+        Article a = em.find(Article.class, article_id);
+        return a != null && a.isHasBeenSold();
+    }
+
+    @Override
     public boolean isFinished(long article_id) {
         Article a = em.find(Article.class, article_id);
         return a.getAuction() != null && a.getAuction().getTimeLimit().before(Date.from(Instant.now()));
