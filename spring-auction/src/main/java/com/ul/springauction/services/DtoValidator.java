@@ -1,6 +1,7 @@
 package com.ul.springauction.services;
 
 import com.ul.springauction.shared.dto.DtoObject;
+import com.ul.springauction.shared.exception.BadRequestException;
 import com.ul.springauction.shared.response.ErrorResponse;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +25,12 @@ public class DtoValidator {
             violationMessages.add(v.getMessage());
         }
         return new ErrorResponse(violationMessages);
+    }
+
+    public void validation(DtoObject object) throws BadRequestException {
+        ErrorResponse errors = validate(object);
+        if (errors.getMessages().size() > 0){
+            throw new BadRequestException(errors.getMessages().get(0));
+        }
     }
 }

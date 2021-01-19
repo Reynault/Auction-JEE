@@ -39,38 +39,40 @@ public class UserService {
 
 
     public Response save(RegisterUser register) throws BadRequestException {
-        ErrorResponse errors = dtoValidator.validate(register);
-        if (errors.getMessages().size() > 0){
-            throw new BadRequestException(errors.getMessages().get(0));
+        dtoValidator.validation(register);
+        User find = userRepo.findByLogin(register.getLogin());
+        if (find == null){
+            User u = new User(register.getLogin(), register.getPass(), register.getName(), register.getLastname(), RegisterAddress.convertToAddress(register.getAddress().orElse(null)), new ArrayList<>(), new ArrayList<>());
+            u.setPass(bCryptPasswordEncoder.encode(u.getPass()));
+            userRepo.save(u);
+            UserDetails userDetails = userDetailService.loadUserByUsername(u.getLogin());
+            String jwt = util.generateToken(userDetails);
+            return new TokenResponse(jwt);
         } else {
-            User find = userRepo.findByLogin(register.getLogin());
-            if (find == null){
-                User u = new User(register.getLogin(), register.getPass(), register.getName(), register.getLastname(), RegisterAddress.convertToAddress(register.getAddress().orElse(null)), new ArrayList<>(), new ArrayList<>());
-                u.setPass(bCryptPasswordEncoder.encode(u.getPass()));
-                userRepo.save(u);
-                UserDetails userDetails = userDetailService.loadUserByUsername(u.getLogin());
-                String jwt = util.generateToken(userDetails);
-                return new TokenResponse(jwt);
-            } else {
-                throw new BadRequestException("L'utilisateur est deja present");
-            }
+            throw new BadRequestException("L'utilisateur est deja present");
         }
     }
 
 
     public Response login(Login login) throws BadRequestException {
-        ErrorResponse errors = dtoValidator.validate(login);
-        if (errors.getMessages().size() > 0) {
-            return errors;
-        } else {
-            try{
-                authManager.authenticate(new UsernamePasswordAuthenticationToken(login.getLogin(), login.getPass()));
-            } catch (BadCredentialsException e){
-                throw new BadRequestException("Le login ou le mot de passe est incorrect");
-            }
-            UserDetails userDetails = userDetailService.loadUserByUsername(login.getLogin());
-            String jwt = util.generateToken(userDetails);
-            return new TokenResponse(jwt);
+        dtoValidator.validation(login);
+        try{
+            authManager.authenticate(new UsernamePasswordAuthenticationToken(login.getLogin(), login.getPass()));
+        } catch (BadCredentialsException e){
+            throw new BadRequestException("Le login ou le mot de passe est incorrect");
         }
+        UserDetails userDetails = userDetailService.loadUserByUsername(login.getLogin());
+        String jwt = util.generateToken(userDetails);
+        return new TokenResponse(jwt);
+    }
+
+    public User findUser(String token){
+        token = token.substring(7);
+        String username = util.extractUsername(token);
+        return userRepo.findByLogin(username);
+    }
+
+    public void saveUpdatedUser(User u){
+        userRepo.save(u);
     }
 }

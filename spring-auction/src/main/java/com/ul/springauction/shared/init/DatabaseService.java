@@ -32,7 +32,7 @@ public class DatabaseService {
     @Autowired
     private AuctionRepository auctionRepository;
 
-    public String init() {
+    public void init() {
         userRepository.deleteAll();
         articleRepository.deleteAll();
         categoryRepository.deleteAll();
@@ -121,6 +121,6 @@ public class DatabaseService {
 
         userRepository.save(u1);
         userRepository.save(u2);
-        return "Initialisation OK !";
+        System.out.println("Initialisation OK !");
     }
 }
