@@ -1,31 +1,25 @@
 package dao.offer.types;
 
+import java.util.List;
+import javax.persistence.EntityManager;
 import model.Article;
+import model.Parameter;
 import model.User;
 
 public class HighPriceOffer extends Offer {
 
-    private final double threshold;
-    private final double amountToReduce;
-
-    public HighPriceOffer(double threshold, double amountToReduce) {
-        this.threshold = threshold;
-        this.amountToReduce = amountToReduce;
+    public HighPriceOffer() {
+        super(2);
     }
 
     @Override
-    public double applyOffer(User u, Article a) {
+    public double compute(EntityManager em, User u, Article a, double price, List<Parameter> params) {
         double best = a.getAuction().getBestPrice();
-        if (best >= threshold) {
-            return isGreater(best, amountToReduce);
+        if (best >= params.get(0).getParameterValue()) {
+            return isGreater(price, params.get(1).getParameterValue());
         } else {
-            return best;
+            return price;
         }
-    }
-
-    @Override
-    public String description() {
-        return "Réduction de " + amountToReduce + " si la valeur est supérieure à " + threshold;
     }
 
 }

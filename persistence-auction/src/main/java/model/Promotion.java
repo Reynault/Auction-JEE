@@ -9,11 +9,35 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "PROMOTION")
+@NamedQueries({
+    @NamedQuery(
+            name = "Promotion.getDaily",
+            query = "SELECT p FROM Promotion p WHERE p.daily = TRUE"
+    ),
+    @NamedQuery(
+            name = "Promotion.removeDaily",
+            query = "UPDATE Promotion p SET p.daily = FALSE WHERE p.daily = TRUE"
+    ),
+    @NamedQuery(
+            name = "Promotion.getAll",
+            query = "SELECT p FROM Promotion p"
+    ),
+    @NamedQuery(
+            name = "Promotion.getOrderedParams",
+            query = "SELECT param FROM Promotion p JOIN p.parameters param WHERE p.id = :id ORDER BY param.indexParam"
+    ),
+    @NamedQuery(
+            name = "Promotion.verifyDaily",
+            query = "SELECT COUNT(p.id) FROM Promotion p WHERE p.id = :id AND p.daily = TRUE"
+    )
+})
 public class Promotion {
 
     @Id
@@ -21,8 +45,8 @@ public class Promotion {
     private long id;
 
     private String description;
-    @ManyToMany(targetEntity = Category.class, cascade = {
-        CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+
+    @OneToMany(targetEntity = Parameter.class, cascade = CascadeType.ALL)
     private List<Parameter> parameters;
 
     private boolean daily;

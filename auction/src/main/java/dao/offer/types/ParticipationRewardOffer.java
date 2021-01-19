@@ -1,51 +1,37 @@
 package dao.offer.types;
 
+import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import model.Article;
 import model.Auction;
+import model.Parameter;
 import model.User;
 
 public class ParticipationRewardOffer extends Offer {
 
-    @PersistenceContext(unitName = "AuctionPU")
-    private EntityManager em;
-
-    private final double threshold;
-    private final int minimalNumberOfParticipation;
-    private final double amountToReduce;
-
-    public ParticipationRewardOffer(double threshold, int minimalNumberOfParticipation, double amountToReduce) {
-        this.threshold = threshold;
-        this.minimalNumberOfParticipation = minimalNumberOfParticipation;
-        this.amountToReduce = amountToReduce;
+    public ParticipationRewardOffer() {
+        super(3);
     }
 
     @Override
-    public double applyOffer(User u, Article a) {
+    public double compute(EntityManager em, User u, Article a, double price, List<Parameter> params) {
         Auction au = a.getAuction();
         double best = au.getBestPrice();
 
-        if (best >= threshold) {
+        if (best >= params.get(0).getParameterValue()) {
             String request = "SELECT COUNT(p.id) FROM Participation p WHERE p.bidder.login = :login";
             Query query = em.createQuery(request);
             query.setParameter("login", u.getLogin());
-            int nbParticipations = (int) query.getSingleResult();
+            Long nbParticipations = (Long) query.getSingleResult();
 
-            if (nbParticipations >= minimalNumberOfParticipation) {
-                return isGreater(best, amountToReduce);
+            if (nbParticipations >= params.get(2).getParameterValue()) {
+                return isGreater(price, params.get(1).getParameterValue());
             } else {
-                return best;
+                return price;
             }
         } else {
-            return best;
+            return price;
         }
-    }
-
-    @Override
-    public String description() {
-        return "Réduction de " + amountToReduce + " si la valeur est supérieure à " + threshold
-                + " si votre nombre minimal de participation total est supérieur à " + minimalNumberOfParticipation;
     }
 }

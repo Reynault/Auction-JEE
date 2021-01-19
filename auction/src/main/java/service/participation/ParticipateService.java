@@ -3,22 +3,16 @@ package service.participation;
 import dao.article.ArticleDAOLocal;
 import dao.auction.AuctionDAOLocal;
 import dao.participate.ParticipationDAOLocal;
-import java.util.ArrayList;
 import java.util.Collection;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import model.Article;
 import model.Participation;
-import service.offer.OfferManager;
 import shared.dto.UserParticipate;
-import shared.entities.Promotion;
 import web.exceptions.BadValuesException;
 
 @Stateless
 public class ParticipateService implements ParticipateServiceLocal {
-
-    @EJB
-    private OfferManager offers;
 
     @EJB
     private ParticipationDAOLocal dao;
@@ -65,11 +59,6 @@ public class ParticipateService implements ParticipateServiceLocal {
         } else {
             throw new BadValuesException("Article inexistant");
         }
-    }
-
-    @Override
-    public Collection<Promotion> getPromotions() {
-        return new ArrayList();
     }
 
 }
