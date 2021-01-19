@@ -52,3 +52,6 @@ $ docker-compose up
 - Il faut ouvrir projet persistence avec netBeans et réaliser un clean & build
 - Puis il faut clean&build le projet principal
 - Vous pouvez alors deployer le projet
+- Un bug est connu dans lequel le serveur a du mal à se connecter avec la base de données, pour régler ce problème vous pouvez redémarrer le serveur glassfish de cette manière sur netbeans:
+
+![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_bo.png)
