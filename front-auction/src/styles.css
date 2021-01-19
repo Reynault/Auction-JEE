@@ -6,6 +6,16 @@ html, body {
 }
 a{color: white;}
 
+mat-form-field{
+  color: white;
+}
+
+.display-inline-flex{
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
 .notfound{
   background-size: 500px;
   margin-left: auto;

@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {
   Validators,
-  FormBuilder,
   FormControl,
   FormGroup,
 } from '@angular/forms';
 import {AuthService} from '../shared/services/auth.service';
 import {Router} from '@angular/router';
-import {PasswordValidators} from '../shared/validators/password-validators';
 import {errorMessages} from '../shared/constants/error.messages';
 
 
@@ -55,8 +53,7 @@ export class LoginComponent implements OnInit {
     if (this.form.valid) {
       console.log(this.form.value);
       this._auth.connect(this.form.value).subscribe(
-        (data) => {
-          console.log(data);
+        () => {
           this._auth.setUsernameStored(this.form.value.login);
           this._router.navigate(['/home']);
         },

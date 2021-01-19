@@ -71,7 +71,7 @@ export class AddArticleComponent implements OnInit {
 
   private _createArticle: boolean;
   private readonly _form: FormGroup;
-  private _formCategory: FormArray;
+  private readonly _formCategory: FormArray;
 
   private _article: Article;
   private _err: string;

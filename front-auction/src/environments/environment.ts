@@ -22,7 +22,8 @@ export const environment = {
       addAuction: '/auction/articles/:id/sell', // Create Auction (Connected User)
       deleteAuction: '/auction/articles/:id/remove', // Delete Auction (Connected User)
       deleteArticle: '/auction/articles/:id/delete', // Delete Article (Connected User)
-      participate: '/particiaption/:id', // Add a particiaption to an Auction (Connected User)
+      promotions: '/participation/promotions', // Get all products who have promotion (connected User)
+      participate: '/participation/:id', // Add a particiaption to an Auction (Connected User)
     }
   }
 };

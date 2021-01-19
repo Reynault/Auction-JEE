@@ -9,6 +9,7 @@ app-searchbar{
 }
 
 .main-content{
-  margin: 3%;
+  padding: 3%;
   overflow: auto;
+  height: 100%;
 }

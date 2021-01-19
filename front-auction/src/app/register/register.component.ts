@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../shared/services/auth.service';
 import {Router} from '@angular/router';
-import {EmailValidators} from '../shared/validators/email-validators';
 import {PasswordValidators} from '../shared/validators/password-validators';
 import {errorMessages} from '../shared/constants/error.messages';
 
@@ -85,6 +84,7 @@ export class RegisterComponent implements OnInit {
       }
       this._auth.subscribe(u).subscribe(
         () => {
+          this._auth.setUsernameStored(this.form.value.login);
           this._router.navigate(['/home']);
         },
         error => {
