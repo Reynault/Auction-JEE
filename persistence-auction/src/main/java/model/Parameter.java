@@ -13,21 +13,29 @@ public class Parameter {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private String name;
+    private int indexParam;
     private double parameterValue;
 
-    public Parameter(long id, String name, double parameterValue) {
+    public Parameter(long id, int indexParam, double parameterValue) {
         this.id = id;
-        this.name = name;
+        this.indexParam = indexParam;
         this.parameterValue = parameterValue;
     }
 
-    public Parameter(String name, double parameterValue) {
-        this.name = name;
+    public Parameter(int indexParam, double parameterValue) {
+        this.indexParam = indexParam;
         this.parameterValue = parameterValue;
     }
 
     public Parameter() {
+    }
+
+    public int getIndex() {
+        return indexParam;
+    }
+
+    public void setIndex(int indexParam) {
+        this.indexParam = indexParam;
     }
 
     public long getId() {
@@ -38,19 +46,11 @@ public class Parameter {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getValue() {
+    public double getParameterValue() {
         return parameterValue;
     }
 
-    public void setValue(double parameterValue) {
+    public void setParameterValue(double parameterValue) {
         this.parameterValue = parameterValue;
     }
 

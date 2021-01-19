@@ -1,34 +1,29 @@
 package dao.offer.types;
 
+import java.util.List;
+import javax.persistence.EntityManager;
 import model.Article;
 import model.Auction;
+import model.Parameter;
 import model.User;
 
 public class SuccessfullAuctionOffer extends Offer {
 
-    private final double threshold;
-    private final int minimalNumberOfPerson;
-    private final double amountToReduce;
-
-    public SuccessfullAuctionOffer(double threshold, int minimalNumberOfPerson, double amountToReduce) {
-        this.threshold = threshold;
-        this.minimalNumberOfPerson = minimalNumberOfPerson;
-        this.amountToReduce = amountToReduce;
+    public SuccessfullAuctionOffer() {
+        super(3);
     }
 
     @Override
-    public double applyOffer(User u, Article a) {
+    public double compute(EntityManager em, User u, Article a, double price, List<Parameter> params) {
         Auction au = a.getAuction();
         double best = au.getBestPrice();
-        if (au.getParticipations().size() > minimalNumberOfPerson && best >= threshold) {
-            return isGreater(best, amountToReduce);
+        System.out.println("COUNT " + au.getParticipations().size());
+        if (au.getParticipations().size() >= params.get(2).getParameterValue() && best >= params.get(0).getParameterValue()) {
+            System.out.println("APPLICATION S");
+            return isGreater(price, params.get(1).getParameterValue());
         } else {
-            return best;
+            return price;
         }
     }
 
-    @Override
-    public String description() {
-        return "Réduction de " + amountToReduce + " si la valeur est supérieure à " + threshold + " et si l'enchère possède plus de " + minimalNumberOfPerson + " participants";
-    }
 }

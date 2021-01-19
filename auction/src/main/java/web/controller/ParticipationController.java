@@ -3,6 +3,7 @@ package web.controller;
 import javax.ejb.EJB;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
@@ -11,8 +12,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import service.offer.OfferServiceLocal;
 import service.participation.ParticipateServiceLocal;
 import shared.dto.UserParticipate;
+import shared.params.PromoParams;
 import web.config.authentification.Secured;
 
 @Path("/participation")
@@ -20,6 +23,9 @@ public class ParticipationController {
 
     @EJB
     private ParticipateServiceLocal service;
+
+    @EJB
+    private OfferServiceLocal offer;
 
     @GET
     @Secured
@@ -33,7 +39,18 @@ public class ParticipationController {
     @Path("promotions")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPromotions() {
-        return Response.ok(service.getPromotions()).build();
+        return Response.ok(offer.getDailyPromotions()).build();
+    }
+
+    @GET
+    @Secured
+    @Path("{id}/checkPrice")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response checkPrice(
+            @HeaderParam("login") String login,
+            @PathParam("id") long id,
+            @BeanParam PromoParams params) {
+        return Response.ok(offer.checkPrice(login, id, params)).build();
     }
 
     @GET
