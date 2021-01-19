@@ -25,8 +25,8 @@ public class ApplicationConfig extends Application {
     }
 
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(web.config.CORSFilter.class);
         resources.add(web.config.authentification.AuthentificationFilter.class);
+        resources.add(web.config.cors.CORSFilter.class);
         resources.add(web.controller.ArticleController.class);
         resources.add(web.controller.AuthController.class);
         resources.add(web.controller.ParticipationController.class);

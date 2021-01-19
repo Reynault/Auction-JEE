@@ -28,6 +28,18 @@ public class ParticipationDAO implements ParticipationDAOLocal {
     @EJB
     private UserDAOLocal users;
 
+    public boolean isBestBidder(String login, long id) {
+        Query query = em.createNamedQuery("Auction.isBestBidder");
+        query.setParameter("id", id);
+        query.setParameter("login", login);
+        try {
+            query.getSingleResult();
+            return true;
+        } catch (NoResultException e) {
+            return false;
+        }
+    }
+
     public boolean isABidder(String login, long id) {
         Query query = em.createNamedQuery("Auction.isABidder");
         query.setParameter("id", id);

@@ -1,6 +1,7 @@
 package model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
 
@@ -21,9 +22,23 @@ import javax.persistence.*;
     @NamedQuery(
             name = "User.findMine",
             query = "SELECT a FROM User u JOIN u.sold a WHERE u.login = :login"
+    ),
+    @NamedQuery(
+            name = "User.getAddress",
+            query = "SELECT u.home FROM User u WHERE u.login = :login"
+    ),
+    @NamedQuery(
+            name = "User.getAllDeliveries",
+            query = "SELECT d FROM User u JOIN u.deliveries d WHERE u.login = :login"
+    ),
+    @NamedQuery(
+            name = "User.getOneDelivery",
+            query = "SELECT d FROM User u JOIN u.deliveries d JOIN u.sold a "
+            + "WHERE u.login = :login "
+            + "AND a.id = :id"
     )
 })
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -82,6 +97,10 @@ public class User {
 
     public void addArticle(Article a) {
         sold.add(a);
+    }
+
+    public void addDelivery(Delivery d) {
+        this.deliveries.add(d);
     }
 
     public long getId() {

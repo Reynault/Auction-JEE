@@ -2,6 +2,7 @@ package model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -22,9 +23,13 @@ import javax.persistence.TemporalType;
 @Table(name = "AUCTION")
 @NamedQueries({
     @NamedQuery(
-            name = "Auction.getBest",
-            query = "SELECT a.best FROM Auction a WHERE a.article.id = :id"
+            name = "Auction.isBestBidder",
+            query = "SELECT a.best FROM Auction a WHERE a.article.id = :id AND a.best.bidder.login = :login"
     ),
+//    @NamedQuery(
+//            name = "Auction.getBest",
+//            query = "SELECT a.best FROM Auction a WHERE a.article.id = :id"
+//    ),
     @NamedQuery(
             name = "Auction.findUserParticipation",
             query = "SELECT p FROM Auction a JOIN a.participations p "
@@ -52,7 +57,7 @@ import javax.persistence.TemporalType;
             + "WHERE p.bidder.login = :login "
             + "AND a.article.id = :id"
     ),})
-public class Auction {
+public class Auction implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

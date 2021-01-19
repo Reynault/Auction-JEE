@@ -1,38 +1,47 @@
 package model;
 
+import enumeration.DeliveryStep;
+import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "DELIVERY")
-public class Delivery {
+public class Delivery implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Enumerated(EnumType.ORDINAL)
+    private DeliveryStep step;
+
+    private String message;
+
     private double price;
 
-    @ManyToOne(targetEntity = User.class)
-    private User user;
+    @OneToOne(targetEntity = ArticleToDeliver.class, cascade = CascadeType.ALL)
+    private ArticleToDeliver article;
 
-    @ManyToOne(targetEntity = Article.class)
-    private Article article;
-
-    public Delivery(long id, double price, User user, Article article) {
+    public Delivery(long id, DeliveryStep step, String message, double price, ArticleToDeliver article) {
         this.id = id;
+        this.step = step;
+        this.message = message;
         this.price = price;
-        this.user = user;
         this.article = article;
     }
 
-    public Delivery(double price, User user, Article article) {
+    public Delivery(DeliveryStep step, String message, double price, ArticleToDeliver article) {
+        this.step = step;
+        this.message = message;
         this.price = price;
-        this.user = user;
         this.article = article;
     }
 
@@ -47,20 +56,20 @@ public class Delivery {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public DeliveryStep getState() {
+        return step;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setState(DeliveryStep step) {
+        this.step = step;
     }
 
-    public Article getArticle() {
-        return article;
+    public String getMessage() {
+        return message;
     }
 
-    public void setArticle(Article article) {
-        this.article = article;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public double getPrice() {
@@ -69,6 +78,22 @@ public class Delivery {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public DeliveryStep getStep() {
+        return step;
+    }
+
+    public void setStep(DeliveryStep step) {
+        this.step = step;
+    }
+
+    public ArticleToDeliver getArticle() {
+        return article;
+    }
+
+    public void setArticle(ArticleToDeliver article) {
+        this.article = article;
     }
 
 }

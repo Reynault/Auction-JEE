@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import model.Address;
 import model.User;
 import shared.dto.UserAddress;
 import shared.dto.UserInscription;
@@ -40,6 +41,24 @@ public class UserDAO implements UserDAOLocal {
         );
         em.persist(user);
         return user;
+    }
+
+    @Override
+    public UserAddress getAddress(String login, UserAddress address) {
+        if (address == null) {
+            Query q = em.createNamedQuery("User.getAddress");
+            q.setParameter("login", login);
+            try {
+                Address a = (Address) q.getSingleResult();
+                return new UserAddress(
+                        a.getCountry(), a.getCity(), a.getStreet(), a.getCode()
+                );
+            } catch (NoResultException e) {
+                return null;
+            }
+        } else {
+            return address;
+        }
     }
 
 }

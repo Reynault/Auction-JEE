@@ -1,6 +1,7 @@
 package model;
 
 import enumeration.PromotionType;
+import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -38,7 +39,7 @@ import javax.persistence.Table;
             query = "SELECT COUNT(p.id) FROM Promotion p WHERE p.id = :id AND p.daily = TRUE"
     )
 })
-public class Promotion {
+public class Promotion implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

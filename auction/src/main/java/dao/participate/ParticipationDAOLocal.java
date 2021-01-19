@@ -8,6 +8,8 @@ import model.Participation;
 @Local
 public interface ParticipationDAOLocal {
 
+    boolean isBestBidder(String login, long id);
+
     boolean valueIsGreater(double value, long id);
 
     Participation updateParticipation(double value, String login, long id);

@@ -5,35 +5,30 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "CATEGORY")
-@NamedQueries({
-    @NamedQuery(
-            name = "Category.findOne",
-            query = "SELECT c FROM Category c WHERE c.name = :name"
-    )
-})
-public class Category implements Serializable {
+@Table(name = "ARTICLE_TO_DELIVER")
+public class ArticleToDeliver implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
+    private String description;
 
-    public Category(long id, String name) {
+    public ArticleToDeliver(long id, String name, String description) {
         this.id = id;
         this.name = name;
+        this.description = description;
     }
 
-    public Category(String name) {
+    public ArticleToDeliver(String name, String description) {
         this.name = name;
+        this.description = description;
     }
 
-    public Category() {
+    public ArticleToDeliver() {
     }
 
     public long getId() {
@@ -50,6 +45,14 @@ public class Category implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }
