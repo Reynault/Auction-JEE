@@ -10,3 +10,4 @@ nb-configuration.xml
 /persistence-auction/build/
 /persistence-auction/dist/
 /persistence-auction/nbproject/private/
+package-lock.json

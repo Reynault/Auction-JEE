@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable, of, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {Router} from '@angular/router';
@@ -22,13 +22,17 @@ export class AuthorizationInterceptor implements HttpInterceptor{
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (this.isValidRequestForInterceptor(request.url)) {
       const token = this._token.get();
-      request = request.clone({
-        url: request.url,
-        setHeaders: {
-          Authorization: `Bearer ${token.token}`,
-          login: this._token.getUser()
-        }
-      });
+      request.headers.append(`login`, this._token.getUser());
+      request.headers.append(`Authorization`, `Bearer ${token.token}`);
+      // request = request.clone({
+      //   url: request.url,
+      //   setHeaders: {
+      //     Authorization: `Bearer ${token.token}`,
+      //     login: this._token.getUser(),
+      //     'Content-Type': 'application/json; charset=utf-8',
+      //     Accept: 'application/json',
+      //   }
+      // });
 
       console.log(request);
       return next.handle(request);
