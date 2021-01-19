@@ -7,3 +7,8 @@
 app-searchbar{
   position: sticky;
 }
+
+.main-content{
+  margin: 3%;
+  overflow: auto;
+}

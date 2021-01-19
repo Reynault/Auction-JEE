@@ -11,9 +11,18 @@ export const environment = {
     endpoints: {
       oneUsers: '/users/:id',
       oneUserByUsername: '/users/username/:username',
-      allUsers: '/users',
-      login: '/auction/login',
-      register: '/auction/register'
+      allUsers: '/users', // List all users
+      login: '/auction/login', // Login
+      register: '/auction/register', // Register
+      articles: '/auction/articles', // List all auctions
+      article: '/auction/articles/:id', // Get information on an article
+      addArticle: '/auction/articles/submit', // Add an article (Connected User)
+      allUserArticles: '/auction/articles/my', // List all user's articles (Connected User)
+      articleUser: '/auction/articles/:id/my', // Get information on a specific article user own (Connected User)
+      addAuction: '/auction/articles/:id/sell', // Create Auction (Connected User)
+      deleteAuction: '/auction/articles/:id/remove', // Delete Auction (Connected User)
+      deleteArticle: '/auction/articles/:id/delete', // Delete Article (Connected User)
+      participate: '/particiaption/:id', // Add a particiaption to an Auction (Connected User)
     }
   }
 };

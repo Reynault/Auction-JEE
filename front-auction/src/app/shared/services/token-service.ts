@@ -13,7 +13,7 @@ export class TokenService{
   set(token: Token): void{
     localStorage.setItem(
       this._token,
-      token.access_token
+      token.token
     );
   }
 
@@ -27,7 +27,7 @@ export class TokenService{
 
   get(): Token{
     return {
-      access_token: localStorage.getItem(this._token)
+      token: localStorage.getItem(this._token)
     };
   }
 

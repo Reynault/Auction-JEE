@@ -88,8 +88,8 @@ export class AuthService {
 
   hasStoredToken(): boolean {
     return (
-      this._token.get().access_token &&
-      this._token.get().access_token.length > 0
+      this._token.get().token &&
+      this._token.get().token.length > 0
     );
   }
 
