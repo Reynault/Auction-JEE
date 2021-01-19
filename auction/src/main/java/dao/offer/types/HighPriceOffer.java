@@ -15,10 +15,7 @@ public class HighPriceOffer extends Offer {
     @Override
     public double compute(EntityManager em, User u, Article a, double price, List<Parameter> params) {
         double best = a.getAuction().getBestPrice();
-        System.out.println("V : " + params.get(0).getParameterValue());
-        System.out.println("V : " + params.get(1).getParameterValue());
         if (best >= params.get(0).getParameterValue()) {
-            System.out.println("APPLICATION H");
             return isGreater(price, params.get(1).getParameterValue());
         } else {
             return price;

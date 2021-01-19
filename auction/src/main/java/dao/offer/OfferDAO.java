@@ -58,12 +58,8 @@ public class OfferDAO implements OfferDAOLocal {
             q = em.createNamedQuery("Promotion.getOrderedParams");
             q.setParameter("id", l);
             params = (List<Parameter>) q.getResultList();
-            for (Parameter parar : params) {
-                System.out.println("P : " + parar.getIndex());
-            }
             o = Offer.createOffer(promo.getType());
             reducedPrice = o.applyOffer(em, u, a, reducedPrice, params);
-            System.out.println("REDUCED PRICE : " + reducedPrice);
         }
 
         return reducedPrice;

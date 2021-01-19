@@ -17,9 +17,7 @@ public class SuccessfullAuctionOffer extends Offer {
     public double compute(EntityManager em, User u, Article a, double price, List<Parameter> params) {
         Auction au = a.getAuction();
         double best = au.getBestPrice();
-        System.out.println("COUNT " + au.getParticipations().size());
         if (au.getParticipations().size() >= params.get(2).getParameterValue() && best >= params.get(0).getParameterValue()) {
-            System.out.println("APPLICATION S");
             return isGreater(price, params.get(1).getParameterValue());
         } else {
             return price;
