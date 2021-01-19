@@ -31,12 +31,24 @@ $ docker-compose up
   du projet dans les librairies pour le domaine sur lequel on va servir l'application, c'est
   à dire, ici : Votre installation Glassfish/domains/domain1/lib/ext/
 - Créer le pool de connexion de la manière suivante:
+
 ![connection pool](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_connection_pools_deployement.PNG)
-  Attention il ne faut pas préciser l'entrée : database 
-  Avec les paramètres suivants : 
+
+- Première page :
+
+![connection pool](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_connection_pools_first.png)
+- Deuxième page :
+
+![connection pool](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_connection_pools_second.png)
+
+- Avec les paramètres suivants : 
+
 ![connection pool parameters](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_connection_pools_parameters_deployement.PNG)
-- Créer la ressource utilisée par l'application de la manière suivante: 
+
+- Créer la ressource utilisée par l'application de la manière suivante:
+
 ![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_resources_deployment.PNG)
+
 - Il faut ouvrir projet persistence avec netBeans et réaliser un clean & build
 - Puis il faut clean&build le projet principal
 - Vous pouvez alors deployer le projet

@@ -44,6 +44,5 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             }
         }
         chain.doFilter(request, response);
-        System.out.println(username);
     }
 }
