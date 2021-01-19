@@ -4,6 +4,9 @@ import {Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import {ArticleService} from '../../shared/services/article.service';
 import {OwlOptions} from 'ngx-owl-carousel-o';
+import {Promotion} from '../../shared/interfaces/promotion';
+import {Observable} from 'rxjs';
+import {PromotionService} from '../../shared/services/promotion.service';
 
 @Component({
   selector: 'app-carousel-article-promo',
@@ -13,11 +16,11 @@ import {OwlOptions} from 'ngx-owl-carousel-o';
 export class CarouselArticlePromoComponent implements OnInit {
 
   // private property to store people value
-  private _articles: Article[];
+  private _promotions: Promotion[];
   private readonly _baseUrl: string;
 
-  constructor(private _router: Router, private _articlesService: ArticleService) {
-    this._articles = [];
+  constructor(private _router: Router, private _promotionService: PromotionService) {
+    this._promotions = [];
     this._baseUrl = `${environment.backend.protocol}://${environment.backend.host}`;
     if (environment.backend.port) {
       this._baseUrl += `:${environment.backend.port}`;
@@ -51,17 +54,18 @@ export class CarouselArticlePromoComponent implements OnInit {
   /**
    * Returns private property _categories
    */
-  get articles(): Article[] {
-    return this._articles;
+  get promotions(): Promotion[] {
+    return this._promotions;
   }
 
   /**
    * OnInit implementation
    */
   ngOnInit(): void {
-    this._articlesService
-      .getArticlesPromo().subscribe((articles: Article[]) => {
-      this._articles = articles;
+    this._promotionService
+      .getPromotions().subscribe((promotions: Promotion[]) => {
+      this._promotions = promotions;
+      console.log(this._promotions);
     });
   }
 
