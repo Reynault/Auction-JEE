@@ -2,6 +2,7 @@ package com.ul.springauction.controller;
 
 import com.ul.springauction.services.article.ArticleService;
 import com.ul.springauction.shared.dto.ArticleAdd;
+import com.ul.springauction.shared.dto.AuctionAdd;
 import com.ul.springauction.shared.exception.BadRequestException;
 import com.ul.springauction.shared.response.ErrorResponse;
 import model.Article;
@@ -35,6 +36,11 @@ public class ArticleController {
     @PostMapping(value = "/auction/articles/submit")
     public Article addArticle(@RequestHeader(name = "Authorization") String token, @RequestBody ArticleAdd article) throws BadRequestException {
         return articleService.addArticle(token, article);
+    }
+
+    @PostMapping(value = "/auction/articles/{id}/sell")
+    public Article addAuctionToArticle(@RequestHeader(name = "Authorization") String token, @PathVariable long id, @RequestBody AuctionAdd auction) throws BadRequestException {
+        return articleService.addAuctionToArticle(token, id, auction);
     }
 
     @ExceptionHandler(BadRequestException.class)
