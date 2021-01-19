@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {Observable, of, throwError} from 'rxjs';
-import {catchError} from 'rxjs/operators';
-import {Router} from '@angular/router';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {Observable} from 'rxjs';
 import {TokenService} from '../services/token-service';
 
 @Injectable()
@@ -15,7 +13,8 @@ export class AuthorizationInterceptor implements HttpInterceptor{
     this.urlsToNotUse = [
       '/register$',
       '/login$',
-      '/articles$'
+      '/articles$',
+      '/articles/[0-9]*$'
     ];
 
   }

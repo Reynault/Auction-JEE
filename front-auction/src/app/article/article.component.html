@@ -1,0 +1,70 @@
+<main class="container">
+
+  <!-- Left Column / Headphones Image -->
+  <div class="left-column">
+    <img data-image="black" class="active" src="assets/images/no_preview.png" alt="">
+  </div>
+
+
+  <!-- Right Column -->
+  <div class="right-column">
+
+    <!-- Product Description -->
+    <div class="product-description">
+      <span class="margin-1p" *ngFor="let category of article.categories">{{category.name}}</span>
+      <h1>{{article.name}}</h1>
+      <p>{{article.description}}</p>
+    </div>
+
+    <!-- Product Configuration -->
+    <div class="product-configuration">
+
+      <!-- Product Color -->
+      <div class="product-color">
+        <h2>Informations</h2>
+        <div class="color-choose">
+          <h3>Start price : </h3>
+          <div>{{article.auction.firstPrice}}</div>
+          <hr class="little-hr">
+          <h3>Best participation : </h3>
+          <div *ngIf="(article.auction.best | json) != '{}'; else noBestAuction">{{article.auction.best.price}}</div>
+          <ng-template #noBestAuction>
+            <div>No auction</div>
+          </ng-template>
+          <hr class="little-hr">
+          <h3>End Date : </h3> {{article.auction.timeLimit}}
+        </div>
+      </div>
+
+      <!-- Cable Configuration -->
+      <div class="cable-config">
+
+      </div>
+    </div>
+
+    <!-- Product Pricing -->
+    <div class="product-price">
+      <div *ngIf="isLogin(); else notConnected">
+        <form novalidate [formGroup]="form">
+          <mat-form-field appearance="standard">
+            <mat-label>Amount</mat-label>
+            <input required formControlName="price" matInput>
+            <mat-error *ngIf="form.get('price').dirty && form.get('price').hasError('required')">
+              <strong>Value</strong> required
+            </mat-error>
+            <mat-error *ngIf="form.get('price').dirty && form.get('price').hasError('maxLength')">
+              Max length: <strong>50</strong>
+            </mat-error>
+            <mat-error *ngIf="form.get('price').dirty && form.get('price').hasError('min')">
+              Have to be <strong>bigger</strong> than the best bide
+            </mat-error>
+          </mat-form-field>
+          <a href="#" class="cart-btn">Participate</a>
+        </form>
+      </div>
+      <ng-template #notConnected>
+        <div class="mat-error">Login to participate to this auction</div>
+      </ng-template>
+    </div>
+  </div>
+</main>

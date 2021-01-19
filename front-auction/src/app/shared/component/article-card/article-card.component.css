@@ -1,0 +1,75 @@
+.video-card {
+  background: #464646 none repeat scroll 0 0;
+  margin: 0.5rem;
+  border-radius: 2px;
+  box-shadow: 0 0 11px #323232;
+  transition-duration: 0.4s;
+}
+.video-card-body {
+  padding: 12px;
+}
+.video-card-list .video-card-image {
+  float: left;
+  height: 77px;
+  margin: 0 12px 0 0;
+  width: 122px;
+}
+.video-card-list .video-card-body {
+  padding: 0;
+}
+.video-card-list {
+  background: transparent none repeat scroll 0 0;
+  box-shadow: none;
+  display: inline-block;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+.video-title{
+  color: white;
+}
+.video-card-list .video-card-body .video-title a {
+  font-size: 13px;
+  color: white;
+
+}
+.video-card-list .video-card-body .video-title {
+  line-height: 17px;
+}
+.video-card-list .video-card-body .right-action {
+  opacity: 0;
+}
+.video-card-list:hover .video-card-body .right-action {
+  opacity: unset;
+}
+
+.video-card-image {
+  border-radius: 2px;
+  box-shadow: 0 0 11px #323232;
+  overflow: hidden;
+  position: relative;
+}
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
+.video-page {
+  font-size: 11px;
+}
+
+.text-success{
+  color: #4eda92 !important;
+}
+
+.video-view {
+  color: #acacac;
+  font-size: 10px;
+  font-weight: 500;
+  margin: 2px 0 0;
+}
+
+.calendar-size{
+  font-size: 15px;
+  width: 10px;
+  margin-right: 5px;
+}

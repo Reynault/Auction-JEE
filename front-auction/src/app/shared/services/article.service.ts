@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import {User} from '../interfaces/user';
 import {Observable} from 'rxjs';
-import {Token} from '../interfaces/token';
-import {defaultIfEmpty, filter, map} from 'rxjs/operators';
+import {defaultIfEmpty, filter} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {TokenService} from './token-service';
@@ -10,7 +9,6 @@ import {Router} from '@angular/router';
 import {Article} from '../interfaces/article';
 import {Category} from '../interfaces/category';
 import {Auction} from '../interfaces/auction';
-import {Participation} from '../interfaces/participation';
 
 @Injectable({
   providedIn: 'root'
@@ -37,11 +35,13 @@ export class ArticleService {
         timeLimit: '05/05/2020',
         best: {
           id: 'null',
-          firstPrice: '0.0'
+          price: '0.0',
+          bider: {} as User
         },
         participations: [{
           id: 'null',
-          firstPrice: '0.0'
+          price: '0.0',
+          bider: {} as User
         }]
       } as Auction
     };
@@ -57,8 +57,23 @@ export class ArticleService {
     Object.keys(environment.backend.endpoints).forEach(k => this._backendURL[k] = `${baseUrl}${environment.backend.endpoints[k]}`);
   }
 
-  getArticles(): Observable<any> {
-    return this._http.get<Token>(this._backendURL.articles);
+  /**
+   * Récupérer les articles qui sont en vente sur le marché
+   * dont la date limite n'est pas encore passée
+   */
+  getArticles(): Observable<Article[]> {
+    return this._http.get<Article[]>(this._backendURL.articles);
+  }
+
+  /**
+   * Récupérer la liste des promotions (utilisateur connecté seulement)
+   */
+  getArticlesPromo(): Observable<Article[]> {
+    return this._http.get<Article[]>(this._backendURL.promotions);
+  }
+
+  getArticle(id: string): Observable<Article> {
+    return this._http.get<Article>(this._backendURL.article.replace(':id', id));
   }
 
   get defaultArticle(): Article {

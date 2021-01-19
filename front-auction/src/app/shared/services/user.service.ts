@@ -9,10 +9,6 @@ import {catchError, defaultIfEmpty, filter, map} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class UserService {
-  // private property to store all backend URLs
-  private readonly _backendURL: any;
-  // private property to store default user
-  private readonly _defaultUser: User;
 
   constructor(private _http: HttpClient) {
     // this._defaultUser = {
@@ -41,18 +37,17 @@ export class UserService {
   get defaultUser(): User {
     return this._defaultUser;
   }
+  // private property to store all backend URLs
+  private readonly _backendURL: any;
+  // private property to store default user
+  private readonly _defaultUser: User;
 
-  test404Resources(query: string): Observable<any> {
-    return this._http
-      .get(query)
-      .pipe(
-        map(() => {}),
-        catchError((err: HttpErrorResponse) => {
-          return throwError(err);
-        })
-      );
+  /**
+   * Function to return request options
+   */
+  private static _options(headerList: object = {}): any {
+    return { headers: new HttpHeaders(Object.assign({ 'Content-Type': 'application/json' }, headerList)) };
   }
-
 
   /**
    * Function to return list of user
@@ -94,21 +89,21 @@ export class UserService {
    * Function to create a new user
    */
   login(user: User): Observable<any> {
-    return this._http.post<User>(this._backendURL.login, user, this._options());
+    return this._http.post<User>(this._backendURL.login, user, UserService._options());
   }
 
   /**
    * Function to create a new user
    */
   create(user: User): Observable<any> {
-    return this._http.post<User>(this._backendURL.allUsers, user, this._options());
+    return this._http.post<User>(this._backendURL.allUsers, user, UserService._options());
   }
 
   /**
    * Function to update one user
    */
   update(id: string, user: User): Observable<any> {
-    return this._http.put<User>(this._backendURL.oneUsers.replace(':id', id), user, this._options());
+    return this._http.put<User>(this._backendURL.oneUsers.replace(':id', id), user, UserService._options());
   }
 
   /**
@@ -119,12 +114,5 @@ export class UserService {
       .pipe(
         map(_ => id)
       );
-  }
-
-  /**
-   * Function to return request options
-   */
-  private _options(headerList: object = {}): any {
-    return { headers: new HttpHeaders(Object.assign({ 'Content-Type': 'application/json' }, headerList)) };
   }
 }

@@ -1,4 +1,7 @@
+import {User} from './user';
+
 export interface Participation{
   id: string;
-  firstPrice: string;
+  price: string;
+  bider: User;
 }
