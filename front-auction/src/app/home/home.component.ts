@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../shared/services/auth.service';
-import {User} from '../shared/interfaces/user';
 import {UserService} from '../shared/services/user.service';
 import {ArticleService} from '../shared/services/article.service';
 import {Article} from '../shared/interfaces/article';
@@ -25,6 +24,9 @@ export class HomeComponent implements OnInit {
     this._articleService
       .getArticles().subscribe((articles: Article[]) => {
       this._articles = articles;
+      for (let i = 0; i < 20; i++){
+        this.articles.push(articles[i]);
+      }
       console.log(articles);
     });
   }

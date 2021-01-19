@@ -14,7 +14,7 @@ export class CarouselArticlePromoComponent implements OnInit {
 
   // private property to store people value
   private _articles: Article[];
-  private _baseUrl: string;
+  private readonly _baseUrl: string;
 
   constructor(private _router: Router, private _articlesService: ArticleService) {
     this._articles = [];
@@ -60,7 +60,7 @@ export class CarouselArticlePromoComponent implements OnInit {
    */
   ngOnInit(): void {
     this._articlesService
-      .getArticles().subscribe((articles: Article[]) => {
+      .getArticlesPromo().subscribe((articles: Article[]) => {
       this._articles = articles;
     });
   }

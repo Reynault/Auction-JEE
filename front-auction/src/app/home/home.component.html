@@ -19,18 +19,16 @@
     <div class="main-title">
       <h1>Current auctions</h1>
     </div>
-    <ul class="list-group" *ngIf="articles.length>0; else no_articles">
-      <li *ngFor="let a of articles" class="list-group-item">
-        {{ a }}
-      </li>
-    </ul>
+    <div class="display-inline-flex" *ngIf="articles.length>0; else no_articles">
+      <app-article-card *ngFor="let a of articles" [_article]="a"></app-article-card>
+    </div>
 
     <ng-template #no_articles>
       No Auction available
     </ng-template>
   </div>
 
-  <section class="buttons-fab">
+  <section class="buttons-fab" *ngIf="isLogin()">
     <button [routerLink]="['/add-article']" mat-fab color="accent" class="button-add">
       <i class="material-icons">add</i>
     </button>
