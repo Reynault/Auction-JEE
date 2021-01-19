@@ -1,0 +1,16 @@
+<section>
+  <owl-carousel-o [options]="customOptions">
+    <ng-container *ngFor="let item of articles; let i=index">
+      <ng-template carouselSlide [width]="90" >
+        <div class="item" [routerLink]="['/category', item.name]">
+          <div class="category-item">
+            <a>
+              <img class="img-fluid category-img" src="/assets/images/no_preview_category.png" alt="img 6">
+              <h6>{{item.name}}</h6>
+            </a>
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+  </owl-carousel-o>
+</section>
