@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import model.Address;
 import model.Article;
 import model.ArticleToDeliver;
 import model.Delivery;
@@ -29,17 +30,25 @@ public class DeliveryDAO implements DeliveryDAOLocal {
         User u = user.getOne(login);
 
         Article a = em.find(Article.class, id);
-        ArticleToDeliver atd = new ArticleToDeliver();
+        ArticleToDeliver atd = new ArticleToDeliver(
+                a.getName(),
+                a.getDescription()
+        );
         Delivery d = new Delivery(
                 DeliveryStep.WAITING,
-                a.getDescription(),
                 price,
+                new Address(
+                        address.getCountry(),
+                        address.getCity(),
+                        address.getStreet(),
+                        address.getCode()
+                ),
                 atd
         );
 
         u.addDelivery(d);
 
-        em.merge(d);
+        em.merge(u);
         a.setHasBeenSold(true);
         em.merge(a);
 
@@ -63,5 +72,13 @@ public class DeliveryDAO implements DeliveryDAOLocal {
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    @Override
+    public boolean hasDelivery(String login, long id) {
+        Query q = em.createNamedQuery("User.hasDelivery");
+        q.setParameter("login", login);
+        q.setParameter("id", id);
+        return (Long) q.getSingleResult() > 0;
     }
 }

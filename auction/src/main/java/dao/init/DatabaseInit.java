@@ -16,6 +16,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import model.Address;
 import model.Article;
 import model.Auction;
 import model.Category;
@@ -93,7 +94,12 @@ public class DatabaseInit {
                     crypt.hash("pass"),
                     "bob",
                     "ross",
-                    null,
+                    new Address(
+                            "France",
+                            "Chaligny",
+                            "Edmond pintier",
+                            "380"
+                    ),
                     new ArrayList(),
                     Arrays.asList(a1, a2)
             );

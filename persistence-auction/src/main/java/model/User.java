@@ -36,6 +36,12 @@ import javax.persistence.*;
             query = "SELECT d FROM User u JOIN u.deliveries d "
             + "WHERE u.login = :login "
             + "AND d.id = :id"
+    ),
+    @NamedQuery(
+            name = "User.hasDelivery",
+            query = "SELECT COUNT(d.id) FROM User u JOIN u.deliveries d "
+            + "WHERE u.login = :login "
+            + "AND d.id = :id"
     )
 })
 public class User implements Serializable {

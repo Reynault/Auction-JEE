@@ -62,10 +62,10 @@ public class DeliveryService implements DeliveryServiceLocal {
 
     @Override
     public Delivery getOneDelivery(String login, long id) {
-        if (article.ownArticle(id, login)) {
+        if (dao.hasDelivery(login, id)) {
             return dao.getOneDelivery(login, id);
         } else {
-            throw new BadValuesException("L'utilisateur ne possède pas l'article");
+            throw new BadValuesException("Commande non trouvée");
         }
     }
 }
