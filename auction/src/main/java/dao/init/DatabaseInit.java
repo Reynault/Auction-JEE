@@ -143,7 +143,7 @@ public class DatabaseInit {
             );
             Auction au2 = new Auction(
                     50,
-                    sdf.parse("2021-12-29"),
+                    sdf.parse("2020-12-29"),
                     par1,
                     Arrays.asList(par1, par4),
                     a3

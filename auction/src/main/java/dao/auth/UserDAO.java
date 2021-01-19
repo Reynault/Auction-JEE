@@ -50,9 +50,13 @@ public class UserDAO implements UserDAOLocal {
             q.setParameter("login", login);
             try {
                 Address a = (Address) q.getSingleResult();
-                return new UserAddress(
-                        a.getCountry(), a.getCity(), a.getStreet(), a.getCode()
-                );
+                if (a != null) {
+                    return new UserAddress(
+                            a.getCountry(), a.getCity(), a.getStreet(), a.getCode()
+                    );
+                } else {
+                    return null;
+                }
             } catch (NoResultException e) {
                 return null;
             }

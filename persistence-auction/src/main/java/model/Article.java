@@ -43,12 +43,15 @@ public class Article implements Serializable {
     @JoinColumn(nullable = true)
     private Auction auction;
 
+    private boolean hasBeenSold;
+
     public Article(long id, String name, String description, List<Category> categories, Auction auction) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.categories = categories;
         this.auction = auction;
+        this.hasBeenSold = false;
     }
 
     public Article(String name, String description, List<Category> categories, Auction auction) {
@@ -56,6 +59,7 @@ public class Article implements Serializable {
         this.description = description;
         this.categories = categories;
         this.auction = auction;
+        this.hasBeenSold = false;
     }
 
     public Article() {
@@ -108,6 +112,14 @@ public class Article implements Serializable {
 
     public void setAuction(Auction auction) {
         this.auction = auction;
+    }
+
+    public boolean isHasBeenSold() {
+        return hasBeenSold;
+    }
+
+    public void setHasBeenSold(boolean hasBeenSold) {
+        this.hasBeenSold = hasBeenSold;
     }
 
 }

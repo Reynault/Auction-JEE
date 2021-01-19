@@ -16,6 +16,5 @@ public class CORSFilter implements ContainerResponseFilter {
         response.getHeaders().add("Access-Control-Allow-Headers", "login, CSRF-Token, X-Requested-By, Authorization, Content-Type");
         response.getHeaders().add("Access-Control-Allow-Credentials", "true");
         response.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
-        System.out.println("-------------------SETTING CORS VAqsqsdqdsLUES------------------");
     }
 }

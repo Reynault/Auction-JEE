@@ -36,20 +36,25 @@ public class ArticleService implements ArticleServiceLocal {
     public Article sellOne(AuctionCreation auction, String login, long id) {
         // if user has article
         if (dao.ownArticle(id, login)) {
-            // if article isn't in an auction
-            if (!auc.isSold(id)) {
-                try {
-                    // if date is valid
-                    if (date.isPast(auction.getTimeLimit(), Date.from(Instant.now()))) {
-                        return dao.sellOne(auction, login, id);
-                    } else {
-                        throw new BadValuesException("La date doit être dans le futur");
+            // if article hasn't been sold yet
+            if (!auc.hasBeenSold(id)) {
+                // if article isn't in an auction
+                if (!auc.isSold(id)) {
+                    try {
+                        // if date is valid
+                        if (date.isPast(auction.getTimeLimit(), Date.from(Instant.now()))) {
+                            return dao.sellOne(auction, login, id);
+                        } else {
+                            throw new BadValuesException("La date doit être dans le futur");
+                        }
+                    } catch (ParseException ex) {
+                        throw new BadValuesException("Date non conforme");
                     }
-                } catch (ParseException ex) {
-                    throw new BadValuesException("Date non conforme");
+                } else {
+                    throw new BadValuesException("Article déjà en vente");
                 }
             } else {
-                throw new BadValuesException("Article déjà en vente");
+                throw new BadValuesException("Article déjà vendu");
             }
         } else {
             throw new BadValuesException("L'utilisateur ne possède pas l'article");

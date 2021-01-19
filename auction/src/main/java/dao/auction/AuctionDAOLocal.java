@@ -10,4 +10,6 @@ public interface AuctionDAOLocal {
     boolean isFinished(long article_id);
 
     void remove(long id, String login);
+
+    boolean hasBeenSold(long article_id);
 }

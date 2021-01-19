@@ -32,19 +32,23 @@ public class DeliveryService implements DeliveryServiceLocal {
 
     @Override
     public Delivery deliver(UserAddress address, PromoParams params, String login, long id) {
-        // the auction is finished
-        if (auction.isSold(id) && auction.isFinished(id)) {
-            // and the user is the best bidder
-            if (participation.isBestBidder(login, id)) {
-                address = user.getAddress(login, address);
-                if (address != null) {
-                    double price = offer.checkPrice(login, id, params);
-                    return dao.initializeDelivery(address, price, login, id);
+        // the auction is finished and to be sold
+        if (auction.isSold(id) && !auction.hasBeenSold(id)) {
+            if (auction.isFinished(id)) {
+                // and the user is the best bidder
+                if (participation.isBestBidder(login, id)) {
+                    address = user.getAddress(login, address);
+                    if (address != null) {
+                        double price = offer.checkPrice(login, id, params);
+                        return dao.initializeDelivery(address, price, login, id);
+                    } else {
+                        throw new BadValuesException("L'utilisateur doit donner une addresse");
+                    }
                 } else {
-                    throw new BadValuesException("L'utilisateur doit donner une addresse");
+                    throw new BadValuesException("L'utilisateur doit être le meilleur participant");
                 }
             } else {
-                throw new BadValuesException("L'utilisateur doit être le meilleur participant");
+                throw new BadValuesException("L'enchère n'est pas finie");
             }
         } else {
             throw new BadValuesException("L'article n'est pas en vente");
