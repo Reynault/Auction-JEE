@@ -35,7 +35,10 @@ export class ArticleService {
         id: 'null',
         firstPrice: '0.0',
         timeLimit: '05/05/2020',
-        best: '0.0',
+        best: {
+          id: 'null',
+          firstPrice: '0.0'
+        },
         participations: [{
           id: 'null',
           firstPrice: '0.0'

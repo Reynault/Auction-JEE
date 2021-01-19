@@ -4,6 +4,6 @@ export interface Auction{
   id: string;
   firstPrice: string;
   timeLimit: string;
-  best: string;
+  best: Participation;
   participations: Participation[];
 }
