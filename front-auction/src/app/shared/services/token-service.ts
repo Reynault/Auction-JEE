@@ -11,20 +11,9 @@ export class TokenService{
   private _username = 'username';
 
   set(token: Token): void{
-    const now = new Date();
     localStorage.setItem(
       this._token,
-      token.access_token
-    );
-
-    localStorage.setItem(
-      this._expiry,
-      (now.getTime() + token.expiry).toString()
-    );
-
-    localStorage.setItem(
-      this._username,
-      token.username
+      token.token
     );
   }
 
@@ -38,10 +27,19 @@ export class TokenService{
 
   get(): Token{
     return {
-      access_token: localStorage.getItem(this._token),
-      expiry: localStorage.getItem(this._expiry),
-      username: localStorage.getItem(this._username)
+      token: localStorage.getItem(this._token)
     };
+  }
+
+  getUser(): string{
+    return localStorage.getItem(this._username);
+  }
+
+  setUsername(user: string): void{
+    localStorage.setItem(
+      this._username,
+      user
+    );
   }
 
   del(): void{

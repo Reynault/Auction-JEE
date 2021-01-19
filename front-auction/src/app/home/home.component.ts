@@ -3,6 +3,8 @@ import {Router} from '@angular/router';
 import {AuthService} from '../shared/services/auth.service';
 import {User} from '../shared/interfaces/user';
 import {UserService} from '../shared/services/user.service';
+import {ArticleService} from '../shared/services/article.service';
+import {Article} from '../shared/interfaces/article';
 
 @Component({
   selector: 'app-home',
@@ -11,22 +13,29 @@ import {UserService} from '../shared/services/user.service';
 })
 export class HomeComponent implements OnInit {
 
-  private _connectedUser: User;
 
-  constructor(private _router: Router, private _userService: UserService, private _authService: AuthService) {
-    this._connectedUser = {} as User;
+  private _articles: Article[];
+
+  constructor(private _router: Router, private _userService: UserService, private _authService: AuthService,
+              private _articleService: ArticleService) {
+    this._articles = [];
   }
 
   ngOnInit(): void {
-    // this._userService
-    //   .fetchOneByUsername(this._authService.getUsernameStored()).subscribe((connectedUser: User) => {
-    //   this._connectedUser = connectedUser;
-    // });
+    this._articleService
+      .getArticles().subscribe((articles: Article[]) => {
+      this._articles = articles;
+      console.log(articles);
+    });
   }
 
-
-  get connectedUser(): User {
-    return this._connectedUser;
+  get articles(): Article[] {
+    return this._articles;
   }
+
+  isLogin(): boolean{
+    return this._authService.hasStoredToken();
+  }
+
 
 }

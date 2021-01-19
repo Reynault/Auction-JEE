@@ -1,1 +1,38 @@
-<router-outlet></router-outlet>
+<div class="main-content">
+  <div *ngIf="isLogin()">
+    <div class="main-title">
+      <h1>Promotions</h1>
+    </div>
+
+    <app-carousel-article-promo *ngIf="articles.length>0; else no_articles_promo"></app-carousel-article-promo>
+
+    <ng-template #no_articles_promo>
+      No Auction available
+    </ng-template>
+
+    <hr class="margin-separator">
+
+  </div>
+
+
+  <div>
+    <div class="main-title">
+      <h1>Current auctions</h1>
+    </div>
+    <ul class="list-group" *ngIf="articles.length>0; else no_articles">
+      <li *ngFor="let a of articles" class="list-group-item">
+        {{ a }}
+      </li>
+    </ul>
+
+    <ng-template #no_articles>
+      No Auction available
+    </ng-template>
+  </div>
+
+  <section class="buttons-fab">
+    <button [routerLink]="['/add-article']" mat-fab color="accent" class="button-add">
+      <i class="material-icons">add</i>
+    </button>
+  </section>
+</div>

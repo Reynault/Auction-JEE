@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../shared/services/auth.service';
 import {Router} from '@angular/router';
+import {EmailValidators} from '../shared/validators/email-validators';
+import {PasswordValidators} from '../shared/validators/password-validators';
+import {errorMessages} from '../shared/constants/error.messages';
 
 @Component({
   selector: 'app-register',
@@ -9,45 +12,93 @@ import {Router} from '@angular/router';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
+  private readonly _form: FormGroup;
+  private _err: string;
 
-  submitted = false;
-  error = false;
-
-  form = this.fb.group({
-    username: ['', Validators.required],
-    password: ['', Validators.required]
-  });
-
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router
-  ) {}
-
-  ngOnInit(): void {}
-
-  get usernameControl(): FormControl {
-    return this.form.get('username') as FormControl;
+  constructor(private readonly _auth: AuthService,
+              private _router: Router) {
+    this._form = RegisterComponent._buildForm();
   }
 
-  get passwordControl(): FormControl {
-    return this.form.get('password') as FormControl;
+  private static _buildForm(): FormGroup {
+    return new FormGroup({
+      login: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.maxLength(50)
+      ])),
+      name: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.maxLength(50)
+      ])),
+      lastname: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.maxLength(50)
+      ])),
+      address: new FormGroup({
+        street: new FormControl('', Validators.compose([
+          Validators.maxLength(250)
+        ])),
+        city: new FormControl('', Validators.compose([
+          Validators.maxLength(250)
+        ])),
+        code: new FormControl('', Validators.compose([
+          Validators.maxLength(250)
+        ])),
+        country: new FormControl('', Validators.compose([
+          Validators.maxLength(250)
+        ])),
+      }),
+      pass: new FormControl('', Validators.compose([
+        Validators.required,
+        PasswordValidators.hasUpperCase,
+        PasswordValidators.hasNumber,
+        Validators.maxLength(200)
+      ])),
+      confirmation: new FormControl('',
+        Validators.compose([
+          Validators.required
+        ]))
+    }, {validators: PasswordValidators.checkConfirm});
   }
 
-  // register(form: FormGroup): void {
-  //   this.submitted = true;
-  //   const { value, valid } = form;
-  //   if (valid) {
-  //     this.authService.register(value.username, value.password).subscribe(
-  //       data => {
-  //         this.form.reset();
-  //         this.submitted = false;
-  //         this.router.navigate(['/login']);
-  //       },
-  //       error => {
-  //         this.error = true;
-  //       }
-  //     );
-  //   }
-  // }
+  ngOnInit(): void {
+  }
+
+  get form(): FormGroup {
+    return this._form;
+  }
+
+  get err(): string {
+    return this._err;
+  }
+
+  subscribe(): void {
+    if (this.form.valid) {
+      const u = this._form.value;
+      delete u.confirmation;
+      console.log(u);
+      if (this.form.value.address.street === '' ||
+        this.form.value.address.country === '' ||
+        this.form.value.address.code === '' ||
+        this.form.value.address.city === '') {
+        delete u.address;
+      }
+      this._auth.subscribe(u).subscribe(
+        () => {
+          this._router.navigate(['/home']);
+        },
+        error => {
+          console.log('MMmmmmm error');
+          switch (error.error.statusCode) {
+            case 409:
+              this._err = errorMessages.userAlreadyExists;
+              break;
+            default:
+              this._err = errorMessages.serverError;
+              break;
+          }
+        }
+      );
+    }
+  }
 }

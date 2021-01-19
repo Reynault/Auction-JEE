@@ -15,10 +15,14 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatInputModule} from '@angular/material/input';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {HttpErrorInterceptor} from './shared/interceptors/http-error.interceptor';
 import {FormComponent} from './shared/form/form.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import {MatGridListModule} from '@angular/material/grid-list';
+import { CarouselArticlePromoComponent } from './home/carousel-article-promo/carousel-article-promo.component';
+import {CarouselModule} from 'ngx-owl-carousel-o';
+import { AddArticleComponent } from './add-article/add-article.component';
+import {AuthorizationInterceptor} from './shared/interceptors/authorization.interceptor';
 
 
 @NgModule({
@@ -28,7 +32,9 @@ import { MatCardModule } from '@angular/material/card';
     RegisterComponent,
     HomeComponent,
     SearchbarComponent,
-    FormComponent
+    FormComponent,
+    CarouselArticlePromoComponent,
+    AddArticleComponent
   ],
   imports: [
     BrowserModule,
@@ -42,9 +48,11 @@ import { MatCardModule } from '@angular/material/card';
     MatInputModule,
     HttpClientModule,
     ReactiveFormsModule,
-    MatCardModule
+    MatCardModule,
+    MatGridListModule,
+    CarouselModule
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true  }],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthorizationInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

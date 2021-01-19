@@ -9,11 +9,11 @@
           <p>
             <mat-form-field appearance="standard">
               <mat-label>Username</mat-label>
-              <input class="form__input" required formControlName="username" matInput placeholder="John">
-              <mat-error *ngIf="form.get('username').dirty && form.get('username').hasError('required')">
+              <input class="form__input" required formControlName="login" matInput placeholder="John">
+              <mat-error *ngIf="form.get('login').dirty && form.get('login').hasError('required')">
                 Username <strong>required</strong>
               </mat-error>
-              <mat-error *ngIf="form.get('username').dirty && form.get('username').hasError('maxLength')">
+              <mat-error *ngIf="form.get('login').dirty && form.get('login').hasError('maxLength')">
                 Max length: <strong>50</strong>
               </mat-error>
             </mat-form-field>
@@ -21,17 +21,17 @@
           <p>
             <mat-form-field appearance="standard">
               <mat-label>Password</mat-label>
-              <input required formControlName="password" type="password" matInput placeholder="******">
-              <mat-error *ngIf="form.get('password').dirty && form.get('password').hasError('required')">
+              <input required formControlName="pass" type="password" matInput placeholder="******">
+              <mat-error *ngIf="form.get('pass').dirty && form.get('pass').hasError('required')">
                 <strong>Password</strong> required
               </mat-error>
-              <mat-error *ngIf="form.get('password').dirty && form.get('password').hasError('hasUpperCase')">
+              <mat-error *ngIf="form.get('pass').dirty && form.get('pass').hasError('hasUpperCase')">
                 <strong>Uppercase</strong> required
               </mat-error>
-              <mat-error *ngIf="form.get('password').dirty && form.get('password').hasError('hasNumber')">
+              <mat-error *ngIf="form.get('pass').dirty && form.get('pass').hasError('hasNumber')">
                 <strong>Number</strong> required
               </mat-error>
-              <mat-error *ngIf="form.get('password').dirty && form.get('password').hasError('maxLength')">
+              <mat-error *ngIf="form.get('pass').dirty && form.get('pass').hasError('maxLength')">
                 Max length: <strong>200</strong>
               </mat-error>
             </mat-form-field>

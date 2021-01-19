@@ -22,16 +22,14 @@ export class SearchbarComponent implements OnInit {
   }
 
   isLogedIn(): boolean {
-    return false;
-    // return this._authService.hasStoredToken();
+    return this._authService.hasStoredToken();
   }
 
   getUsername(): string{
-    return 'false';
-    // return this._authService.getUsernameStored();
+    return this._authService.getUsernameStored();
   }
 
   logout(): void {
-    // return this._authService.logoutAndRedirect();
+    return this._authService.logout();
   }
 }
