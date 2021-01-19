@@ -13,50 +13,47 @@ export class AuthorizationInterceptor implements HttpInterceptor{
   constructor(private _token: TokenService) {
 
     this.urlsToNotUse = [
-      '/register',
-      '/login'
+      '/register$',
+      '/login$',
+      '/articles$'
     ];
 
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.isValidRequestForInterceptor(request.url)) {
+    if (!this.isValidRequestForInterceptor(request.url)) {
+      console.log('Ajout du token : ' + this._token.get().token);
       const token = this._token.get();
-      request.headers.append(`login`, this._token.getUser());
-      request.headers.append(`Authorization`, `Bearer ${token.token}`);
-      // request = request.clone({
-      //   url: request.url,
-      //   setHeaders: {
-      //     Authorization: `Bearer ${token.token}`,
-      //     login: this._token.getUser(),
-      //     'Content-Type': 'application/json; charset=utf-8',
-      //     Accept: 'application/json',
-      //   }
-      // });
 
-      console.log(request);
+      const modifReq = request.clone({
+        headers: request.headers
+          .append(`login`, this._token.getUser())
+          .append(`Authorization`, `Bearer ${token.token}`)
+      });
+
+      console.log(modifReq);
+      return next.handle(modifReq);
+    }else {
+      console.log('Pas besoin du token');
       return next.handle(request);
     }
-    return next.handle(request);
   }
 
 
   private isValidRequestForInterceptor(requestUrl: string): boolean {
     const positionIndicator = '/auction';
     const position = requestUrl.indexOf(positionIndicator);
-    console.log(requestUrl.indexOf(positionIndicator));
     if (position > 0) {
       const destination: string = requestUrl.substr(position + positionIndicator.length);
-      console.log(destination);
       for (const address of this.urlsToNotUse) {
         console.log('Address : ' + address);
         console.log('Destination : ' + destination);
         console.log('Test : ' + new RegExp(address).test(destination));
         if (new RegExp(address).test(destination)) {
-          return false;
+          return true;
         }
       }
     }
-    return true;
+    return false;
   }
 }

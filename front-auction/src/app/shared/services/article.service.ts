@@ -84,8 +84,7 @@ export class ArticleService {
     return this._http.get<boolean>(this._backendURL.hasArticle, {params: {id}});
   }
 
-  create(token: string, article: Article): Observable<any>{
-    console.log(token);
+  create(article: Article): Observable<any>{
     console.log(article);
     return this._http.post(this._backendURL.addArticle, article);
   }

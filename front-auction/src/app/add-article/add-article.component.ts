@@ -147,8 +147,7 @@ export class AddArticleComponent implements OnInit {
   insert(): void {
     if (this.form.valid) {
       Object.assign(this.article, this.form.value);
-      Object.assign(this.article, {username: this._token.getUser()});
-      this._articleService.create(this._token.get().token, this.article).subscribe(
+      this._articleService.create(this.article).subscribe(
         () => this._router.navigate(['/my-articles']),
         error => this.handleError(error)
       );
