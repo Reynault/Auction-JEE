@@ -63,6 +63,9 @@ export class LoginComponent implements OnInit {
             case 401:
               this._err = errorMessages.wrongData;
               break;
+            case 400:
+              this._err = error.error.message;
+              break;
             default:
               this._err = errorMessages.serverError;
               break;
