@@ -14,7 +14,8 @@ export class AuthorizationInterceptor implements HttpInterceptor{
       '/register$',
       '/login$',
       '/articles$',
-      '/articles/[0-9]*$'
+      '/articles/[0-9]*$',
+      '/promotions$'
     ];
 
   }
