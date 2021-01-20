@@ -49,6 +49,11 @@ public class ArticleController {
         return articleService.addAuctionToArticle(token, id, auction);
     }
 
+    @DeleteMapping(value = "/auction/articles/{id}/delete")
+    public void deleteArticle(@RequestHeader(name = "Authorization") String token, @PathVariable long id) throws BadRequestException {
+        articleService.deleteArticle(token, id);
+    }
+
 
 
     @ExceptionHandler(BadRequestException.class)

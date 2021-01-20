@@ -9,12 +9,10 @@ import com.ul.springauction.shared.dto.ArticleAdd;
 import com.ul.springauction.shared.dto.AuctionAdd;
 import com.ul.springauction.shared.exception.BadRequestException;
 import model.Article;
-import model.Auction;
 import model.Category;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -70,24 +68,23 @@ public class ArticleService {
 
     public Article addAuctionToArticle(String token, long id, AuctionAdd auction) throws BadRequestException {
         dtoValidator.validation(auction);
-        List<Article> articles = findUserArticles(token);
-        for(Article a : articles){
-            if (a.getId() == id){
-                if (a.getAuction() != null){
-                    throw new BadRequestException("Une enchere existe deja pour cet article");
+        User u = userService.findUser(token);
+        Article articleUpdate = articleRepo.findById(id);
+        if (u.getSold().contains(articleUpdate)){
+            if (articleUpdate.getAuction() != null){
+                throw new BadRequestException("Une enchere existe deja pour cet article");
+            } else {
+                if (!articleUpdate.isHasBeenSold()) {
+                    articleUpdate.setAuction(auctionService.createAuction(auction, articleUpdate));
+                    articleRepo.save(articleUpdate);
+                    return articleUpdate;
                 } else {
-                    if (!a.isHasBeenSold()) {
-                        Auction auc = auctionService.createAuction(auction, a);
-                        a.setAuction(auc);
-                        articleRepo.save(a);
-                        return a;
-                    } else {
-                        throw new BadRequestException("L'article a deja ete vendu");
-                    }
+                    throw new BadRequestException("L'article a deja ete vendu");
                 }
             }
+        } else {
+            throw new BadRequestException("L'article avec cet id n'est pas a cet utilisateur");
         }
-        throw new BadRequestException("L'article avec cet id n'est pas a cet utilisateur");
     }
 
     public List<Article> getAllArticles(String name, List<String> categories){
@@ -107,6 +104,20 @@ public class ArticleService {
         articles = checkAuctionAndRemove(articles);
         return articles;
     }
+
+    public void deleteArticle(String token, long id) throws BadRequestException {
+        User u = userService.findUser(token);
+        Article articleDel = articleRepo.findById(id);
+        if(u.getSold().contains(articleDel)){
+            u.getSold().remove(articleDel);
+            userService.saveUpdatedUser(u);
+            auctionService.deleteAuction(articleDel.getAuction());
+            articleRepo.deleteById(articleDel.getId());
+        } else {
+            throw new BadRequestException("L'article avec cet id n'est pas a cet utilisateur");
+        }
+    }
+
 
     public Article checkAuction(Article a) throws BadRequestException {
         if (a.getAuction() == null){
