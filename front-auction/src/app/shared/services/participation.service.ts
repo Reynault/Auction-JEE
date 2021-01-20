@@ -7,6 +7,7 @@ import {HttpClient} from '@angular/common/http';
 import {TokenService} from './token-service';
 import {Router} from '@angular/router';
 import {Participation} from '../interfaces/participation';
+import {ParticipationSend} from '../interfaces/participation-send';
 
 @Injectable({
   providedIn: 'root'
@@ -70,7 +71,7 @@ export class ParticipationService {
     return this._http.get<boolean>(this._backendURL.hasParticipation, {params: {id}});
   }
 
-  participate(id: string, participation: Participation): Observable<any>{
+  participate(id: string, participation: ParticipationSend): Observable<any>{
     return this._http.post(this._backendURL.participate.replace(':id', id), participation);
   }
 

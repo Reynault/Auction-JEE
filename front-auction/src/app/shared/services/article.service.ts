@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 import {Article} from '../interfaces/article';
 import {Category} from '../interfaces/category';
 import {Auction} from '../interfaces/auction';
+import {ArticleSend} from '../interfaces/article-send';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class ArticleService {
 
   private readonly _backendURL: any;
   private readonly _defaultArticle: Article;
+  private readonly _defaultArticleSend: ArticleSend;
 
   constructor(private _http: HttpClient,
               private _token: TokenService,
@@ -45,6 +47,13 @@ export class ArticleService {
         }]
       } as Auction
     };
+    this._defaultArticleSend = {
+      name: 'Default Article',
+      description: 'Description',
+      categories: [
+        'null'
+      ]
+    };
     this._backendURL = {};
 
     // build backend base url
@@ -66,10 +75,17 @@ export class ArticleService {
   }
 
   /**
-   * Récupérer la liste des promotions (utilisateur connecté seulement)
+   * Récupérer les articles d'un utilisateur
    */
-  getArticlesPromo(): Observable<Article[]> {
-    return this._http.get<Article[]>(this._backendURL.promotions);
+  getUserArticles(): Observable<Article[]> {
+    return this._http.get<Article[]>(this._backendURL.allUserArticles);
+  }
+
+  /**
+   * Récupérer l'article d'un utilisateur
+   */
+  getUserArticle(id: string): Observable<Article> {
+    return this._http.get<Article>(this._backendURL.articleUser.replace(':id', id));
   }
 
   getArticle(id: string): Observable<Article> {
@@ -78,6 +94,10 @@ export class ArticleService {
 
   get defaultArticle(): Article {
     return this._defaultArticle;
+  }
+
+  get defaultArticleSend(): ArticleSend {
+    return this._defaultArticleSend;
   }
 
   /**
@@ -102,7 +122,7 @@ export class ArticleService {
     return this._http.get<boolean>(this._backendURL.hasArticle, {params: {id}});
   }
 
-  create(article: Article): Observable<any>{
+  create(article: ArticleSend): Observable<any>{
     console.log(article);
     return this._http.post(this._backendURL.addArticle, article);
   }

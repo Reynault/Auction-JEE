@@ -46,7 +46,7 @@ export class ArticleComponent implements OnInit {
 
   private static _buildForm(bestBide: string): FormGroup {
     return new FormGroup({
-      price: new FormControl('', Validators.compose([
+      value: new FormControl('', Validators.compose([
         Validators.required,
         (control: AbstractControl) => Validators.min(parseFloat(bestBide))(control),
         Validators.maxLength(50)
@@ -71,13 +71,20 @@ export class ArticleComponent implements OnInit {
       console.log(this.form.value);
       this._participationService.participate(this._article.id, this.form.value).subscribe(
         () => {
-          this._router.navigate(['/home']);
+          // this._router.navigate(['/home']);
+          this._articleService.getArticle(this._article.id).subscribe((article: Article) => {
+            this._article = article;
+          });
+          this._err = '';
         },
         (error) => {
           console.log(error);
           switch (error.status) {
             case 401:
               this._err = errorMessages.wrongData;
+              break;
+            case 400:
+              this._err = error.error.message;
               break;
             default:
               this._err = errorMessages.serverError;

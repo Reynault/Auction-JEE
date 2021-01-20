@@ -23,6 +23,16 @@ import { CarouselArticlePromoComponent } from './home/carousel-article-promo/car
 import {CarouselModule} from 'ngx-owl-carousel-o';
 import { AddArticleComponent } from './add-article/add-article.component';
 import {AuthorizationInterceptor} from './shared/interceptors/authorization.interceptor';
+import { ArticleCardComponent } from './shared/component/article-card/article-card.component';
+import { ArticlePromotionCardComponent } from './shared/component/article-promotion-card/article-promotion-card.component';
+import { ArticleComponent } from './article/article.component';
+import { UserComponent } from './user/user.component';
+import {MatTableModule} from '@angular/material/table';
+import { UserTabsComponent } from './user/tabs/user-tabs.component';
+import { ArticlesComponent } from './user/tabs/articles/articles.component';
+import { AuctionsComponent } from './user/tabs/auctions/auctions.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import { UserArticleComponent } from './user-article/user-article.component';
 
 
 @NgModule({
@@ -34,7 +44,15 @@ import {AuthorizationInterceptor} from './shared/interceptors/authorization.inte
     SearchbarComponent,
     FormComponent,
     CarouselArticlePromoComponent,
-    AddArticleComponent
+    AddArticleComponent,
+    ArticleCardComponent,
+    ArticlePromotionCardComponent,
+    ArticleComponent,
+    UserComponent,
+    UserTabsComponent,
+    ArticlesComponent,
+    AuctionsComponent,
+    UserArticleComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +68,9 @@ import {AuthorizationInterceptor} from './shared/interceptors/authorization.inte
     ReactiveFormsModule,
     MatCardModule,
     MatGridListModule,
-    CarouselModule
+    CarouselModule,
+    MatTableModule,
+    MatTabsModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthorizationInterceptor, multi: true}],
   bootstrap: [AppComponent]

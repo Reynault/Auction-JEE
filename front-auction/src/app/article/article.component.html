@@ -48,19 +48,20 @@
         <form novalidate [formGroup]="form">
           <mat-form-field appearance="standard">
             <mat-label>Amount</mat-label>
-            <input required formControlName="price" matInput>
-            <mat-error *ngIf="form.get('price').dirty && form.get('price').hasError('required')">
+            <input required formControlName="value" matInput>
+            <mat-error *ngIf="form.get('value').dirty && form.get('value').hasError('required')">
               <strong>Value</strong> required
             </mat-error>
-            <mat-error *ngIf="form.get('price').dirty && form.get('price').hasError('maxLength')">
+            <mat-error *ngIf="form.get('value').dirty && form.get('value').hasError('maxLength')">
               Max length: <strong>50</strong>
             </mat-error>
-            <mat-error *ngIf="form.get('price').dirty && form.get('price').hasError('min')">
+            <mat-error *ngIf="form.get('value').dirty && form.get('value').hasError('min')">
               Have to be <strong>bigger</strong> than the best bide
             </mat-error>
           </mat-form-field>
-          <a href="#" class="cart-btn">Participate</a>
+          <button class="m-auto black-register-button" type="submit" (click)="submit()" mat-raised-button>Participate</button>
         </form>
+        <mat-error><strong>{{err}}</strong></mat-error>
       </div>
       <ng-template #notConnected>
         <div class="mat-error">Login to participate to this auction</div>
