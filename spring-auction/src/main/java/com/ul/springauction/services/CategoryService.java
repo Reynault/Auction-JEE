@@ -1,4 +1,4 @@
-package com.ul.springauction.services.category;
+package com.ul.springauction.services;
 
 import com.ul.springauction.DAO.CategoryRepository;
 import model.Category;

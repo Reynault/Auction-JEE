@@ -1,9 +1,10 @@
-package com.ul.springauction.services.auction;
+package com.ul.springauction.services;
 
 import com.ul.springauction.DAO.AuctionRepository;
 import com.ul.springauction.shared.dto.AuctionAdd;
 import model.Article;
 import model.Auction;
+import model.Participation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class AuctionService {
@@ -32,5 +34,13 @@ public class AuctionService {
 
     public void deleteAuction(Auction a){
         auctionRepository.delete(a);
+    }
+
+    public List<Auction> findAuctionsByParticipations(List<Participation> participations){
+        List<Auction> auctions = new ArrayList<>();
+        for(Participation p : participations){
+            auctions.add(auctionRepository.findByParticipationsContaining(p));
+        }
+        return auctions;
     }
 }

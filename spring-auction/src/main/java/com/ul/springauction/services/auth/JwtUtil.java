@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * Service for JWT manipulation
+ */
 @Service
 public class JwtUtil {
 

@@ -1,6 +1,6 @@
 package com.ul.springauction.controller;
 
-import com.ul.springauction.services.article.ArticleService;
+import com.ul.springauction.services.ArticleService;
 import com.ul.springauction.shared.dto.ArticleAdd;
 import com.ul.springauction.shared.dto.AuctionAdd;
 import com.ul.springauction.shared.exception.BadRequestException;

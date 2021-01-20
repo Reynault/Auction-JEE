@@ -1,7 +1,8 @@
-package com.ul.springauction.services.participation;
+package com.ul.springauction.services;
 
 import com.ul.springauction.DAO.ArticleRepository;
-import com.ul.springauction.services.DtoValidator;
+import com.ul.springauction.DAO.ParticipationRepository;
+import com.ul.springauction.services.validator.DtoValidator;
 import com.ul.springauction.services.user.UserService;
 import com.ul.springauction.shared.dto.NewParticipation;
 import com.ul.springauction.shared.exception.BadRequestException;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class ParticipationService {
@@ -21,14 +23,18 @@ public class ParticipationService {
     @Autowired
     private UserService userService;
     @Autowired
-    private ArticleRepository articleRepo;
+    private ArticleService articleService;
+    @Autowired
+    private AuctionService auctionService;
+    @Autowired
+    private ParticipationRepository participationRepository;
     @Autowired
     private DtoValidator dtoValidator;
 
     public Participation participate(String token, NewParticipation participation, long id) throws BadRequestException {
         dtoValidator.validation(participation);
-        Participation p = null;
-        Article a = articleRepo.findById(id);
+        Participation p;
+        Article a = articleService.findById(id);
         if(a.getAuction() == null){
             throw new BadRequestException("Aucune enchere disponible pour cet article");
         } else {
@@ -47,11 +53,18 @@ public class ParticipationService {
                         auc.addParticipation(p);
                         if (p.getPrice() > auc.getBestPrice()) auc.setBest(p);
                         a.setAuction(auc);
-                        articleRepo.save(a);
+                        articleService.saveUpdatedArticle(a);
                     }
                 }
             }
         }
         return p;
+    }
+
+    public List<Article> getInfoAllParticipation(String token){
+        User u = userService.findUser(token);
+        List<Participation> participations = participationRepository.findAllByBidder(u);
+        List<Auction> auctions = auctionService.findAuctionsByParticipations(participations);
+        return articleService.findArticlesByAuctions(auctions);
     }
 }

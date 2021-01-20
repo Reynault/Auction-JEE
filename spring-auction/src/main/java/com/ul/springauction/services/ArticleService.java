@@ -1,14 +1,13 @@
-package com.ul.springauction.services.article;
+package com.ul.springauction.services;
 
 import com.ul.springauction.DAO.ArticleRepository;
-import com.ul.springauction.services.DtoValidator;
-import com.ul.springauction.services.auction.AuctionService;
-import com.ul.springauction.services.category.CategoryService;
 import com.ul.springauction.services.user.UserService;
+import com.ul.springauction.services.validator.DtoValidator;
 import com.ul.springauction.shared.dto.ArticleAdd;
 import com.ul.springauction.shared.dto.AuctionAdd;
 import com.ul.springauction.shared.exception.BadRequestException;
 import model.Article;
+import model.Auction;
 import model.Category;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +32,10 @@ public class ArticleService {
     @Autowired
     private DtoValidator dtoValidator;
 
+    public Article findById(long id){
+        return articleRepo.findById(id);
+    }
+
     public List<Article> findUserArticles(String token){
         User u = userService.findUser(token);
         return u.getSold();
@@ -51,6 +54,14 @@ public class ArticleService {
             }
         }
         throw new BadRequestException("L'article avec cet id n'est pas a cet utilisateur");
+    }
+
+    public List<Article> findArticlesByAuctions(List<Auction> auctions){
+        List<Article> articles = new ArrayList<>();
+        for (Auction a : auctions){
+            articles.add(articleRepo.findByAuction(a));
+        }
+        return articles;
     }
 
     public Article addArticle(String token, ArticleAdd article) throws BadRequestException {
@@ -161,5 +172,9 @@ public class ArticleService {
     public List<Article> checkCategoryAndRemove(List<Article> articles, Category c){
         articles.removeIf(a -> !a.getCategories().contains(c));
         return articles;
+    }
+
+    public void saveUpdatedArticle(Article a){
+        articleRepo.save(a);
     }
 }
