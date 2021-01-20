@@ -1,23 +1,27 @@
-package deliverymanager.delivery.controller;
+package deliverymanager.controller;
 
-import deliverymanager.delivery.service.delivery.DeliveryService;
+import deliverymanager.service.delivery.DeliveryService;
+import model.Delivery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 @RestController
 @CrossOrigin
 public class DeliveryController {
 
-    @Autowired
-    private DeliveryService deliveryService;
+    private final DeliveryService deliveryService;
 
-    @GetMapping(value = "/pending_deliveries")
-    public Collection<String> getPendingDeliveries(){
+    @Autowired
+    public DeliveryController(DeliveryService deliveryService) {
+        this.deliveryService = deliveryService;
+    }
+
+    @GetMapping(value = "/pending")
+    public Collection<Delivery> getPendingDeliveries(){
         return deliveryService.getPendingDeliveries();
     }
 }

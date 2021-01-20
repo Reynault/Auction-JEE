@@ -1,11 +1,9 @@
+server:
+  port: 8081
+
 spring:
-  profiles:
-    active: usage_message
-
-logging:
-  level:
-    org: ERROR
-
-tutorial:
-  client:
-    duration: 10000
+  rabbitmq:
+    host: localhost
+    password: guest
+    username: guest
+    virtual-host: delivery-vm

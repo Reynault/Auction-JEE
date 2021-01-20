@@ -1,8 +1,12 @@
-package deliverymanager.delivery.service.message;
+package deliverymanager.service.message;
 
+import deliverymanager.config.QueueConfig;
+import deliverymanager.service.delivery.DeliveryManager;
+import model.Delivery;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -10,16 +14,21 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class DeliverySender {
-    @Autowired
-    private RabbitTemplate template;
+    private final RabbitTemplate template;
+    private final DeliveryManager manager;
+    private final Queue queue;
 
     @Autowired
-    private Queue queue;
+    public DeliverySender(DeliveryManager manager, RabbitTemplate template, @Qualifier(QueueConfig.VALIDATED_DELIVERIES) Queue queue) {
+        this.template = template;
+        this.manager = manager;
+        this.queue = queue;
+    }
 
-    public void send() {
-        System.out.println("test 1 2 1 2");
-        String message = "Hello World!";
-        this.template.convertAndSend(queue.getName(), message);
-        System.out.println(" [x] Sent '" + message + "'");
+    public void send(Delivery d) {
+        if(manager.removeValue(d)) {
+            this.template.convertAndSend(queue.getName(), d);
+            System.out.println("---------------DELIVERY " + d.getId() + " SENT-------------------");
+        }
     }
 }

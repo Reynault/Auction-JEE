@@ -14,4 +14,5 @@ public interface DeliveryServiceLocal {
     Collection<Delivery> getDeliveries(String login);
 
     Delivery getOneDelivery(String login, long id);
+
 }

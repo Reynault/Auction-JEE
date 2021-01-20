@@ -35,7 +35,7 @@ public class DeliveryDAO implements DeliveryDAOLocal {
                 a.getDescription()
         );
         Delivery d = new Delivery(
-                DeliveryStep.WAITING,
+                DeliveryStep.IN_PROCESS,
                 price,
                 new Address(
                         address.getCountry(),
