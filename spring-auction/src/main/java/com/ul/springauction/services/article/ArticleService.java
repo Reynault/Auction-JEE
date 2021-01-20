@@ -9,6 +9,7 @@ import com.ul.springauction.shared.dto.ArticleAdd;
 import com.ul.springauction.shared.dto.AuctionAdd;
 import com.ul.springauction.shared.exception.BadRequestException;
 import model.Article;
+import model.Auction;
 import model.Category;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,6 +114,18 @@ public class ArticleService {
             userService.saveUpdatedUser(u);
             auctionService.deleteAuction(articleDel.getAuction());
             articleRepo.deleteById(articleDel.getId());
+        } else {
+            throw new BadRequestException("L'article avec cet id n'est pas a cet utilisateur");
+        }
+    }
+
+    public void deleteAuctionFromArticle(String token, long id) throws BadRequestException {
+        User u = userService.findUser(token);
+        Article article = articleRepo.findById(id);
+        if(u.getSold().contains(article)){
+            auctionService.deleteAuction(article.getAuction());
+            article.setAuction(null);
+            articleRepo.save(article);
         } else {
             throw new BadRequestException("L'article avec cet id n'est pas a cet utilisateur");
         }
