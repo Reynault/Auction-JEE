@@ -9,7 +9,6 @@ import com.ul.springauction.shared.dto.ArticleAdd;
 import com.ul.springauction.shared.dto.AuctionAdd;
 import com.ul.springauction.shared.exception.BadRequestException;
 import model.Article;
-import model.Auction;
 import model.Category;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
