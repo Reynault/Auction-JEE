@@ -3,153 +3,7 @@
   <h1 class="login_header">Register</h1>
 
   <div>
-<!--    <form novalidate [formGroup]="form" class="main-div" style="background: #2b2b2b">-->
-<!--      <mat-grid-list cols="4" rowHeight="150px">-->
 
-<!--        <mat-grid-tile-->
-<!--          [colspan]="2"-->
-<!--          [rowspan]="4">-->
-<!--          <mat-card class="card">-->
-<!--            <mat-card-content>-->
-<!--              <mat-form-field appearance="standard">-->
-<!--                <mat-label>Username</mat-label>-->
-<!--                <input required formControlName="login" matInput placeholder="John">-->
-<!--                <mat-error *ngIf="form.get('login').dirty && form.get('login').hasError('required')">-->
-<!--                  <strong>Username</strong> required-->
-<!--                </mat-error>-->
-<!--                <mat-error *ngIf="form.get('login').dirty && form.get('login').hasError('maxLength')">-->
-<!--                  Max length: <strong>50</strong>-->
-<!--                </mat-error>-->
-<!--              </mat-form-field>-->
-<!--              <mat-form-field appearance="standard">-->
-<!--                <mat-label>Password</mat-label>-->
-<!--                <input required formControlName="pass" type="password" matInput placeholder="******">-->
-<!--                <mat-error *ngIf="form.get('pass').dirty && form.get('pass').hasError('required')">-->
-<!--                  <strong>Password</strong> required-->
-<!--                </mat-error>-->
-<!--                <mat-error *ngIf="form.get('pass').dirty && form.get('pass').hasError('hasUpperCase')">-->
-<!--                  Must contains an <strong>Uppercase</strong>-->
-<!--                </mat-error>-->
-<!--                <mat-error *ngIf="form.get('pass').dirty && form.get('pass').hasError('hasNumber')">-->
-<!--                  Must contains an <strong>number</strong>-->
-<!--                </mat-error>-->
-<!--                <mat-error *ngIf="form.get('pass').dirty && form.get('pass').hasError('maxLength')">-->
-<!--                  Max length: <strong>200</strong>-->
-<!--                </mat-error>-->
-<!--              </mat-form-field>-->
-
-<!--              <mat-form-field appearance="standard">-->
-<!--                <mat-label>Confirm</mat-label>-->
-<!--                <input required formControlName="confirmation" type="password" matInput placeholder="******">-->
-<!--                <mat-error *ngIf="form.get('confirmation').dirty && form.get('confirmation').hasError('required')">-->
-<!--                  <strong>Confirm</strong> required-->
-<!--                </mat-error>-->
-<!--              </mat-form-field>-->
-<!--              <mat-error *ngIf="form.hasError('checkConfirm')">-->
-<!--                <strong> Password doesn't match </strong>-->
-<!--              </mat-error>-->
-<!--            </mat-card-content>-->
-<!--          </mat-card>-->
-<!--        </mat-grid-tile>-->
-
-<!--        <mat-grid-tile-->
-<!--          [colspan]="2"-->
-<!--          [rowspan]="4">-->
-
-<!--          <mat-card class="card">-->
-<!--            <mat-card-content>-->
-
-<!--              <mat-form-field appearance="standard">-->
-<!--                <mat-label>Firstname</mat-label>-->
-<!--                <input required formControlName="name" type="text" matInput placeholder="John">-->
-<!--                <mat-error *ngIf="form.get('name').dirty && form.get('name').hasError('required')">-->
-<!--                  <strong>Requis</strong>-->
-<!--                </mat-error>-->
-<!--                <mat-error *ngIf="form.get('name').dirty && form.get('name').hasError('maxLength')">-->
-<!--                  Max length: <strong>50</strong>-->
-<!--                </mat-error>-->
-<!--              </mat-form-field>-->
-<!--              <mat-form-field appearance="standard">-->
-<!--                <mat-label>Lastname</mat-label>-->
-<!--                <input required formControlName="lastname" type="text" matInput placeholder="Doe">-->
-<!--                <mat-error *ngIf="form.get('lastname').dirty && form.get('lastname').hasError('required')">-->
-<!--                  <strong>Required</strong>-->
-<!--                </mat-error>-->
-<!--                <mat-error *ngIf="form.get('lastname').dirty && form.get('lastname').hasError('maxLength')">-->
-<!--                  Max length: <strong>50</strong>-->
-<!--                </mat-error>-->
-<!--              </mat-form-field>-->
-
-<!--              <div formGroupName="address">-->
-<!--                <mat-form-field class="input-inline" appearance="standard">-->
-<!--                  <mat-label>Street</mat-label>-->
-<!--                  <input formControlName="street" type="text" matInput placeholder="37 rue de Paris">-->
-<!--                  <mat-error-->
-<!--                    *ngIf="form.get('address').get('street').hasError('maxLength')">-->
-<!--                    Max length: <strong>250</strong>-->
-<!--                  </mat-error>-->
-<!--                </mat-form-field>-->
-<!--                <mat-form-field class="input-inline" appearance="standard">-->
-<!--                  <mat-label>Zip Code</mat-label>-->
-<!--                  <input formControlName="code" type="text" matInput placeholder="75000">-->
-<!--                  <mat-error-->
-<!--                    *ngIf="form.get('address').get('code').hasError('maxLength')">-->
-<!--                    Max length: <strong>250</strong>-->
-<!--                  </mat-error>-->
-<!--                </mat-form-field>-->
-<!--                <mat-form-field class="input-inline" appearance="standard">-->
-<!--                  <mat-label>City</mat-label>-->
-<!--                  <input formControlName="city" type="text" matInput placeholder="Paris">-->
-<!--                  <mat-error-->
-<!--                    *ngIf=" form.get('address').get('city').hasError('maxLength')">-->
-<!--                    Max length: <strong>250</strong>-->
-<!--                  </mat-error>-->
-<!--                </mat-form-field>-->
-<!--                <mat-form-field class="input-inline" appearance="standard">-->
-<!--                  <mat-label>Country</mat-label>-->
-<!--                  <input formControlName="country" type="text" matInput placeholder="France">-->
-<!--                  <mat-error-->
-<!--                    *ngIf="form.get('address').get('country').hasError('maxLength')">-->
-<!--                    Max length: <strong>250</strong>-->
-<!--                  </mat-error>-->
-<!--                </mat-form-field>-->
-<!--              </div>-->
-
-<!--            </mat-card-content>-->
-<!--          </mat-card>-->
-
-<!--        </mat-grid-tile>-->
-
-<!--      </mat-grid-list>-->
-
-<!--      <mat-grid-list cols="4" rowHeight="50px">-->
-<!--        <mat-grid-tile-->
-<!--          [colspan]="4"-->
-<!--          [rowspan]="1"-->
-<!--        >-->
-<!--          <mat-card class="rec-card">-->
-<!--            <mat-card-content>-->
-<!--              <mat-error><strong>{{this.err}}</strong></mat-error>-->
-<!--            </mat-card-content>-->
-<!--          </mat-card>-->
-<!--        </mat-grid-tile>-->
-
-<!--        <mat-grid-tile-->
-<!--          [colspan]="4"-->
-<!--          [rowspan]="1">-->
-<!--          <mat-card class="rec-card">-->
-<!--            <mat-card-content>-->
-<!--              <button class="m-auto black-register-button" type="button" [routerLink]="['/home']" mat-button>Home-->
-<!--              </button>-->
-<!--              <button class="m-auto black-register-button" type="submit" (click)="subscribe()" mat-raised-button>-->
-<!--                Register-->
-<!--              </button>-->
-<!--            </mat-card-content>-->
-<!--          </mat-card>-->
-<!--        </mat-grid-tile>-->
-<!--      </mat-grid-list>-->
-
-<!--    </form>-->
     <form novalidate [formGroup]="form" class="main-div">
       <mat-card [class.mat-elevation-z12]="true" class="card list-recipe-item">
         <mat-card-header>
@@ -161,13 +15,13 @@
         </mat-card-header>
         <mat-card-content style="margin-left: 20px">
           <p>
-            <mat-form-field appearance="standard">
+            <mat-form-field appearance="fill">
               <mat-label>Article name</mat-label>
               <input required formControlName="name" matInput>
             </mat-form-field>
           </p>
           <p>
-            <mat-form-field appearance="standard">
+            <mat-form-field appearance="fill">
               <mat-label>Description</mat-label>
               <textarea cdkTextareaAutosize
                         cdkAutosizeMinRows="1"
@@ -180,10 +34,13 @@
           </p>
           <p *ngFor="let categ of formCategory.controls; index as j" class="categoryList">
             <ng-container [formGroup]="categ">
-              <mat-form-field style="width: 30%" appearance="standard">
+              <mat-form-field style="width: 30%" appearance="fill">
                 <mat-label>Name</mat-label>
                 <input type="text" formControlName="name" required matInput>
               </mat-form-field>
+              <mat-error  *ngIf="form.get('categories').dirty &&  form.get('categories').hasError('min')">
+              A minimum of <strong>1</strong> category is required
+            </mat-error>
             </ng-container>
             <button *ngIf="createArticle || isUserArticle" mat-button style="background-color: #d62d20"
                     (click)="removeCategory(j)">
@@ -196,12 +53,8 @@
           </p>
         </mat-card-content>
         <mat-card-actions style="text-align: center;margin-bottom: 15px;">
-          <button type="button" [routerLink]="getRouterLink()" mat-button >Back</button>
-<!--          <button type="button" *ngIf="isUserArticle" mat-button style="background-color: #d62d20" title="Delete"-->
-<!--                  (click)="delete()">Delete-->
-<!--          </button>-->
-<!--          <button type="submit" *ngIf="isUserRecipe" mat-button title="Edit" (click)="update()">Modifier</button>-->
-          <button type="submit" *ngIf="createArticle" mat-button title="Edit" (click)="insert()">Ajouter</button>
+          <button color="primary" type="button" [routerLink]="getRouterLink()" mat-raised-button >Back</button>
+          <button color="primary" type="submit" *ngIf="createArticle" mat-raised-button (click)="insert()">Add Article</button>
         </mat-card-actions>
       </mat-card>
     </form>

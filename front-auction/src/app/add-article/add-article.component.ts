@@ -8,6 +8,7 @@ import {ArticleService} from '../shared/services/article.service';
 import {merge} from 'rxjs';
 import {filter, mergeMap} from 'rxjs/operators';
 import {errorMessages} from '../shared/constants/error.messages';
+import {ArticleSend} from '../shared/interfaces/article-send';
 
 @Component({
   selector: 'app-add-article',
@@ -49,6 +50,7 @@ export class AddArticleComponent implements OnInit {
   get article(): Article {
     return this._article;
   }
+
   get formCategory(): FormArray {
     return this._formCategory;
   }
@@ -67,6 +69,7 @@ export class AddArticleComponent implements OnInit {
   get err(): string {
     return this._err;
   }
+
   private _isUserArticle: boolean;
 
   private _createArticle: boolean;
@@ -80,7 +83,10 @@ export class AddArticleComponent implements OnInit {
     return new FormGroup({
       name: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
-      categories: new FormArray([])
+      categories: new FormArray([
+          // new FormControl('', [Validators.required]),
+          // new FormControl('', [Validators.required, Validators.minLength(1)])
+        ])
     });
   }
 
@@ -146,9 +152,18 @@ export class AddArticleComponent implements OnInit {
 
   insert(): void {
     if (this.form.valid) {
-      Object.assign(this.article, this.form.value);
-      this._articleService.create(this.article).subscribe(
-        () => this._router.navigate(['/my-articles']),
+      let _articleSend = {} as ArticleSend;
+      Object.assign(_articleSend, this.form.value);
+
+      let categories = [];
+      _articleSend.categories.forEach((k, v) => {
+        categories.push(v);
+      });
+      _articleSend.categories = categories;
+
+      this._articleService.create(_articleSend).subscribe(
+        // () => this._router.navigate(['/my-articles']),
+        () => this._router.navigate(['/home']),
         error => this.handleError(error)
       );
     }
@@ -164,20 +179,20 @@ export class AddArticleComponent implements OnInit {
   }
 
   getRouterLink(): string {
-    if (!this._isUserArticle) {
-      return '/articles';
-    } else {
-      return '/my-articles';
-    }
+      return '/home';
   }
 
-  handleError(error): void{
-    switch (error.status){
+
+  handleError(error): void {
+    switch (error.status) {
       case 401:
         this._err = errorMessages.unauthorizedError;
         break;
       case 404:
         this._err = errorMessages.notFound;
+        break;
+      case 400:
+        this._err = error.error.message;
         break;
       default:
         this._err = errorMessages.serverError;
