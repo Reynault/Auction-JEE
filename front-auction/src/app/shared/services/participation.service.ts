@@ -22,9 +22,13 @@ export class ParticipationService {
               private _token: TokenService,
               private router: Router) {
     this._defaultParticipation = {
-      id: 'null',
+      id: '-1',
       price : '0.0',
-      bider: {} as User
+      bider: {
+        login: 'No  Nogin',
+        name: 'No name',
+        lastname: 'No lastname'
+      } as User
     };
     this._backendURL = {};
 

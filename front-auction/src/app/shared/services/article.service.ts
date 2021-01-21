@@ -25,26 +25,30 @@ export class ArticleService {
               private _token: TokenService,
               private router: Router) {
     this._defaultArticle = {
-      id: 'null',
-      name: 'Default Article',
-      description: 'Description',
+      id: '-1',
+      name: 'No Article',
+      description: 'No Descrition',
       categories: [{
-        id: 'null',
-        name: 'Category Name'
+        id: '-1',
+        name: 'No Category'
       } as Category],
       auction: {
-        id: 'null',
+        id: '-1',
         firstPrice: '0.0',
         timeLimit: '05/05/2020',
         best: {
-          id: 'null',
+          id: '-1',
           price: '0.0',
           bider: {} as User
         },
         participations: [{
-          id: 'null',
+          id: '-1',
           price: '0.0',
-          bider: {} as User
+          bider: {
+            login: 'No User',
+            name: 'No name',
+            lastname: 'No Last'
+          } as User
         }]
       } as Auction
     };
