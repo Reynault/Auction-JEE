@@ -62,7 +62,15 @@ export class ArticleComponent implements OnInit {
       .getArticle(this._id).subscribe((article: Article) => {
         this._article = article;
         this._form = ArticleComponent._buildForm(this._article.auction.best.price);
+      },
+    (error) => {
+      console.log(error);
+      switch (error.status) {
+        case 400:
+          this._router.navigate(['/not-available']);
+          break;
       }
+    }
     );
   }
 
