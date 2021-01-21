@@ -16,6 +16,7 @@ import {Participation} from '../../../shared/interfaces/participation';
 export class ParticipationsComponent implements OnInit {
 
   private _articles: Article[];
+  private _participations: Participation[];
   displayedColumns = ['id', 'name', 'description', 'best', 'last', 'time_limit'];
   private _baseUrl: RouteDescriptor[] = [
     {id: 'article', url: '/article'} as RouteDescriptor,
@@ -25,18 +26,25 @@ export class ParticipationsComponent implements OnInit {
   constructor(private _router: Router, private _userService: UserService, private _authService: AuthService,
               private _participationService: ParticipationService) {
     this._articles = [];
+    this._participations = [];
   }
 
   ngOnInit(): void {
     this._participationService
       .getParticipations().subscribe((articles: Article[]) => {
       this._articles = articles;
-      console.log(articles);
+      this._articles.forEach((article: Article) => {
+        this._participations.push(this.getUserLastParticipation(article));
+      });
     });
   }
 
   get articles(): Article[] {
     return this._articles;
+  }
+
+  get participations(): Participation[] {
+    return this._participations;
   }
 
   categories(index: number): Category[]{
@@ -56,9 +64,13 @@ export class ParticipationsComponent implements OnInit {
   }
 
   getUserLastParticipation(article: Article): Participation{
-    return Math.max.apply(Math, article.auction.participations
-      .find(x => x.bider.username === this._authService.getUsernameStored()))
-      .map((o) => o);
+    // return
+    console.log(article.auction.participations);
+    const maxPeak = (article.auction.participations.filter(p => p['login'] === this._authService.getUsernameStored()))
+      .reduce((p, c) => (p.price > c.price) ? p : c);
+    console.log(maxPeak);
+    return maxPeak;
+
   }
 
 }
