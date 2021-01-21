@@ -1,12 +1,16 @@
 package service.offer;
 
-import dao.auction.AuctionDAOLocal;
+import dao.article.ArticleDAOLocal;
+import dao.auth.UserDAOLocal;
 import dao.offer.OfferDAOLocal;
 import dao.participate.ParticipationDAOLocal;
 import java.util.Collection;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import model.Article;
 import model.Promotion;
+import model.User;
+import shared.ErrorMessageManager;
 import shared.entities.Price;
 import shared.params.PromoParams;
 import web.exceptions.BadValuesException;
@@ -19,7 +23,9 @@ public class OfferService implements OfferServiceLocal {
     @EJB
     private ParticipationDAOLocal participation;
     @EJB
-    private AuctionDAOLocal auction;
+    private ArticleDAOLocal articleDao;
+    @EJB
+    private UserDAOLocal userDao;
 
     @Override
     public Collection<Promotion> getDailyPromotions() {
@@ -28,20 +34,23 @@ public class OfferService implements OfferServiceLocal {
 
     @Override
     public Price checkPrice(String login, long id, PromoParams params) {
-        // check if promotions exist
+        User user = userDao.getOne(login);
+        Article article = articleDao.getOne(id);
+        // vérification si les promotions existent
         if (offer.checkIfExists(params.getPromotions())) {
-            // check if article is sold
-            if (auction.isSold(id)) {// check if user is bidder
-                if (participation.isABidder(login, id)) {
-                    return new Price(offer.checkPrice(login, id, params));
+            // on vérifie si l'article est en vente
+            if (article != null && article.getAuction() != null) {
+                // on vérifie si l'utilisateur est un participant
+                if (participation.isABidder(user, article.getAuction())) {
+                    return new Price(offer.checkPrice(user, article, params));
                 } else {
-                    throw new BadValuesException("L'utilisateur ne participe pas à cette enchère");
+                    throw new BadValuesException(ErrorMessageManager.USER_NOT_A_BIDDER);
                 }
             } else {
-                throw new BadValuesException("L'article n'est pas en vente");
+                throw new BadValuesException(ErrorMessageManager.NOT_IN_SELL);
             }
         } else {
-            throw new BadValuesException("Promotion non trouvée");
+            throw new BadValuesException(ErrorMessageManager.PROMOTION_NOT_FOUND);
         }
     }
 }

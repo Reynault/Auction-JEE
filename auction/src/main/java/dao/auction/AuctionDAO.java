@@ -15,31 +15,14 @@ public class AuctionDAO implements AuctionDAOLocal {
     private EntityManager em;
 
     @Override
-    public boolean isSold(long article_id) {
-        Article a = em.find(Article.class, article_id);
-        if (a != null) {
-            if (a.getAuction() != null) {
-                return true;
-            }
-        }
-        return false;
+    public boolean isFinished(Article a) {
+        return a != null
+                && a.getAuction() != null
+                && a.getAuction().getTimeLimit().before(Date.from(Instant.now()));
     }
 
     @Override
-    public boolean hasBeenSold(long article_id) {
-        Article a = em.find(Article.class, article_id);
-        return a != null && a.isHasBeenSold();
-    }
-
-    @Override
-    public boolean isFinished(long article_id) {
-        Article a = em.find(Article.class, article_id);
-        return a.getAuction() != null && a.getAuction().getTimeLimit().before(Date.from(Instant.now()));
-    }
-
-    @Override
-    public void remove(long id, String login) {
-        Article a = em.find(Article.class, id);
+    public void remove(Article a) {
         if (a.getAuction() != null) {
             Auction au = a.getAuction();
             a.setAuction(null);

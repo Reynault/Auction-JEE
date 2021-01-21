@@ -43,15 +43,13 @@ public class OfferDAO implements OfferDAOLocal {
     }
 
     @Override
-    public double checkPrice(String login, long id, PromoParams p) {
+    public double checkPrice(User user, Article article, PromoParams p) {
         Promotion promo;
         List<Long> promotions = p.getPromotions();
         List<Parameter> params;
-        Article a = em.find(Article.class, id);
-        User u = user.getOne(login);
         Offer o;
         Query q;
-        double reducedPrice = a.getAuction().getBestPrice();
+        double reducedPrice = article.getAuction().getBestPrice();
 
         for (Long l : promotions) {
             promo = em.find(Promotion.class, l);
@@ -60,7 +58,7 @@ public class OfferDAO implements OfferDAOLocal {
                 q.setParameter("id", l);
                 params = (List<Parameter>) q.getResultList();
                 o = Offer.createOffer(promo.getType());
-                reducedPrice = o.applyOffer(em, u, a, reducedPrice, params);
+                reducedPrice = o.applyOffer(em, user, article, reducedPrice, params);
             }
         }
 

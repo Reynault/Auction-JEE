@@ -1,6 +1,7 @@
 package service.delivery;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dao.article.ArticleDAOLocal;
 import dao.auction.AuctionDAOLocal;
 import dao.auth.UserDAOLocal;
 import dao.delivery.DeliveryDAOLocal;
@@ -13,9 +14,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import model.Address;
+import model.Article;
 import model.Delivery;
+import model.User;
 import service.messaging.RessourceManager;
 import service.messaging.sender.MessagingServiceLocal;
+import shared.ErrorMessageManager;
 import shared.dto.UserAddress;
 import shared.params.PromoParams;
 import web.exceptions.BadValuesException;
@@ -28,9 +33,11 @@ public class DeliveryService implements DeliveryServiceLocal {
     @EJB
     private ParticipationDAOLocal participation;
     @EJB
-    private AuctionDAOLocal auction;
+    private ArticleDAOLocal articleDao;
     @EJB
-    private UserDAOLocal user;
+    private AuctionDAOLocal auctionDao;
+    @EJB
+    private UserDAOLocal userDao;
     @EJB
     private OfferDAOLocal offer;
     @EJB
@@ -38,37 +45,55 @@ public class DeliveryService implements DeliveryServiceLocal {
 
     @Override
     public Delivery deliver(UserAddress address, PromoParams params, String login, long id) {
-        // the auction is finished and to be sold
-        if (auction.isSold(id) && !auction.hasBeenSold(id)) {
-            if (auction.isFinished(id)) {
-                // and the user is the best bidder
-                if (participation.isBestBidder(login, id)) {
-                    address = user.getAddress(login, address);
-                    if (address != null) {
-                        try {
-                            double price = offer.checkPrice(login, id, params);
-                            Delivery delivery = dao.initializeDelivery(address, price, login, id);
-                            ObjectMapper mapper = new ObjectMapper();
-                            messaging.sendMessage(
-                                    mapper.writeValueAsBytes(delivery),
-                                    RessourceManager.PENDING_DELIVERIES
-                            );
-                            return delivery;
-                        } catch (IOException | TimeoutException ex) {
-                            Logger.getLogger(DeliveryService.class.getName()).log(Level.SEVERE, null, ex);
-                            return null;
+        Article article = articleDao.getOne(id);
+        User user = userDao.getOne(login);
+        if (article != null && user != null) {
+            // est-ce que les promotions existent et sont journalières ?
+            if (offer.checkIfExists(params.getPromotions())) {
+                // article en vente
+                if (article.getAuction() != null && !article.isHasBeenSold()) {
+                    // vente non finie
+                    if (auctionDao.isFinished(article)) {
+                        // l'utilisateur est le meilleur participant
+                        if (participation.isBestBidder(login, article.getAuction())) {
+                            try {
+                                // récupération de l'addresse
+                                Address a;
+                                if (address != null) {
+                                    a = new Address(address.getCountry(), address.getCity(), address.getStreet(), address.getCode());
+                                } else if (user.getHome() != null) {
+                                    a = user.getHome();
+                                } else {
+                                    throw new BadValuesException(ErrorMessageManager.USER_MUST_HAVE_ADDRESS);
+                                }
+                                // récupération du nouveaux prix en prenant en compte les promotions
+                                double price = offer.checkPrice(user, article, params);
+                                // envoie de la demande de commande
+                                Delivery delivery = dao.initializeDelivery(a, price, user, article);
+                                ObjectMapper mapper = new ObjectMapper();
+                                messaging.sendMessage(
+                                        mapper.writeValueAsBytes(delivery),
+                                        RessourceManager.PENDING_DELIVERIES
+                                );
+                                return delivery;
+                            } catch (IOException | TimeoutException ex) {
+                                Logger.getLogger(DeliveryService.class.getName()).log(Level.SEVERE, null, ex);
+                                return null;
+                            }
+                        } else {
+                            throw new BadValuesException(ErrorMessageManager.USER_NOT_THE_BEST);
                         }
                     } else {
-                        throw new BadValuesException("L'utilisateur doit donner une addresse");
+                        throw new BadValuesException(ErrorMessageManager.AUCTION_ALWAYS_RUNNING);
                     }
                 } else {
-                    throw new BadValuesException("L'utilisateur doit être le meilleur participant");
+                    throw new BadValuesException(ErrorMessageManager.NOT_IN_SELL);
                 }
             } else {
-                throw new BadValuesException("L'enchère n'est pas finie");
+                throw new BadValuesException(ErrorMessageManager.PROMOTION_NOT_FOUND);
             }
         } else {
-            throw new BadValuesException("L'article n'est pas en vente");
+            throw new BadValuesException(ErrorMessageManager.MISSING_DATA);
         }
     }
 
@@ -79,10 +104,12 @@ public class DeliveryService implements DeliveryServiceLocal {
 
     @Override
     public Delivery getOneDelivery(String login, long id) {
-        if (dao.hasDelivery(login, id)) {
-            return dao.getOneDelivery(login, id);
+        Delivery d = dao.getOneDelivery(login, id);
+        if (d == null) {
+            throw new BadValuesException(ErrorMessageManager.COMMAND_NOT_FOUND);
+
         } else {
-            throw new BadValuesException("Commande non trouvée");
+            return d;
         }
     }
 }

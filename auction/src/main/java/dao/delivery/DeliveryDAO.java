@@ -14,7 +14,6 @@ import model.Article;
 import model.ArticleToDeliver;
 import model.Delivery;
 import model.User;
-import shared.dto.UserAddress;
 
 @Stateless
 public class DeliveryDAO implements DeliveryDAOLocal {
@@ -26,31 +25,23 @@ public class DeliveryDAO implements DeliveryDAOLocal {
     private UserDAOLocal user;
 
     @Override
-    public Delivery initializeDelivery(UserAddress address, double price, String login, long id) {
-        User u = user.getOne(login);
-
-        Article a = em.find(Article.class, id);
+    public Delivery initializeDelivery(Address address, double price, User user, Article article) {
         ArticleToDeliver atd = new ArticleToDeliver(
-                a.getName(),
-                a.getDescription()
+                article.getName(),
+                article.getDescription()
         );
         Delivery d = new Delivery(
                 DeliveryStep.IN_PROCESS,
                 price,
-                new Address(
-                        address.getCountry(),
-                        address.getCity(),
-                        address.getStreet(),
-                        address.getCode()
-                ),
+                address,
                 atd
         );
 
         em.persist(d);
-        u.addDelivery(d);
-        em.merge(u);
-        a.setHasBeenSold(true);
-        em.merge(a);
+        user.addDelivery(d);
+        em.merge(user);
+        article.setHasBeenSold(true);
+        em.merge(article);
         return d;
     }
 

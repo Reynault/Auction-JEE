@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import model.User;
 import service.crypt.CryptServiceLocal;
 import service.jwt.JWTServiceLocal;
+import shared.ErrorMessageManager;
 import shared.dto.UserConnection;
 import shared.dto.UserInscription;
 import shared.entities.Entity;
@@ -24,15 +25,11 @@ public class AuthService implements AuthServiceLocal {
     @EJB
     private JWTServiceLocal jwt;
 
-    /**
-     * @return null si impossible d'authentifier l'utilisateur, sinon
-     * l'utilisateur
-     */
     @Override
     public User authentificate(String login, String pass) {
         User u = dao.getOne(login);
         if (u == null) { // verify if user exists
-            throw new BadValuesException("Le login n'existe pas");
+            throw new BadValuesException(ErrorMessageManager.USER_DOESNT_EXIST);
         } else { // verify pass with given one
             if (crypt.verif(u.getPass(), pass)) {
                 return u;
@@ -47,7 +44,7 @@ public class AuthService implements AuthServiceLocal {
         if (authentificate(connectionInfo.getLogin(), connectionInfo.getPass()) != null) {
             return new Payload(jwt.generateToken(connectionInfo.getLogin()));
         } else {
-            throw new BadValuesException("Les données fournies ne nous ont pas permis de vous identifier");
+            throw new BadValuesException(ErrorMessageManager.COULDNT_AUTHENTIFY);
         }
     }
 
@@ -61,7 +58,7 @@ public class AuthService implements AuthServiceLocal {
             // generate payload
             return new Payload(jwt.generateToken(user.getLogin()));
         } else {
-            throw new BadValuesException("Le login existe déjà");
+            throw new BadValuesException(ErrorMessageManager.USER_ALREADY_EXIST);
         }
     }
 }

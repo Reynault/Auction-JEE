@@ -1,4 +1,4 @@
-package service.offer.rotation;
+package init.rotation;
 
 import java.util.List;
 import model.Promotion;

@@ -1,15 +1,13 @@
 package dao.auction;
 
 import javax.ejb.Local;
+import model.Article;
 
 @Local
 public interface AuctionDAOLocal {
 
-    boolean isSold(long article_id);
+    boolean isFinished(Article a);
 
-    boolean isFinished(long article_id);
+    void remove(Article a);
 
-    void remove(long id, String login);
-
-    boolean hasBeenSold(long article_id);
 }

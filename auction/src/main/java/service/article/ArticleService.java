@@ -2,6 +2,7 @@ package service.article;
 
 import dao.article.ArticleDAOLocal;
 import dao.auction.AuctionDAOLocal;
+import dao.auth.UserDAOLocal;
 import java.text.ParseException;
 import java.time.Instant;
 import java.util.Collection;
@@ -9,7 +10,9 @@ import java.util.Date;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import model.Article;
+import model.User;
 import service.date.DateServiceLocal;
+import shared.ErrorMessageManager;
 import shared.dto.ArticleCreation;
 import shared.dto.AuctionCreation;
 import shared.params.SearchParams;
@@ -19,91 +22,109 @@ import web.exceptions.BadValuesException;
 public class ArticleService implements ArticleServiceLocal {
 
     @EJB
-    private ArticleDAOLocal dao;
+    private ArticleDAOLocal articleDao;
 
     @EJB
-    private AuctionDAOLocal auc;
+    private AuctionDAOLocal auctionDao;
+
+    @EJB
+    private UserDAOLocal userDao;
 
     @EJB
     private DateServiceLocal date;
 
     @Override
     public Article postOne(ArticleCreation article, String login) {
-        return dao.postOne(article, login);
+        return articleDao.postOne(article, login);
     }
 
     @Override
     public Article sellOne(AuctionCreation auction, String login, long id) {
-        // if user has article
-        if (dao.ownArticle(id, login)) {
-            // if article hasn't been sold yet
-            if (!auc.hasBeenSold(id)) {
-                // if article isn't in an auction
-                if (!auc.isSold(id)) {
+        User user = userDao.getOne(login);
+        Article article = articleDao.getOne(id);
+        // si l'utilisateur possède l'article
+        if (user != null && article != null && articleDao.ownArticle(article, user)) {
+            // si l'article n'a pas déjà été vendu
+            if (!article.isHasBeenSold()) {
+                // si l'article n'est pas déjà en vente
+                if (article.getAuction() == null) {
                     try {
-                        // if date is valid
+                        // si la date fourni est cohérente
                         if (date.isPast(auction.getTimeLimit(), Date.from(Instant.now()))) {
-                            return dao.sellOne(auction, login, id);
+                            return articleDao.sellOne(auction, login, id);
                         } else {
-                            throw new BadValuesException("La date doit être dans le futur");
+                            throw new BadValuesException(ErrorMessageManager.DATE_NOT_IN_THE_FUTUR);
                         }
                     } catch (ParseException ex) {
-                        throw new BadValuesException("Date non conforme");
+                        throw new BadValuesException(ErrorMessageManager.BAD_DATE_FORMAT);
                     }
                 } else {
-                    throw new BadValuesException("Article déjà en vente");
+                    throw new BadValuesException(ErrorMessageManager.ALREADY_IN_SELL);
                 }
             } else {
-                throw new BadValuesException("Article déjà vendu");
+                throw new BadValuesException(ErrorMessageManager.ALREADY_SOLD);
             }
         } else {
-            throw new BadValuesException("L'utilisateur ne possède pas l'article");
+            throw new BadValuesException(ErrorMessageManager.USER_DOESNT_HAVE_ARTICLE);
         }
     }
 
     @Override
     public void delete(long id, String login) {
-        if (dao.ownArticle(id, login)) {
-            dao.delete(id, login);
+        User user = userDao.getOne(login);
+        Article article = articleDao.getOne(id);
+        if (user != null && article != null && articleDao.ownArticle(article, user)) {
+            articleDao.delete(id, login);
         } else {
-            throw new BadValuesException("L'utilisateur ne possède pas l'article");
+            throw new BadValuesException(ErrorMessageManager.USER_DOESNT_HAVE_ARTICLE);
         }
     }
 
     @Override
     public void remove(long id, String login) {
-        if (dao.ownArticle(id, login)) {
-            auc.remove(id, login);
+        User user = userDao.getOne(login);
+        Article article = articleDao.getOne(id);
+        if (user != null && article != null && articleDao.ownArticle(article, user)) {
+            if (article.getAuction() != null) {
+                auctionDao.remove(article);
+            } else {
+                throw new BadValuesException(ErrorMessageManager.NOT_IN_SELL);
+            }
         } else {
-            throw new BadValuesException("L'utilisateur ne possède pas l'article");
+            throw new BadValuesException(ErrorMessageManager.USER_DOESNT_HAVE_ARTICLE);
         }
     }
 
     @Override
     public Collection<Article> getAll(SearchParams search) {
-        return dao.getAll(search);
+        return articleDao.getAll(search);
     }
 
     @Override
     public Article getOne(long id) {
-        if (auc.isSold(id) && !auc.isFinished(id)) {
-            return dao.getOne(id);
+        Article article = articleDao.getOne(id);
+        if (article != null
+                && article.getAuction() != null
+                && !auctionDao.isFinished(article)) {
+            return articleDao.getOne(id);
         } else {
-            throw new BadValuesException("Article inexistant");
+            throw new BadValuesException(ErrorMessageManager.ARTICLE_NOT_FOUND);
         }
     }
 
     @Override
     public Collection<Article> getMine(String login) {
-        return dao.getMine(login);
+        return articleDao.getMine(login);
     }
 
     @Override
     public Article getOneOfMine(long id, String login) {
-        if (dao.ownArticle(id, login)) {
-            return dao.getOne(id);
+        User user = userDao.getOne(login);
+        Article article = articleDao.getOne(id);
+        if (user != null && article != null && articleDao.ownArticle(article, user)) {
+            return articleDao.getOne(id);
         } else {
-            throw new BadValuesException("L'utilisateur ne possède pas l'article");
+            throw new BadValuesException(ErrorMessageManager.USER_DOESNT_HAVE_ARTICLE);
         }
     }
 }

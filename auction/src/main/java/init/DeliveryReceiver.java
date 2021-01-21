@@ -1,4 +1,4 @@
-package service.messaging.reveiver;
+package init;
 
 import com.rabbitmq.client.Channel;
 import java.io.IOException;
@@ -13,6 +13,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import service.messaging.ConnectionManager;
 import service.messaging.RessourceManager;
+import service.messaging.reveiver.MyDeliveryCallbackLocal;
 
 @Singleton
 @Startup

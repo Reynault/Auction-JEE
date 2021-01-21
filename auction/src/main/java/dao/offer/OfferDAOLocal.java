@@ -2,7 +2,9 @@ package dao.offer;
 
 import java.util.Collection;
 import javax.ejb.Local;
+import model.Article;
 import model.Promotion;
+import model.User;
 import shared.params.PromoParams;
 
 @Local
@@ -12,5 +14,5 @@ public interface OfferDAOLocal {
 
     boolean checkIfExists(Collection<Long> promotions);
 
-    double checkPrice(String login, long id, PromoParams params);
+    double checkPrice(User user, Article article, PromoParams params);
 }

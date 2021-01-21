@@ -28,34 +28,22 @@ public class ParticipationDAO implements ParticipationDAOLocal {
     @EJB
     private UserDAOLocal users;
 
-    public boolean isBestBidder(String login, long id) {
-        Query query = em.createNamedQuery("Auction.isBestBidder");
-        query.setParameter("id", id);
-        query.setParameter("login", login);
-        try {
-            query.getSingleResult();
-            return true;
-        } catch (NoResultException e) {
-            return false;
-        }
+    public boolean isBestBidder(String login, Auction auction) {
+        return auction.getBest().getBidderLogin().equals(login);
     }
 
-    public boolean isABidder(String login, long id) {
-        Query query = em.createNamedQuery("Auction.isABidder");
-        query.setParameter("id", id);
-        query.setParameter("login", login);
-        try {
-            query.getSingleResult();
-            return true;
-        } catch (NoResultException e) {
-            return false;
+    public boolean isABidder(User user, Auction auction) {
+        for (Participation p : auction.getParticipations()) {
+            if (p.getBidderLogin().equals(user.getLogin())) {
+                return true;
+            }
         }
+        return false;
     }
 
     @Override
-    public boolean valueIsGreater(double value, long id) {
-        Auction a = em.find(Article.class, id).getAuction();
-        return a.getBestPrice() < value;
+    public boolean valueIsGreater(double value, Auction auction) {
+        return auction.getBestPrice() < value;
     }
 
     @Override

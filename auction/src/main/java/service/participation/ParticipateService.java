@@ -2,12 +2,15 @@ package service.participation;
 
 import dao.article.ArticleDAOLocal;
 import dao.auction.AuctionDAOLocal;
+import dao.auth.UserDAOLocal;
 import dao.participate.ParticipationDAOLocal;
 import java.util.Collection;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import model.Article;
 import model.Participation;
+import model.User;
+import shared.ErrorMessageManager;
 import shared.dto.UserParticipate;
 import web.exceptions.BadValuesException;
 
@@ -16,29 +19,36 @@ public class ParticipateService implements ParticipateServiceLocal {
 
     @EJB
     private ParticipationDAOLocal dao;
-
     @EJB
-    private ArticleDAOLocal articles;
+    private UserDAOLocal userDao;
     @EJB
-    private AuctionDAOLocal auctions;
+    private ArticleDAOLocal articleDao;
+    @EJB
+    private AuctionDAOLocal auctionDao;
 
     @Override
     public Participation participate(UserParticipate participation, String login, long id) {
-        // if article is not expired
-        if (auctions.isSold(id) && !auctions.isFinished(id)) {
-            // if user isn't owner
-            if (!articles.ownArticle(id, login)) {
-                // if value is greater
-                if (dao.valueIsGreater(participation.getValue(), id)) {
-                    return dao.updateParticipation(participation.getValue(), login, id);
+        User user = userDao.getOne(login);
+        Article article = articleDao.getOne(id);
+        if (article != null && user != null) {
+            // if article is not expired
+            if (article.getAuction() != null && !auctionDao.isFinished(article)) {
+                // if user isn't owner
+                if (!articleDao.ownArticle(article, user)) {
+                    // if value is greater
+                    if (dao.valueIsGreater(participation.getValue(), article.getAuction())) {
+                        return dao.updateParticipation(participation.getValue(), login, id);
+                    } else {
+                        throw new BadValuesException(ErrorMessageManager.BIGGER_VALUE);
+                    }
                 } else {
-                    throw new BadValuesException("Il faut fournir une valeur plus grande !");
+                    throw new BadValuesException(ErrorMessageManager.USER_OWN);
                 }
             } else {
-                throw new BadValuesException("L'utilisateur possède l'article");
+                throw new BadValuesException(ErrorMessageManager.NOT_IN_SELL);
             }
         } else {
-            throw new BadValuesException("L'article n'est pas en vente");
+            throw new BadValuesException(ErrorMessageManager.MISSING_DATA);
         }
     }
 
@@ -49,15 +59,21 @@ public class ParticipateService implements ParticipateServiceLocal {
 
     @Override
     public Article getOneParticipatedArticle(String login, long id) {
-        if (dao.isABidder(login, id)) {
-            Article a = dao.getOneParticipatedArticle(login, id);
-            if (a == null) {
-                throw new BadValuesException("Article plus en vente");
+        User user = userDao.getOne(login);
+        Article article = articleDao.getOne(id);
+        if (user != null && article != null) {
+            if (dao.isABidder(user, article.getAuction())) {
+                Article a = dao.getOneParticipatedArticle(login, id);
+                if (a == null) {
+                    throw new BadValuesException(ErrorMessageManager.NOT_IN_SELL);
+                } else {
+                    return a;
+                }
             } else {
-                return a;
+                throw new BadValuesException(ErrorMessageManager.USER_NOT_A_BIDDER);
             }
         } else {
-            throw new BadValuesException("Article inexistant");
+            throw new BadValuesException(ErrorMessageManager.MISSING_DATA);
         }
     }
 

@@ -1,7 +1,7 @@
-package service.offer;
+package init;
 
-import service.offer.rotation.Random;
-import service.offer.rotation.RotationStrategy;
+import init.rotation.Random;
+import init.rotation.RotationStrategy;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.DependsOn;

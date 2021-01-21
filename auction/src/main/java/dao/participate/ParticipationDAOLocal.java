@@ -3,14 +3,18 @@ package dao.participate;
 import java.util.Collection;
 import javax.ejb.Local;
 import model.Article;
+import model.Auction;
 import model.Participation;
+import model.User;
 
 @Local
 public interface ParticipationDAOLocal {
 
-    boolean isBestBidder(String login, long id);
+    boolean isBestBidder(String login, Auction auction);
 
-    boolean valueIsGreater(double value, long id);
+    boolean isABidder(User user, Auction auction);
+
+    boolean valueIsGreater(double value, Auction auction);
 
     Participation updateParticipation(double value, String login, long id);
 
@@ -18,5 +22,4 @@ public interface ParticipationDAOLocal {
 
     Article getOneParticipatedArticle(String login, long id);
 
-    boolean isABidder(String login, long id);
 }

@@ -54,16 +54,13 @@ public class ArticleDAO implements ArticleDAOLocal {
     }
 
     @Override
-    public boolean ownArticle(long id, String login) {
-        Query query = em.createNamedQuery("User.own", User.class);
-        query.setParameter("id", id);
-        query.setParameter("login", login);
-        try {
-            query.getSingleResult();
-            return true;
-        } catch (NoResultException e) {
-            return false;
+    public boolean ownArticle(Article a, User u) {
+        for (Article ar : u.getSold()) {
+            if (ar.getId() == a.getId()) {
+                return true;
+            }
         }
+        return false;
     }
 
     @Override
@@ -86,7 +83,6 @@ public class ArticleDAO implements ArticleDAOLocal {
     public Article sellOne(AuctionCreation auction, String login, long id) {
         Article a = this.getOne(id);
 
-        System.out.println("TEST");
         try {
             Auction au = new Auction(
                     auction.getFirstPrice(),
@@ -94,7 +90,6 @@ public class ArticleDAO implements ArticleDAOLocal {
                     null,
                     new ArrayList(),
                     a);
-            System.out.println("TEST");
             em.persist(au);
             a.setAuction(au);
         } catch (ParseException ex) {

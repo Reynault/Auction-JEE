@@ -2,13 +2,15 @@ package dao.delivery;
 
 import java.util.Collection;
 import javax.ejb.Local;
+import model.Address;
+import model.Article;
 import model.Delivery;
-import shared.dto.UserAddress;
+import model.User;
 
 @Local
 public interface DeliveryDAOLocal {
 
-    Delivery initializeDelivery(UserAddress address, double price, String login, long id);
+    Delivery initializeDelivery(Address address, double price, User user, Article article);
 
     Collection<Delivery> getDeliveries(String login);
 
