@@ -1,0 +1,23 @@
+<mat-tab-group  [backgroundColor]="'primary'" dynamicHeight [color]="'warn'">
+  <mat-tab label="My Articles">
+    <div>
+        <ng-template matTabContent>
+          <app-articles ></app-articles>
+        </ng-template>
+    </div>
+  </mat-tab>
+  <mat-tab label="My Participations">
+    <div>
+      <ng-template matTabContent>
+        <app-participations></app-participations>
+      </ng-template>
+    </div>
+  </mat-tab>
+  <mat-tab label="My Deliveries">
+    <div>
+      <ng-template matTabContent>
+        <app-deliveries></app-deliveries>
+      </ng-template>
+    </div>
+  </mat-tab>
+</mat-tab-group>

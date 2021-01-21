@@ -10,6 +10,7 @@ import {Article} from '../interfaces/article';
 import {Category} from '../interfaces/category';
 import {Auction} from '../interfaces/auction';
 import {ArticleSend} from '../interfaces/article-send';
+import {AuctionSend} from '../interfaces/auction-send';
 
 @Injectable({
   providedIn: 'root'
@@ -123,7 +124,6 @@ export class ArticleService {
   }
 
   create(article: ArticleSend): Observable<any>{
-    console.log(article);
     return this._http.post(this._backendURL.addArticle, article);
   }
 
@@ -131,6 +131,24 @@ export class ArticleService {
   //   return this._http.put(this._backendURL.oneArticle.replace(':id', id), recipe);
   // }
 
+  sell(id: string, articleAuction: AuctionSend): Observable<any> {
+    console.log('id' + id);
+    console.log(articleAuction);
+    return this._http.post(this._backendURL.addAuction.replace(':id', id), articleAuction);
+  }
+
+  /**
+   * Retire un article de la vente
+   * @param id, id de l'article
+   */
+  remove(id: string): Observable<any> {
+    return this._http.post(this._backendURL.deleteAuction.replace(':id', id), {});
+  }
+
+  /**
+   * Supprime un article définitivement
+   * @param id, id de l'article
+   */
   delete(id: string): Observable<any> {
     return this._http.delete(this._backendURL.deleteArticle.replace(':id', id));
   }

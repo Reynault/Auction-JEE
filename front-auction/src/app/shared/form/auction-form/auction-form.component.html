@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>Create new person</h2>
+
+<mat-dialog-content>
+  <form novalidate [formGroup]="form">
+
+    <table class="full-width" cellspacing="0">
+      <tr>
+        <td>
+          <mat-form-field class="full-width" [class.mgb15]="form.get('firstPrice').dirty && form.get('firstPrice').invalid">
+            <input matInput type="number" placeholder="First Price" formControlName="firstPrice"  required name="firstPrice" />
+            <mat-error *ngIf="form.get('firstPrice').dirty && form.get('firstPrice').hasError('required')">
+              <strong>First Price</strong> required
+            </mat-error>
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
+
+    <p>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Time Limit" type="date" formControlName="timeLimit" required name="timeLimit" />
+        <mat-error *ngIf="form.get('timeLimit').dirty && form.get('timeLimit').hasError('required')">
+          <strong>Date</strong> required
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <!-- required by API, so we put static content which is not editable but sent to the API -->
+    <input type="hidden" formControlName="id" name="id">
+  </form>
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="cancel()">Cancel</button>
+  <button mat-button color="primary" type="submit" (click)="submit(form.value)" [disabled]="form.invalid">Save</button>
+</mat-dialog-actions>
