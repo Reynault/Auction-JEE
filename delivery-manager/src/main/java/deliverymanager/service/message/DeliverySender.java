@@ -1,5 +1,7 @@
 package deliverymanager.service.message;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import deliverymanager.config.QueueConfig;
 import deliverymanager.service.delivery.DeliveryManager;
 import model.Delivery;
@@ -26,9 +28,14 @@ public class DeliverySender {
     }
 
     public void send(Delivery d) {
-        if(manager.removeValue(d)) {
-            this.template.convertAndSend(queue.getName(), d);
-            System.out.println("---------------DELIVERY " + d.getId() + " SENT-------------------");
+        try {
+            if (manager.removeValue(d)) {
+                ObjectMapper mapper = new ObjectMapper();
+                this.template.convertAndSend(queue.getName(), mapper.writeValueAsBytes(d));
+                System.out.println("---------------DELIVERY " + d.getId() + " SENT-------------------");
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
     }
 }

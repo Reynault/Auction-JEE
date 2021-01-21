@@ -15,4 +15,6 @@ public interface DeliveryDAOLocal {
     Delivery getOneDelivery(String login, long id);
 
     boolean hasDelivery(String login, long id);
+
+    void validateDelivery(Delivery d);
 }

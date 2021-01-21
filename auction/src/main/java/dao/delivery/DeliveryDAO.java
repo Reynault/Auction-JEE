@@ -80,4 +80,10 @@ public class DeliveryDAO implements DeliveryDAOLocal {
         q.setParameter("id", id);
         return (Long) q.getSingleResult() > 0;
     }
+
+    @Override
+    public void validateDelivery(Delivery d) {
+        d.setState(DeliveryStep.VALID);
+        em.merge(d);
+    }
 }

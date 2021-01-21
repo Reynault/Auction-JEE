@@ -1,4 +1,4 @@
-package service.messaging;
+package service.messaging.sender;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -8,7 +8,5 @@ import javax.ejb.Local;
 public interface MessagingServiceLocal {
 
     void sendMessage(byte[] message, String queueName) throws IOException, TimeoutException;
-
-    void consumeMessage(String queueName) throws IOException, TimeoutException;
 
 }

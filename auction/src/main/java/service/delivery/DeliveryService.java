@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import model.Delivery;
-import service.messaging.MessagingServiceLocal;
+import service.messaging.sender.MessagingServiceLocal;
 import service.messaging.RessourceManager;
 import shared.dto.UserAddress;
 import shared.params.PromoParams;
@@ -53,12 +53,6 @@ public class DeliveryService implements DeliveryServiceLocal {
                                     mapper.writeValueAsBytes(delivery),
                                     RessourceManager.PENDING_DELIVERIES
                             );
-                            try {
-                                Thread.sleep(20000);
-                            } catch (InterruptedException ex) {
-                                Logger.getLogger(DeliveryService.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            messaging.consumeMessage(RessourceManager.VALIDATED_DELIVERIES);
                             return delivery;
                         } catch (IOException | TimeoutException ex) {
                             Logger.getLogger(DeliveryService.class.getName()).log(Level.SEVERE, null, ex);
