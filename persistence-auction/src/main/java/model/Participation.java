@@ -1,5 +1,7 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +19,7 @@ public class Participation implements Serializable {
     private long id;
     private double price;
 
+    @JsonIgnore
     @ManyToOne(targetEntity = User.class)
     private User bidder;
 
@@ -48,6 +51,11 @@ public class Participation implements Serializable {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    @JsonGetter("login")
+    public String getBidderLogin() {
+        return this.bidder.getLogin();
     }
 
     public User getBidder() {

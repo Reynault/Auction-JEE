@@ -15,6 +15,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import model.Delivery;
 import service.messaging.MessagingServiceLocal;
+import service.messaging.RessourceManager;
 import shared.dto.UserAddress;
 import shared.params.PromoParams;
 import web.exceptions.BadValuesException;
@@ -50,8 +51,14 @@ public class DeliveryService implements DeliveryServiceLocal {
                             ObjectMapper mapper = new ObjectMapper();
                             messaging.sendMessage(
                                     mapper.writeValueAsBytes(delivery),
-                                    MessagingServiceLocal.PENDING_DELIVERIES
+                                    RessourceManager.PENDING_DELIVERIES
                             );
+                            try {
+                                Thread.sleep(20000);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(DeliveryService.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            messaging.consumeMessage(RessourceManager.VALIDATED_DELIVERIES);
                             return delivery;
                         } catch (IOException | TimeoutException ex) {
                             Logger.getLogger(DeliveryService.class.getName()).log(Level.SEVERE, null, ex);

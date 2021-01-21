@@ -1,7 +1,7 @@
-package dao.init.offer;
+package service.offer;
 
-import dao.init.offer.rotation.Random;
-import dao.init.offer.rotation.RotationStrategy;
+import service.offer.rotation.Random;
+import service.offer.rotation.RotationStrategy;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.DependsOn;

@@ -1,4 +1,4 @@
-package dao.init.offer.rotation;
+package service.offer.rotation;
 
 import java.util.ArrayList;
 import java.util.List;

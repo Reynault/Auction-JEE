@@ -46,12 +46,11 @@ public class DeliveryDAO implements DeliveryDAOLocal {
                 atd
         );
 
+        em.persist(d);
         u.addDelivery(d);
-
         em.merge(u);
         a.setHasBeenSold(true);
         em.merge(a);
-
         return d;
     }
 

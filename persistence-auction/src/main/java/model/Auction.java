@@ -26,10 +26,6 @@ import javax.persistence.TemporalType;
             name = "Auction.isBestBidder",
             query = "SELECT a.best FROM Auction a WHERE a.article.id = :id AND a.best.bidder.login = :login"
     ),
-//    @NamedQuery(
-//            name = "Auction.getBest",
-//            query = "SELECT a.best FROM Auction a WHERE a.article.id = :id"
-//    ),
     @NamedQuery(
             name = "Auction.findUserParticipation",
             query = "SELECT p FROM Auction a JOIN a.participations p "
@@ -41,15 +37,11 @@ import javax.persistence.TemporalType;
             query = "SELECT a.article FROM Auction a JOIN a.participations p"
             + " WHERE p.bidder.login = :login"
             + " AND a.article.id = :id"
-            + " AND a.timeLimit  > :date"
-            + " OR a.best.id = p.id"
+            + " AND (a.timeLimit  > :date OR a.best.id = p.id)"
     ),
     @NamedQuery(
             name = "Auction.getParticipations",
-            query = "SELECT a.article FROM Auction a JOIN a.participations p"
-            + " WHERE p.bidder.login = :login"
-            + " AND a.timeLimit  > :date"
-            + " OR a.best.id = p.id"
+            query = "SELECT a.article FROM Auction a JOIN a.participations p  WHERE p.bidder.login = :login AND (a.timeLimit  > :date OR a.best.id = p.id)"
     ),
     @NamedQuery(
             name = "Auction.isABidder",
@@ -72,7 +64,6 @@ public class Auction implements Serializable {
     @OneToOne(targetEntity = Participation.class, cascade = CascadeType.ALL)
     private Participation best;
 
-    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     private List<Participation> participations;
 
