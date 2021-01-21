@@ -1,6 +1,5 @@
 package com.ul.springauction.services;
 
-import com.ul.springauction.DAO.ArticleRepository;
 import com.ul.springauction.DAO.ParticipationRepository;
 import com.ul.springauction.services.validator.DtoValidator;
 import com.ul.springauction.services.user.UserService;
@@ -66,5 +65,33 @@ public class ParticipationService {
         List<Participation> participations = participationRepository.findAllByBidder(u);
         List<Auction> auctions = auctionService.findAuctionsByParticipations(participations);
         return articleService.findArticlesByAuctions(auctions);
+    }
+
+    public Article getInfoOneParticipation(String token, long id) throws BadRequestException {
+        User u = userService.findUser(token);
+        Article a = articleService.findById(id);
+        Auction auc = a.getAuction();
+        if(auc == null || a.isHasBeenSold()){
+            throw new BadRequestException("Aucune enchere pour cet article ou il a ete vendu");
+        } else {
+            List<Participation> participations = auc.getParticipations();
+            boolean isBidder = hasBid(participations, u);
+            if (isBidder){
+                return a;
+            } else {
+                throw new BadRequestException("L'utilisateur n'a pas participer aux encheres de l'article");
+            }
+        }
+    }
+
+    public boolean hasBid(List<Participation> participations, User u){
+        boolean bidder = false;
+        for(Participation p : participations){
+            if (p.getBidder() == u){
+                bidder = true;
+                break;
+            }
+        }
+        return bidder;
     }
 }
