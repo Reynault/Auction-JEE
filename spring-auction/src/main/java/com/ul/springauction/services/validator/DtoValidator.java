@@ -1,4 +1,4 @@
-package com.ul.springauction.services;
+package com.ul.springauction.services.validator;
 
 import com.ul.springauction.shared.dto.DtoObject;
 import com.ul.springauction.shared.exception.BadRequestException;
@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * This service check if a body of a request is correct
+ * If not, throw a BadRequestException
+ */
 @Service
 public class DtoValidator {
 

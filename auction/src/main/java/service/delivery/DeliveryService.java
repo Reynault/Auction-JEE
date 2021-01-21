@@ -1,15 +1,20 @@
 package service.delivery;
 
-import dao.article.ArticleDAOLocal;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.auction.AuctionDAOLocal;
 import dao.auth.UserDAOLocal;
 import dao.delivery.DeliveryDAOLocal;
 import dao.offer.OfferDAOLocal;
 import dao.participate.ParticipationDAOLocal;
+import java.io.IOException;
 import java.util.Collection;
+import java.util.concurrent.TimeoutException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import model.Delivery;
+import service.messaging.MessagingServiceLocal;
 import shared.dto.UserAddress;
 import shared.params.PromoParams;
 import web.exceptions.BadValuesException;
@@ -28,7 +33,7 @@ public class DeliveryService implements DeliveryServiceLocal {
     @EJB
     private OfferDAOLocal offer;
     @EJB
-    private ArticleDAOLocal article;
+    private MessagingServiceLocal messaging;
 
     @Override
     public Delivery deliver(UserAddress address, PromoParams params, String login, long id) {
@@ -39,8 +44,19 @@ public class DeliveryService implements DeliveryServiceLocal {
                 if (participation.isBestBidder(login, id)) {
                     address = user.getAddress(login, address);
                     if (address != null) {
-                        double price = offer.checkPrice(login, id, params);
-                        return dao.initializeDelivery(address, price, login, id);
+                        try {
+                            double price = offer.checkPrice(login, id, params);
+                            Delivery delivery = dao.initializeDelivery(address, price, login, id);
+                            ObjectMapper mapper = new ObjectMapper();
+                            messaging.sendMessage(
+                                    mapper.writeValueAsBytes(delivery),
+                                    MessagingServiceLocal.PENDING_DELIVERIES
+                            );
+                            return delivery;
+                        } catch (IOException | TimeoutException ex) {
+                            Logger.getLogger(DeliveryService.class.getName()).log(Level.SEVERE, null, ex);
+                            return null;
+                        }
                     } else {
                         throw new BadValuesException("L'utilisateur doit donner une addresse");
                     }

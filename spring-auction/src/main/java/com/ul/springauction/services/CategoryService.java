@@ -1,4 +1,4 @@
-package com.ul.springauction.services.category;
+package com.ul.springauction.services;
 
 import com.ul.springauction.DAO.CategoryRepository;
 import model.Category;
@@ -27,5 +27,17 @@ public class CategoryService {
             }
         }
         return categories;
+    }
+
+    public List<Category> getAllByList(List<String> categories){
+        List<Category> categoryList = new ArrayList<>();
+        if (categories != null) {
+            for (String s : categories) {
+                categoryList.add(categoryRepository.findByName(s));
+            }
+            return categoryList;
+        } else {
+            return null;
+        }
     }
 }

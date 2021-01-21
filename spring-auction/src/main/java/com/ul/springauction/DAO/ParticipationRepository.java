@@ -1,12 +1,14 @@
 package com.ul.springauction.DAO;
 
-import model.Auction;
 import model.Participation;
+import model.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface AuctionRepository extends CrudRepository<Auction, Long> {
+import java.util.List;
 
-    Auction findByParticipationsContaining(Participation p);
+@Repository
+public interface ParticipationRepository extends CrudRepository<Participation, Long> {
+
+    List<Participation> findAllByBidder(User u);
 }

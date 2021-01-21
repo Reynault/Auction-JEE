@@ -3,11 +3,12 @@ package com.ul.springauction.shared.response;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Define a list of all errors catch when a request is progressing
+ */
 public class ErrorResponse implements Response {
 
     private List<String> messages;
-
-    public ErrorResponse(){}
 
     public ErrorResponse(List<String> messages){
         this.messages = messages;

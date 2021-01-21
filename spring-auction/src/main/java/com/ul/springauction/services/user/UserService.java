@@ -1,11 +1,10 @@
 package com.ul.springauction.services.user;
 
 import com.ul.springauction.DAO.UserRepository;
-import com.ul.springauction.services.DtoValidator;
+import com.ul.springauction.services.validator.DtoValidator;
 import com.ul.springauction.services.auth.JwtUtil;
 import com.ul.springauction.shared.dto.RegisterAddress;
 import com.ul.springauction.shared.exception.BadRequestException;
-import com.ul.springauction.shared.response.ErrorResponse;
 import com.ul.springauction.shared.response.TokenResponse;
 import com.ul.springauction.shared.dto.Login;
 import com.ul.springauction.shared.dto.RegisterUser;

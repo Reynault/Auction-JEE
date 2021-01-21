@@ -1,0 +1,9 @@
+server:
+  port: 8081
+
+spring:
+  rabbitmq:
+    host: localhost
+    password: guest
+    username: guest
+    virtual-host: delivery-vm
