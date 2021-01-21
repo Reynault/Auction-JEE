@@ -1,10 +1,9 @@
 package com.ul.springauction.shared.init;
 
-import com.ul.springauction.DAO.*;
+import com.ul.springauction.DAO.repository.*;
 import enumeration.PromotionType;
 import model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +40,8 @@ public class DatabaseService {
         articleRepository.deleteAll();
         categoryRepository.deleteAll();
         auctionRepository.deleteAll();
+        participationRepository.deleteAll();
+        promotionRepository.deleteAll();
 
         // Creation of categories and saving them
         Category c1 = new Category("jeux");

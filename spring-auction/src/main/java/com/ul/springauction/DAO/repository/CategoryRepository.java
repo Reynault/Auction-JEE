@@ -1,4 +1,4 @@
-package com.ul.springauction.DAO;
+package com.ul.springauction.DAO.repository;
 
 import model.Category;
 import org.springframework.data.repository.CrudRepository;

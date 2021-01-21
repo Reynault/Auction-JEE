@@ -1,6 +1,6 @@
 package com.ul.springauction.services;
 
-import com.ul.springauction.DAO.ArticleRepository;
+import com.ul.springauction.DAO.repository.ArticleRepository;
 import com.ul.springauction.services.user.UserService;
 import com.ul.springauction.services.validator.DtoValidator;
 import com.ul.springauction.shared.dto.ArticleAdd;

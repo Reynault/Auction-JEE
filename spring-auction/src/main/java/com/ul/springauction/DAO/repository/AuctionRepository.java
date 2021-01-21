@@ -1,4 +1,4 @@
-package com.ul.springauction.DAO;
+package com.ul.springauction.DAO.repository;
 
 import model.Auction;
 import model.Participation;

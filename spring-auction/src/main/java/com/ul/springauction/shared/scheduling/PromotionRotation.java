@@ -1,6 +1,6 @@
 package com.ul.springauction.shared.scheduling;
 
-import com.ul.springauction.DAO.PromotionRepository;
+import com.ul.springauction.DAO.repository.PromotionRepository;
 import model.Promotion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
