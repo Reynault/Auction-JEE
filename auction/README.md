@@ -14,6 +14,7 @@ Pour installer ce projet, il vous faudra:
 - Java 11
 - Docker  
 - Glassfish 5
+- Intell Ij
 - NetBeans
 - De la patience
 
@@ -23,6 +24,7 @@ Voici les étapes à suivre:
 ```
 $ docker-compose up
 ```
+- Ce docker-compose va également mettre en place Rabbit MQ qui est le message broker utilisé dans le projet pour gérer les messages asynchrones
 - Importer le projet sur NetBeans
 - La version du projet est Java 11
 - Ajouter le Serveur GlassFish 5.0 qui doit utiliser Java 1.8
@@ -49,9 +51,18 @@ $ docker-compose up
 
 ![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_resources_deployment.PNG)
 
-- Il faut ouvrir projet persistence avec netBeans et réaliser un clean & build
-- Puis il faut clean&build le projet principal
-- Vous pouvez alors deployer le projet
+- Il faut ouvrir le projet persistence qui se trouve à la racine du projet avec netBeans et réaliser un clean & build
+- Il faut également ouvrir le projet Delivery Manager avec Intell IJ, ce projet est sous Spring Boot et doit être lancé avant le projet principal pour pouvoir gérer les demandes de livraison. Pour ce faire, ouvez le projet comme ceci:
+
+![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/lancer_delivery.PNG)
+
+
+- Il faut ensuite lancer le programme principal:
+
+![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/lancer_dans_intell.PNG)
+
+- Vous pouvez enfin lancer le projet principal, il faut clean&build le projet principal (Clique droit sur la racine sur netbeans puis Clean & Build)
+- Vous pouvez alors deployer le projet (F6 ou clique droit -> deploy sur la racine du projet)
 - Un bug est connu dans lequel le serveur a du mal à se connecter avec la base de données, pour régler ce problème vous pouvez redémarrer le serveur glassfish de cette manière sur netbeans:
 
 ![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_bo.png)
