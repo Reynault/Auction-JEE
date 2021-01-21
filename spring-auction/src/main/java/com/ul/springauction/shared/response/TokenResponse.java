@@ -5,7 +5,7 @@ package com.ul.springauction.shared.response;
  */
 public class TokenResponse implements Response {
 
-    private final String token;
+    private String token;
 
     public TokenResponse(String value){
         token = value;
@@ -13,5 +13,9 @@ public class TokenResponse implements Response {
 
     public String getToken(){
         return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

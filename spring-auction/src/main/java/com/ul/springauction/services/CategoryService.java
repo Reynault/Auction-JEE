@@ -1,6 +1,6 @@
 package com.ul.springauction.services;
 
-import com.ul.springauction.DAO.CategoryRepository;
+import com.ul.springauction.DAO.repository.CategoryRepository;
 import model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

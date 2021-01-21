@@ -1,6 +1,6 @@
 package com.ul.springauction.services;
 
-import com.ul.springauction.DAO.ParticipationRepository;
+import com.ul.springauction.DAO.repository.ParticipationRepository;
 import com.ul.springauction.services.validator.DtoValidator;
 import com.ul.springauction.services.user.UserService;
 import com.ul.springauction.shared.dto.NewParticipation;
@@ -29,6 +29,10 @@ public class ParticipationService {
     private ParticipationRepository participationRepository;
     @Autowired
     private DtoValidator dtoValidator;
+
+    public Long countParticipation(User u){
+        return participationRepository.countAllByBidder(u);
+    }
 
     public Participation participate(String token, NewParticipation participation, long id) throws BadRequestException {
         dtoValidator.validation(participation);

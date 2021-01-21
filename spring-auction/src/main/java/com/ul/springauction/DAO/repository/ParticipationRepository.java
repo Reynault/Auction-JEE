@@ -1,4 +1,4 @@
-package com.ul.springauction.DAO;
+package com.ul.springauction.DAO.repository;
 
 import model.Participation;
 import model.User;
@@ -11,4 +11,5 @@ import java.util.List;
 public interface ParticipationRepository extends CrudRepository<Participation, Long> {
 
     List<Participation> findAllByBidder(User u);
+    Long countAllByBidder(User u);
 }

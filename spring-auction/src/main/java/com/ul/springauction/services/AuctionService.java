@@ -1,6 +1,6 @@
 package com.ul.springauction.services;
 
-import com.ul.springauction.DAO.AuctionRepository;
+import com.ul.springauction.DAO.repository.AuctionRepository;
 import com.ul.springauction.shared.dto.AuctionAdd;
 import model.Article;
 import model.Auction;

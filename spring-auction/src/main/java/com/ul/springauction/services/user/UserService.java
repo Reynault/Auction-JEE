@@ -1,6 +1,6 @@
 package com.ul.springauction.services.user;
 
-import com.ul.springauction.DAO.UserRepository;
+import com.ul.springauction.DAO.repository.UserRepository;
 import com.ul.springauction.services.validator.DtoValidator;
 import com.ul.springauction.services.auth.JwtUtil;
 import com.ul.springauction.shared.dto.RegisterAddress;
