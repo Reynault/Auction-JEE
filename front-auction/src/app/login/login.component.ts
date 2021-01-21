@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private readonly _auth: AuthService,
               private _router: Router) {
+    this._auth.logout();
     this._form = LoginComponent._buildForm();
   }
 
