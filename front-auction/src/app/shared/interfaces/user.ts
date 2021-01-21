@@ -1,7 +1,9 @@
+import {Address} from './address';
+
 export interface User{
-  username: string;
-  firstname: string;
+  login: string;
+  name: string;
   lastname: string;
-  password?: string;
-  address?: string;
+  pass?: string;
+  address?: Address;
 }
