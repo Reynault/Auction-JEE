@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.websocket.server.PathParam;
 import java.util.List;
 
-@RequestMapping(value = "/auction/participation")
+@RequestMapping(value = "/participation")
 @RestController
 @CrossOrigin
 public class PromotionController {
@@ -25,7 +25,7 @@ public class PromotionController {
     }
 
     @GetMapping(value = "/{id}/checkPrice")
-    public Response calculNewPrice(@RequestHeader(value = "Authorization")String token, @PathVariable long id, @RequestParam(required = false)List<Long> promos) throws BadRequestException {
-        return promotionService.calcuNewPrice(token, id, promos);
+    public Response calculNewPrice(@RequestHeader(value = "Authorization")String token, @PathVariable long id, @RequestParam(required = false)List<Long> o) throws BadRequestException {
+        return promotionService.calcuNewPrice(token, id, o);
     }
 }

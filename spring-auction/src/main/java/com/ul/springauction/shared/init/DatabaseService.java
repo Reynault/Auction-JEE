@@ -40,6 +40,8 @@ public class DatabaseService {
         articleRepository.deleteAll();
         categoryRepository.deleteAll();
         auctionRepository.deleteAll();
+        participationRepository.deleteAll();
+        promotionRepository.deleteAll();
 
         // Creation of categories and saving them
         Category c1 = new Category("jeux");

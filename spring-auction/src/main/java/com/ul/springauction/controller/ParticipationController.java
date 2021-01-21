@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping(value = "/auction/participation")
+@RequestMapping(value = "/participation")
 @RestController
 @CrossOrigin
 public class ParticipationController {
