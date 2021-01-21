@@ -44,11 +44,12 @@ export class ArticleComponent implements OnInit {
   private _form: FormGroup;
   private _err: string;
 
-  private static _buildForm(bestBide: string): FormGroup {
+  private static _buildForm(bestBide: number): FormGroup {
+    console.log(bestBide);
     return new FormGroup({
       value: new FormControl('', Validators.compose([
         Validators.required,
-        (control: AbstractControl) => Validators.min(parseFloat(bestBide))(control),
+        (control: AbstractControl) => Validators.min(bestBide)(control),
         Validators.maxLength(50)
       ]))
     });
@@ -61,7 +62,11 @@ export class ArticleComponent implements OnInit {
     this._articleService
       .getArticle(this._id).subscribe((article: Article) => {
         this._article = article;
-        this._form = ArticleComponent._buildForm(this._article.auction.best.price);
+        let bide = parseFloat(article.auction.firstPrice);
+        if (this._article.auction.best !== null) {
+          bide = parseFloat(this._article.auction.best.price);
+        }
+        this._form = ArticleComponent._buildForm(bide);
       },
     (error) => {
       console.log(error);

@@ -11,7 +11,7 @@
 
     <!-- Product Description -->
     <div class="product-description">
-      <span class="margin-1p" *ngFor="let category of article.categories">{{category.name}}</span>
+      <span class="margin-1p" *ngFor="let category of article.categories">{{category?.name}}</span>
       <h1>{{article.name}}</h1>
       <p>{{article.description}}</p>
     </div>
@@ -27,7 +27,7 @@
           <div>{{article.auction.firstPrice}}</div>
           <hr class="little-hr">
           <h3>Best participation : </h3>
-          <div *ngIf="(article.auction.best | json) != '{}'; else noBestAuction">{{article.auction.best.price}}</div>
+          <div *ngIf="article.auction?.best; else noBestAuction">{{article.auction.best.price}}</div>
           <ng-template #noBestAuction>
             <div>No auction</div>
           </ng-template>
