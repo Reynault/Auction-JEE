@@ -7,6 +7,9 @@ import {ParticipationService} from '../shared/services/participation.service';
 import {environment} from '../../environments/environment';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {errorMessages} from '../shared/constants/error.messages';
+import {Participation} from '../shared/interfaces/participation';
+import {RouteDescriptor} from '../shared/interfaces/route-descriptor';
+import {User} from '../shared/interfaces/user';
 
 @Component({
   selector: 'app-user-article',
@@ -20,6 +23,7 @@ export class UserArticleComponent implements OnInit {
   private _id: string;
   private _article: Article;
   private _backendURL: any;
+  displayedColumns = ['name', 'price'];
   private readonly _baseUrl: string;
 
   constructor(private _router: Router,
@@ -37,7 +41,6 @@ export class UserArticleComponent implements OnInit {
 
   }
 
-
   get err(): string {
     return this._err;
   }
@@ -53,6 +56,24 @@ export class UserArticleComponent implements OnInit {
         this._article = article;
       }
     );
+  }
+
+  get participations(): Participation[] {
+    if (this.article.auction.participations.length > 0) {
+      return this.article.auction.participations;
+    }
+    else {
+      return  [ {
+        id: '-1',
+        price : '0.0',
+        login: 'No participation',
+        bider: {
+          login: 'No participation',
+          name: '',
+          lastname: ''
+        } as User
+      }] as Participation[];
+    }
   }
 
 

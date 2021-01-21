@@ -5,6 +5,19 @@
   color: white;
 }
 
+.example-container {
+  height: 100%;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-cell {
+  padding: 8px 8px 8px 0;
+}
+
 .product-description span{
   margin-left: 1%;
 }
