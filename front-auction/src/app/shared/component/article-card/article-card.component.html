@@ -15,7 +15,8 @@
         </a>
       </div>
       <div class="video-view">
-        <p>{{article.auction.best.price}} €</p>
+        <p *ngIf="article.auction.best?.price; else firstPrice">{{article.auction.best.price}} €</p>
+        <ng-template #firstPrice><p>{{article.auction.firstPrice}} €</p></ng-template>
         <mat-icon class="fas calendar-size">calendar_today</mat-icon>
         {{ article.auction.timeLimit }}
       </div>
