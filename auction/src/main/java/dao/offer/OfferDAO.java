@@ -55,11 +55,13 @@ public class OfferDAO implements OfferDAOLocal {
 
         for (Long l : promotions) {
             promo = em.find(Promotion.class, l);
-            q = em.createNamedQuery("Promotion.getOrderedParams");
-            q.setParameter("id", l);
-            params = (List<Parameter>) q.getResultList();
-            o = Offer.createOffer(promo.getType());
-            reducedPrice = o.applyOffer(em, u, a, reducedPrice, params);
+            if (promo != null) {
+                q = em.createNamedQuery("Promotion.getOrderedParams");
+                q.setParameter("id", l);
+                params = (List<Parameter>) q.getResultList();
+                o = Offer.createOffer(promo.getType());
+                reducedPrice = o.applyOffer(em, u, a, reducedPrice, params);
+            }
         }
 
         return reducedPrice;

@@ -18,10 +18,9 @@ public class MyDeliveryCallback implements MyDeliveryCallbackLocal {
         ObjectMapper mapper = new ObjectMapper();
         model.Delivery d = mapper.readValue(dlvr.getBody(), model.Delivery.class);
 
-        delivery.validateDelivery(d);
-
-        System.out.println("------ NEW DELIVERY RECEIVED -----");
+        System.out.println("------ NEW VALIDATED DELIVERY RECEIVED -----");
         System.out.println(d.getId());
+        delivery.validateDelivery(d);
     }
 
 }

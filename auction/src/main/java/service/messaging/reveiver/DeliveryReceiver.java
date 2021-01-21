@@ -9,8 +9,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.DependsOn;
 import javax.ejb.EJB;
-import javax.ejb.Schedule;
-import javax.ejb.Schedules;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import service.messaging.ConnectionManager;
@@ -33,6 +31,7 @@ public class DeliveryReceiver {
     public void init() {
         try {
             channel = manager.getChannel();
+            receiveDelivery();
         } catch (IOException ex) {
             Logger.getLogger(DeliveryReceiver.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -47,12 +46,9 @@ public class DeliveryReceiver {
         }
     }
 
-    @Schedules({
-        @Schedule(second = "0/10", minute = "*", hour = "*")
-    })
     public void receiveDelivery() {
         try {
-            System.out.println("----Looking for validated deliveries----");
+            System.out.println("----Starting connection to queue----");
             channel.basicConsume(
                     RessourceManager.VALIDATED_DELIVERIES,
                     true,
@@ -61,7 +57,7 @@ public class DeliveryReceiver {
 
                     }
             );
-            System.out.println("----Stop looking for validated deliveries----");
+            System.out.println("----Connection to queue done----");
         } catch (IOException ex) {
             Logger.getLogger(DeliveryReceiver.class.getName()).log(Level.SEVERE, null, ex);
         }
