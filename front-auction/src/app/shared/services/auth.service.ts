@@ -7,6 +7,7 @@ import {Observable} from 'rxjs';
 import {TokenService} from './token-service';
 import {map} from 'rxjs/operators';
 import {Router} from '@angular/router';
+import {Address} from '../interfaces/address';
 
 @Injectable({
   providedIn: 'root'
@@ -19,11 +20,11 @@ export class AuthService {
               private _token: TokenService,
               private router: Router) {
     this._defaultUser = {
-      username: 'John',
-      firstname: 'Joe',
+      login: 'John',
+      name: 'Joe',
       lastname: 'Mama',
-      password: 'Doe',
-      address: 'null'
+      pass: 'Doe',
+      address: {} as Address
     };
     this._backendURL = {};
 
