@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {Component, NgModule} from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
@@ -7,6 +7,7 @@ import {AddArticleComponent} from './add-article/add-article.component';
 import {ArticleComponent} from './article/article.component';
 import {UserComponent} from './user/user.component';
 import {UserArticleComponent} from './user-article/user-article.component';
+import {NotAvailableComponent} from './not-available/not-available.component';
 
 const routes: Routes = [
   { path: '',   redirectTo: '/home', pathMatch: 'full' }, // redirect to `first-component`
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'article/:id', component: ArticleComponent },
   { path: 'user', component: UserComponent },
   { path: 'my-article/:id', component: UserArticleComponent },
+  { path: 'not-available', component: NotAvailableComponent },
 
   // { path: 'product/:id', component: ProductComponent },
   // { path: 'seller/:id', component: SellerComponent },

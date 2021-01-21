@@ -15,7 +15,6 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatInputModule} from '@angular/material/input';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {FormComponent} from './shared/form/form.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import {MatGridListModule} from '@angular/material/grid-list';
@@ -33,6 +32,13 @@ import { ArticlesComponent } from './user/tabs/articles/articles.component';
 import { AuctionsComponent } from './user/tabs/auctions/auctions.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import { UserArticleComponent } from './user-article/user-article.component';
+import { ParticipationsComponent } from './user/tabs/participations/participations.component';
+import { DeliveriesComponent } from './user/tabs/deliveries/deliveries.component';
+import {HttpErrorInterceptor} from './shared/interceptors/http-error.interceptor';
+import { AuctionFormComponent } from './shared/form/auction-form/auction-form.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import { DialogComponent } from './shared/form/dialog/dialog.component';
+import { NotAvailableComponent } from './not-available/not-available.component';
 
 
 @NgModule({
@@ -42,7 +48,6 @@ import { UserArticleComponent } from './user-article/user-article.component';
     RegisterComponent,
     HomeComponent,
     SearchbarComponent,
-    FormComponent,
     CarouselArticlePromoComponent,
     AddArticleComponent,
     ArticleCardComponent,
@@ -52,7 +57,12 @@ import { UserArticleComponent } from './user-article/user-article.component';
     UserTabsComponent,
     ArticlesComponent,
     AuctionsComponent,
-    UserArticleComponent
+    UserArticleComponent,
+    ParticipationsComponent,
+    DeliveriesComponent,
+    AuctionFormComponent,
+    DialogComponent,
+    NotAvailableComponent
   ],
   imports: [
     BrowserModule,
@@ -70,7 +80,8 @@ import { UserArticleComponent } from './user-article/user-article.component';
     MatGridListModule,
     CarouselModule,
     MatTableModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDialogModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthorizationInterceptor, multi: true}],
   bootstrap: [AppComponent]
