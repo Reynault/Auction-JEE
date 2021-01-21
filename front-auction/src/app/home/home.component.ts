@@ -24,10 +24,6 @@ export class HomeComponent implements OnInit {
     this._articleService
       .getArticles().subscribe((articles: Article[]) => {
       this._articles = articles;
-      for (let i = 0; i < 20; i++){
-        this.articles.push(articles[i]);
-      }
-      console.log(articles);
     });
   }
 
