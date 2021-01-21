@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {Observable, of, throwError} from 'rxjs';
 import {TokenService} from '../services/token-service';
+import {Router} from '@angular/router';
+import {catchError} from 'rxjs/operators';
 
 @Injectable()
 export class AuthorizationInterceptor implements HttpInterceptor{
 
   urlsToNotUse: Array<string>;
 
-  constructor(private _token: TokenService) {
+  constructor(private _token: TokenService, private _router: Router) {
 
     this.urlsToNotUse = [
       '/register$',
@@ -32,10 +34,10 @@ export class AuthorizationInterceptor implements HttpInterceptor{
       });
 
       console.log(modifReq);
-      return next.handle(modifReq);
+      return this.returnRequest(modifReq, next);
     }else {
       console.log('Pas besoin du token');
-      return next.handle(request);
+      return this.returnRequest(request, next);
     }
   }
 
@@ -55,5 +57,33 @@ export class AuthorizationInterceptor implements HttpInterceptor{
       }
     }
     return false;
+  }
+
+
+  returnRequest(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return next.handle(request).pipe(
+      catchError((error) => {
+        let handled = false;
+        // console.error(error);
+        if (error instanceof HttpErrorResponse) {
+          if (error.error instanceof ErrorEvent) {
+          } else {
+            switch (error.status) {
+              case 401:     // forbidden
+                this._router.navigateByUrl('/login');
+                handled = true;
+                break;
+            }
+          }
+        }
+
+        if (handled) {
+          return of(error);
+        } else {
+          return throwError(error);
+        }
+
+      })
+    );
   }
 }
