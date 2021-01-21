@@ -24,7 +24,9 @@ export const environment = {
       deleteArticle: '/auction/articles/:id/delete', // Delete Article (Connected User)
       promotions: '/auction/participation/promotions', // Get all products who have promotion (connected User)
       participate: '/auction/participation/:id', // Add a participation to an Auction (Connected User)
-      participations: '/auction/participation/my'
+      participations: '/auction/participation/my', // Get all user participations
+      userDeliveries: '/auction/participation/deliveries', // Get all user deliveries
+      userDelivery: '/auction/participation/:id/deliveries' // Get a delivery
     }
   }
 };

@@ -1,1 +1,33 @@
-<p>deliveries works!</p>
+<div class="example-container mat-elevation-z8">
+  <table mat-table [dataSource]="deliveries">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="step">
+      <th mat-header-cell *matHeaderCellDef> Step </th>
+      <td mat-cell *matCellDef="let element" [routerLink]="[baseUrl[0].url, element.id]"> {{element.step}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef> Price </th>
+      <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="address">
+      <th mat-header-cell *matHeaderCellDef> Address </th>
+      <td mat-cell *matCellDef="let element"> {{addressTtoString(element.address)}} </td>
+    </ng-container>
+      <ng-container matColumnDef="article">
+      <th mat-header-cell *matHeaderCellDef> Article </th>
+      <td mat-cell *matCellDef="let element"
+          [routerLink]="[baseUrl[1].url, element.article.id]"> {{element.article.name}} </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
