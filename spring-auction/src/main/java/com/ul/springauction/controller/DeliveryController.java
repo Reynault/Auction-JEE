@@ -1,6 +1,7 @@
 package com.ul.springauction.controller;
 
 import com.ul.springauction.services.DeliveryService;
+import com.ul.springauction.shared.dto.RegisterAddress;
 import com.ul.springauction.shared.exception.BadRequestException;
 import model.Delivery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ public class DeliveryController {
     private DeliveryService deliveryService;
 
     @PostMapping(value = "/{id}/deliver")
-    public Delivery buyArticle(@RequestHeader(value = "Authorization") String token, long id, @RequestParam(required = false)List<Long> o) throws BadRequestException {
-        return deliveryService.buyArticle(token, id, o);
+    public Delivery buyArticle(@RequestHeader(value = "Authorization") String token, long id, @RequestParam(required = false)List<Long> o, @RequestBody RegisterAddress address) throws BadRequestException {
+        return deliveryService.buyArticle(token, id, o, address);
     }
 
     @GetMapping(value = "/deliveries")
