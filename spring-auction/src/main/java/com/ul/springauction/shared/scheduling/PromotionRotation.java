@@ -9,6 +9,10 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Component qui s'active tout les jours à minuit grâce au @Scheduled
+ * Met à jour les promotions du jour
+ */
 @Component
 public class PromotionRotation {
 

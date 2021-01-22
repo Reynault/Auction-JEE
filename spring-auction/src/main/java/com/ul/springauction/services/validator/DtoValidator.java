@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * This service check if a body of a request is correct
- * If not, throw a BadRequestException
+ * Service appelé pour faire la vérification des DTO
+ * Si un ou des champs sont mal remplis, une erreur 400 est retournée
  */
 @Service
 public class DtoValidator {

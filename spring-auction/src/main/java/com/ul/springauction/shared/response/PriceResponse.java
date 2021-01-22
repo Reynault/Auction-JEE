@@ -1,5 +1,8 @@
 package com.ul.springauction.shared.response;
 
+/**
+ * Définition d'une réponse possédant un prix calculé avec les réductions des promotions
+ */
 public class PriceResponse implements Response {
 
     private double price;

@@ -4,6 +4,9 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
+/**
+ * DTO d'une participation à une enchère
+ */
 public class NewParticipation implements DtoObject {
 
     @NotNull(message = "Veuillez fournir un prix")

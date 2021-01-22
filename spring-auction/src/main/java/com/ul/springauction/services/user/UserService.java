@@ -17,9 +17,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import shared.ErrorMessageManager;
 
 import java.util.ArrayList;
 
+/**
+ * Service de gestion des utilisateurs
+ */
 @Service
 public class UserService {
 
@@ -37,40 +41,52 @@ public class UserService {
     private DtoValidator dtoValidator;
 
 
+    // Enregistre un nouvel utilisateur non existant à la base de données
     public Response save(RegisterUser register) throws BadRequestException {
         dtoValidator.validation(register);
         User find = userRepo.findByLogin(register.getLogin());
+        // Si l'utilisateur n'existe pas, on peut créer le compte
         if (find == null){
             User u = new User(register.getLogin(), register.getPass(), register.getName(), register.getLastname(), RegisterAddress.convertToAddress(register.getAddress().orElse(null)), new ArrayList<>(), new ArrayList<>());
-            u.setPass(bCryptPasswordEncoder.encode(u.getPass()));
+            u.setPass(bCryptPasswordEncoder.encode(u.getPass())); // On crypt son mot de passe
             userRepo.save(u);
+            // Création du JWT
             UserDetails userDetails = userDetailService.loadUserByUsername(u.getLogin());
             String jwt = util.generateToken(userDetails);
             return new TokenResponse(jwt);
         } else {
-            throw new BadRequestException("L'utilisateur est deja present");
+            throw new BadRequestException(ErrorMessageManager.USER_ALREADY_EXIST);
         }
     }
 
 
+    // Connecte un utilisateur en vérifiant son login/mdp et renvoyant son JWT
     public Response login(Login login) throws BadRequestException {
         dtoValidator.validation(login);
+        // On essaye la combinaison login/mdp
         try{
             authManager.authenticate(new UsernamePasswordAuthenticationToken(login.getLogin(), login.getPass()));
         } catch (BadCredentialsException e){
-            throw new BadRequestException("Le login ou le mot de passe est incorrect");
+            throw new BadRequestException(ErrorMessageManager.COULDNT_AUTHENTIFY);
         }
+        // Création du JWT si elle est bonne
         UserDetails userDetails = userDetailService.loadUserByUsername(login.getLogin());
         String jwt = util.generateToken(userDetails);
         return new TokenResponse(jwt);
     }
 
+
+    // Extraction de l'utilisateur en déchiffrant le JWT
     public User findUser(String token){
+        // Retrait des 7 premiers caractères de la chaine
+        // Car JWT de la forme "Bearer suitedecaractèresindéchiffrables"
         token = token.substring(7);
         String username = util.extractUsername(token);
         return userRepo.findByLogin(username);
     }
 
+
+    // Sauvegarde un utilisateur qui à modifier grâce à son repository
     public void saveUpdatedUser(User u){
         userRepo.save(u);
     }

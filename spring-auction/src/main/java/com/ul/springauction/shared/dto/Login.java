@@ -3,6 +3,9 @@ package com.ul.springauction.shared.dto;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ * DTO de connexion de l'utilisateur
+ */
 public class Login implements DtoObject{
 
     @NotNull(message = "Veuillez entrer votre login")

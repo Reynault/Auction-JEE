@@ -1,7 +1,7 @@
 package com.ul.springauction.shared.response;
 
 /**
- * Define a response type when a token is return
+ * Définition d'une réponse possèdant un JWT
  */
 public class TokenResponse implements Response {
 

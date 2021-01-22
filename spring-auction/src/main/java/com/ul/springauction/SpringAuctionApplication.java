@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EntityScan(
         basePackages = "com.company.persistence-auction.src.main.java.model",
-        basePackageClasses = {User.class, Article.class, Category.class, Delivery.class, Participation.class, Address.class, Auction.class}
+        basePackageClasses = {User.class, Article.class, Category.class, Delivery.class, Participation.class, Address.class, Auction.class, ArticleToDeliver.class}
 )
 @EnableScheduling
 public class SpringAuctionApplication {

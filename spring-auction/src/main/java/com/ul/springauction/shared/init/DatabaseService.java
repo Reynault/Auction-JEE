@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Service to initialize database
- * When we launch the Spring application
+ * Service qui initialise la base de données au lancement
  */
 @Service
 public class DatabaseService {

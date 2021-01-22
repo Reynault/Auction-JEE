@@ -11,11 +11,15 @@ import model.Participation;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import shared.ErrorMessageManager;
 
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Service gestionnaire des participations
+ */
 @Service
 public class ParticipationService {
 
@@ -30,27 +34,35 @@ public class ParticipationService {
     @Autowired
     private DtoValidator dtoValidator;
 
+
+    // Compte le nombre de participation de l'utilisateur à l'enchère
     public Long countParticipation(User u){
         return participationRepository.countAllByBidder(u);
     }
 
+
+    // Fait participer l'utilisateur à l'enchère
     public Participation participate(String token, NewParticipation participation, long id) throws BadRequestException {
         dtoValidator.validation(participation);
         Participation p;
         Article a = articleService.findById(id);
-        if(a.getAuction() == null){
-            throw new BadRequestException("Aucune enchere disponible pour cet article");
+        User u = userService.findUser(token);
+        // Si de mauvaises informations sont données
+        if (a == null || u == null){
+            throw new BadRequestException(ErrorMessageManager.MISSING_DATA);
         } else {
             Auction auc = a.getAuction();
-            if (auc.getTimeLimit().before(Date.from(Instant.now())) || a.isHasBeenSold()) {
-                throw new BadRequestException("Il n'est plus possible de participer aux encheres pour cet article");
+            // Si il a bien enchère
+            if(auc == null || auc.getTimeLimit().before(Date.from(Instant.now()))){
+                throw new BadRequestException(ErrorMessageManager.NOT_IN_SELL);
             } else {
-                User u = userService.findUser(token);
+                // Si l'utilisateur n'est pas propriétaire de l'article
                 if (u.getSold().contains(a)) {
-                    throw new BadRequestException("Impossible de participer aux encheres de votre propre article");
+                    throw new BadRequestException(ErrorMessageManager.USER_OWN);
                 } else {
+                    // Si la valeur de la participation n'est pas trop petite
                     if(participation.getValue() < auc.getFirstPrice()){
-                        throw new BadRequestException("Impossible de proposer un prix de moins de "+auc.getFirstPrice()+" €");
+                        throw new BadRequestException(ErrorMessageManager.BIGGER_VALUE);
                     } else {
                         p = new Participation(participation.getValue(), u);
                         auc.addParticipation(p);
@@ -60,10 +72,12 @@ public class ParticipationService {
                     }
                 }
             }
+            return p;
         }
-        return p;
     }
 
+
+    // Cherche les articles où a participer l'utilisateur encore en cours ou s'il est le meilleur
     public List<Article> getInfoAllParticipation(String token){
         User u = userService.findUser(token);
         List<Participation> participations = participationRepository.findAllByBidder(u);
@@ -71,23 +85,38 @@ public class ParticipationService {
         return articleService.findArticlesByAuctions(auctions);
     }
 
+
+    // Cherche un article où à participer
     public Article getInfoOneParticipation(String token, long id) throws BadRequestException {
         User u = userService.findUser(token);
         Article a = articleService.findById(id);
-        Auction auc = a.getAuction();
-        if(auc == null || a.isHasBeenSold()){
-            throw new BadRequestException("Aucune enchere pour cet article ou il a ete vendu");
+        // Si les valeurs sont bien données
+        if (u == null || a == null){
+            throw new BadRequestException(ErrorMessageManager.MISSING_DATA);
         } else {
-            List<Participation> participations = auc.getParticipations();
-            boolean isBidder = hasBid(participations, u);
-            if (isBidder){
-                return a;
+            Auction auc = a.getAuction();
+            // Si il y a bien enchère
+            if(auc == null || auc.getTimeLimit().before(Date.from(Instant.now()))) {
+                throw new BadRequestException(ErrorMessageManager.NOT_IN_SELL);
             } else {
-                throw new BadRequestException("L'utilisateur n'a pas participer aux encheres de l'article");
+                if (u.getSold().contains(a)){
+                    throw new BadRequestException(ErrorMessageManager.USER_OWN);
+                } else {
+                    List<Participation> participations = auc.getParticipations();
+                    boolean isBidder = hasBid(participations, u);
+                    // Si l'utilisateur a participé
+                    if (isBidder) {
+                        return a;
+                    } else {
+                        throw new BadRequestException(ErrorMessageManager.USER_NOT_A_BIDDER);
+                    }
+                }
             }
         }
     }
 
+
+    // Regarde si l'utilisateur a participer aux enchères
     public boolean hasBid(List<Participation> participations, User u){
         boolean bidder = false;
         for(Participation p : participations){

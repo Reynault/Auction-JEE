@@ -5,6 +5,9 @@ import model.Address;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ * DTO d'ajout ou modification d'une addresse, ainsi que donner l'addresse de livraison
+ */
 public class RegisterAddress implements DtoObject {
 
     @NotNull(message = "Veuillez donner votre pays")

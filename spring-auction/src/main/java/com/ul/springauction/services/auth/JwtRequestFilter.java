@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Component trigger when a request is send to spring
- * We checking if the user is authenticate (JWT validation)
+ * Component définit afin de trier les requêtes et de n'autoriser que les utilisateurs connectés
+ * a communiquer avec les services
  */
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {

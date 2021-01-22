@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * Security settings for authentication
+ * Configuration de sécurité de l'application
  */
 @Configuration
 @EnableWebSecurity
@@ -22,17 +22,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtRequestFilter requestFilter;
 
 
+    // Crée un bean pour le hachage du mot de passe de l'utilisateur
     @Bean
     public BCryptPasswordEncoder createBCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
+
+    // Créé un bean pour l'authentification d'un utilisateur
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
+
+    // Configuration de la sécrutié
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();

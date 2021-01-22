@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
- * Errors handling for controllers
+ * Controller pour la gestion automatique des exceptions renvoyer par les autres controllers de l'application
  */
 @RestControllerAdvice
 public class ExceptionController {

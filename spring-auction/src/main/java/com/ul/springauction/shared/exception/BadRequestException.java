@@ -1,7 +1,8 @@
 package com.ul.springauction.shared.exception;
 
 /**
- * Simple custom exception for returning an error 400 Bad Request
+ * Une exception simple permettant de notifier le controller
+ * Lorsque déclanchée, le controller retournera une erreur 400
  */
 public class BadRequestException extends Exception{
 

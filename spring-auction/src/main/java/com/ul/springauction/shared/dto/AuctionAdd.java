@@ -5,6 +5,9 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ * DTO pour la création d'une enchère associée à un objet
+ */
 public class AuctionAdd implements DtoObject {
 
     @NotNull(message = "Veuillez fournir un prix de base")

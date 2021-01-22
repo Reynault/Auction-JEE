@@ -5,6 +5,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Optional;
 
+/**
+ * DTO d'ajout d'un utilisateur
+ */
 public class RegisterUser implements DtoObject {
 
     @NotNull(message = "Veuillez donner un login")

@@ -5,6 +5,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
+/**
+ * DTO pour l'ajout d'un article sur le site par un utilisateur
+ */
 public class ArticleAdd implements DtoObject{
 
     @NotNull(message = "Veuillez fournir un nom")

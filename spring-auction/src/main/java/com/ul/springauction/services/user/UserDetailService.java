@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 /**
- * Service build a Spring User, giving him access by JWT verification
+ * Service créant un nouveau User Spring
+ * Lui donnant droit avec le token a effectuer des requêtes
  */
 @Service
 public class UserDetailService implements UserDetailsService {

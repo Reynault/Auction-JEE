@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Define a list of all errors catch when a request is progressing
+ * Définition d'un retour d'erreur si ces dernières sont déclanchées
  */
 public class ErrorResponse implements Response {
 
