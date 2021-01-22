@@ -84,13 +84,15 @@ public class DatabaseService {
                 null
         );
 
+        Address addr = new Address("France", "Nancy", "17 rue de la libération", "54000");
+
         // Creation of users
         User u1 = new User(
                 "bob",
                 bCryptPasswordEncoder.encode("pass"),
                 "bob",
                 "ross",
-                null,
+                addr,
                 new ArrayList(),
                 Arrays.asList(a1, a2)
         );

@@ -9,6 +9,7 @@ import com.ul.springauction.shared.response.TokenResponse;
 import com.ul.springauction.shared.dto.Login;
 import com.ul.springauction.shared.dto.RegisterUser;
 import com.ul.springauction.shared.response.Response;
+import model.Address;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -83,6 +84,17 @@ public class UserService {
         token = token.substring(7);
         String username = util.extractUsername(token);
         return userRepo.findByLogin(username);
+    }
+
+
+    // Donne l'addresse de l'utilisateur
+    public Address getUserAddress(String token) throws BadRequestException {
+        User u = findUser(token);
+        if (u.getHome() == null){
+            throw new BadRequestException(ErrorMessageManager.USER_DOESNT_HAVE_ADDRESS);
+        } else {
+            return u.getHome();
+        }
     }
 
 

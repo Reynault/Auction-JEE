@@ -58,7 +58,7 @@ public class DeliveryService {
                             Address newAddress = RegisterAddress.convertToAddress(address);
                             // Si l'utilisateur a bien une addresse de livraison
                             if (newAddress == null && u.getHome() == null) {
-                                throw new BadRequestException(ErrorMessageManager.USER_DOESNT_HAVE_ADDRESS);
+                                throw new BadRequestException(ErrorMessageManager.USER_MUST_HAVE_ADDRESS);
                             } else {
                                 u.setHome(newAddress);
                                 List<Promotion> promotions = promotionService.getPromotionByList(param);
