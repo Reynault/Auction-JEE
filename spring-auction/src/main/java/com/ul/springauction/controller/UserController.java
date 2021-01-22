@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequestMapping(value = "/auction")
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:5201")
 public class UserController {
 
     @Autowired
