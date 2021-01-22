@@ -1,8 +1,9 @@
-package service.auth;
+package service.user;
 
-import dao.auth.UserDAOLocal;
+import dao.user.UserDAOLocal;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import model.Address;
 import model.User;
 import service.crypt.CryptServiceLocal;
 import service.jwt.JWTServiceLocal;
@@ -14,7 +15,7 @@ import shared.entities.Payload;
 import web.exceptions.BadValuesException;
 
 @Stateless
-public class AuthService implements AuthServiceLocal {
+public class UserService implements UserServiceLocal {
 
     @EJB
     private UserDAOLocal dao;
@@ -59,6 +60,21 @@ public class AuthService implements AuthServiceLocal {
             return new Payload(jwt.generateToken(user.getLogin()));
         } else {
             throw new BadValuesException(ErrorMessageManager.USER_ALREADY_EXIST);
+        }
+    }
+
+    @Override
+    public Address getAddress(String login) {
+        User user = dao.getOne(login);
+        if (user != null) {
+            Address a = user.getHome();
+            if (a != null) {
+                return a;
+            } else {
+                throw new BadValuesException(ErrorMessageManager.USER_DOESNT_HAVE_ADDRESS);
+            }
+        } else {
+            throw new BadValuesException(ErrorMessageManager.USER_DOESNT_EXIST);
         }
     }
 }

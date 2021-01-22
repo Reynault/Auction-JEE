@@ -2,7 +2,7 @@ package service.article;
 
 import dao.article.ArticleDAOLocal;
 import dao.auction.AuctionDAOLocal;
-import dao.auth.UserDAOLocal;
+import dao.user.UserDAOLocal;
 import java.text.ParseException;
 import java.time.Instant;
 import java.util.Collection;

@@ -2,7 +2,7 @@ package service.participation;
 
 import dao.article.ArticleDAOLocal;
 import dao.auction.AuctionDAOLocal;
-import dao.auth.UserDAOLocal;
+import dao.user.UserDAOLocal;
 import dao.participate.ParticipationDAOLocal;
 import java.util.Collection;
 import javax.ejb.EJB;

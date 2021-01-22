@@ -11,6 +11,7 @@ public class ErrorMessageManager {
     public final static String ALREADY_SOLD = "Article déjà vendu";
     public final static String ARTICLE_NOT_FOUND = "Article inexistant";
 
+    public final static String USER_DOESNT_HAVE_ADDRESS = "L'utilisateur n'a pas d'addresse";
     public final static String USER_ALREADY_EXIST = "Le login existe déjà";
     public final static String USER_DOESNT_EXIST = "Le login n'existe pas";
     public final static String COULDNT_AUTHENTIFY = "Les données fournies ne nous ont pas permis de vous identifier";

@@ -11,8 +11,6 @@ import javax.ejb.DependsOn;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import service.messaging.ConnectionManager;
-import service.messaging.RessourceManager;
 import service.messaging.reveiver.MyDeliveryCallbackLocal;
 
 @Singleton
@@ -24,7 +22,7 @@ public class DeliveryReceiver {
     private MyDeliveryCallbackLocal deliveryCallback;
 
     @EJB
-    private ConnectionManager manager;
+    private QueueConnectionManager manager;
 
     private Channel channel;
 

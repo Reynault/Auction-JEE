@@ -1,7 +1,7 @@
 package service.offer;
 
 import dao.article.ArticleDAOLocal;
-import dao.auth.UserDAOLocal;
+import dao.user.UserDAOLocal;
 import dao.offer.OfferDAOLocal;
 import dao.participate.ParticipationDAOLocal;
 import java.util.Collection;

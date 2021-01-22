@@ -1,6 +1,6 @@
 package dao.article;
 
-import dao.auth.UserDAOLocal;
+import dao.user.UserDAOLocal;
 import java.text.ParseException;
 import java.time.Instant;
 import java.util.ArrayList;

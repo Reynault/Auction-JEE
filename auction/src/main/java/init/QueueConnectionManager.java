@@ -1,4 +1,4 @@
-package service.messaging;
+package init;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -12,7 +12,7 @@ import javax.annotation.PreDestroy;
 import javax.ejb.Singleton;
 
 @Singleton
-public class ConnectionManager {
+public class QueueConnectionManager {
 
     private ConnectionFactory factory;
 
@@ -33,7 +33,7 @@ public class ConnectionManager {
             this.factory.setVirtualHost(VHOST);
             this.connection = this.factory.newConnection();
         } catch (IOException | TimeoutException ex) {
-            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QueueConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -42,7 +42,7 @@ public class ConnectionManager {
         try {
             connection.close();
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QueueConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

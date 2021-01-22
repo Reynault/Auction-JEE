@@ -1,4 +1,4 @@
-package service.messaging;
+package init;
 
 public class RessourceManager {
 

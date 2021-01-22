@@ -1,9 +1,7 @@
 package dao.delivery;
 
-import dao.auth.UserDAOLocal;
 import enumeration.DeliveryStep;
 import java.util.Collection;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -20,9 +18,6 @@ public class DeliveryDAO implements DeliveryDAOLocal {
 
     @PersistenceContext(unitName = "AuctionPU")
     private EntityManager em;
-
-    @EJB
-    private UserDAOLocal user;
 
     @Override
     public Delivery initializeDelivery(Address address, double price, User user, Article article) {

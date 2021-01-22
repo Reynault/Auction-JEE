@@ -3,10 +3,10 @@ package service.delivery;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.article.ArticleDAOLocal;
 import dao.auction.AuctionDAOLocal;
-import dao.auth.UserDAOLocal;
 import dao.delivery.DeliveryDAOLocal;
 import dao.offer.OfferDAOLocal;
 import dao.participate.ParticipationDAOLocal;
+import dao.user.UserDAOLocal;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.concurrent.TimeoutException;
@@ -18,7 +18,7 @@ import model.Address;
 import model.Article;
 import model.Delivery;
 import model.User;
-import service.messaging.RessourceManager;
+import init.RessourceManager;
 import service.messaging.sender.MessagingServiceLocal;
 import shared.ErrorMessageManager;
 import shared.dto.UserAddress;
@@ -66,6 +66,8 @@ public class DeliveryService implements DeliveryServiceLocal {
                                 } else {
                                     throw new BadValuesException(ErrorMessageManager.USER_MUST_HAVE_ADDRESS);
                                 }
+                                // modification de l'addresse de l'utilisateur avec la nouvelle
+                                user = userDao.changeAddress(user, a);
                                 // récupération du nouveaux prix en prenant en compte les promotions
                                 double price = offer.checkPrice(user, article, params);
                                 // envoie de la demande de commande

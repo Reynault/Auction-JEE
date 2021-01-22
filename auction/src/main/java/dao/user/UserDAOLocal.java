@@ -1,6 +1,7 @@
-package dao.auth;
+package dao.user;
 
 import javax.ejb.Local;
+import model.Address;
 import model.User;
 import shared.dto.UserInscription;
 
@@ -11,4 +12,5 @@ public interface UserDAOLocal {
 
     User insertOne(UserInscription info);
 
+    User changeAddress(User user, Address address);
 }

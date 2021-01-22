@@ -1,6 +1,6 @@
 package dao.offer;
 
-import dao.auth.UserDAOLocal;
+import dao.user.UserDAOLocal;
 import dao.offer.types.Offer;
 import java.util.Collection;
 import java.util.List;

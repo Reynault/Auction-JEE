@@ -1,4 +1,4 @@
-package dao.auth;
+package dao.user;
 
 import java.util.ArrayList;
 import javax.ejb.Stateless;
@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import model.Address;
 import model.User;
 import shared.dto.UserAddress;
 import shared.dto.UserInscription;
@@ -39,6 +40,15 @@ public class UserDAO implements UserDAOLocal {
                 new ArrayList()
         );
         em.persist(user);
+        return user;
+    }
+
+    @Override
+    public User changeAddress(User user, Address address) {
+        if (user != null && address != null) {
+            user.setHome(address);
+            user = em.merge(user);
+        }
         return user;
     }
 }

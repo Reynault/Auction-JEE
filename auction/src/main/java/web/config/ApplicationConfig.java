@@ -28,8 +28,8 @@ public class ApplicationConfig extends Application {
         resources.add(web.config.authentification.AuthentificationFilter.class);
         resources.add(web.config.cors.CORSFilter.class);
         resources.add(web.controller.ArticleController.class);
-        resources.add(web.controller.AuthController.class);
         resources.add(web.controller.ParticipationController.class);
+        resources.add(web.controller.UserController.class);
     }
 
 }

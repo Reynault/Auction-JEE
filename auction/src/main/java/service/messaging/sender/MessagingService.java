@@ -9,13 +9,13 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import service.messaging.ConnectionManager;
+import init.QueueConnectionManager;
 
 @Stateless
 public class MessagingService implements MessagingServiceLocal {
 
     @EJB
-    private ConnectionManager manager;
+    private QueueConnectionManager manager;
 
     private Channel channel;
 
