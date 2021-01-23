@@ -75,7 +75,6 @@ export class RegisterComponent implements OnInit {
     if (this.form.valid) {
       const u = this._form.value;
       delete u.confirmation;
-      console.log(u);
       if (this.form.value.address.street === '' ||
         this.form.value.address.country === '' ||
         this.form.value.address.code === '' ||
@@ -88,7 +87,6 @@ export class RegisterComponent implements OnInit {
           this._router.navigate(['/home']);
         },
         error => {
-          console.log('MMmmmmm error');
           switch (error.error.statusCode) {
             case 409:
               this._err = errorMessages.userAlreadyExists;

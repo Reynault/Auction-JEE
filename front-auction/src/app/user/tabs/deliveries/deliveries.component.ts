@@ -29,7 +29,6 @@ export class DeliveriesComponent implements OnInit {
     this._deliveryService
       .getUserDeliveries().subscribe((deliveries: Delivery[]) => {
       this._deliveries = deliveries;
-      console.log(deliveries);
     });
   }
 

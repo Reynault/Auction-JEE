@@ -100,7 +100,6 @@ export class AuctionFormComponent implements OnInit {
    */
   submit(auctionSend: AuctionSend): void {
     auctionSend.id = this._id;
-    console.log('Emit : ' + this._id);
     this._submit$.emit(auctionSend);
   }
 

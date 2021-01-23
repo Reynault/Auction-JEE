@@ -65,7 +65,6 @@ export class CarouselArticlePromoComponent implements OnInit {
     this._promotionService
       .getPromotions().subscribe((promotions: Promotion[]) => {
       this._promotions = promotions;
-      console.log(this._promotions);
     });
   }
 

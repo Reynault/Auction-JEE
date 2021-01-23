@@ -52,7 +52,6 @@ export class UserArticleComponent implements OnInit {
   initArticle(): void {
     this._articleService
       .getUserArticle(this._id).subscribe((article: Article) => {
-        console.log(article);
         this._article = article;
       }
     );

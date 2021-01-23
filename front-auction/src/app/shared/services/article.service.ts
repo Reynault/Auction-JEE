@@ -137,8 +137,6 @@ export class ArticleService {
   // }
 
   sell(id: string, articleAuction: AuctionSend): Observable<any> {
-    console.log('id' + id);
-    console.log(articleAuction);
     return this._http.post(this._backendURL.addAuction.replace(':id', id), articleAuction);
   }
 

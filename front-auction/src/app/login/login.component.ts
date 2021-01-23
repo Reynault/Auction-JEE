@@ -52,14 +52,12 @@ export class LoginComponent implements OnInit {
 
   submit(): void {
     if (this.form.valid) {
-      console.log(this.form.value);
       this._auth.connect(this.form.value).subscribe(
         () => {
           this._auth.setUsernameStored(this.form.value.login);
           this._router.navigate(['/home']);
         },
         (error) => {
-          console.log(error);
           switch (error.status) {
             case 401:
               this._err = errorMessages.wrongData;

@@ -73,18 +73,14 @@ export class DeliveryService {
     let params = new HttpParams();
     promotions.forEach((x) => {
       params = params.append('o', x[0].id);
-      console.log(x[0].id);
     });
-
-    console.log(params);
-
-    console.log(this._http.post<Delivery>(this._backendURL.createDelivery.replace(':id', id), {
+    return this._http.post<Delivery>(this._backendURL.createDelivery.replace(':id', id), {
       code: address.code,
       street: address.street,
       city: address.city,
       country: address.country
-    }, {params: params}).subscribe((_) => console.log(_)));
-    return null;
+    }, {params: params});
+
   }
 
   /**
