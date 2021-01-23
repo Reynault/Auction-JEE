@@ -46,6 +46,11 @@ export class ParticipationService {
     return this._http.get<Article[]>(this._backendURL.participations);
   }
 
+  getParticipation(id: string): Observable<Article> {
+    return this._http.get<Article>(this._backendURL.participation.replace(':id', id));
+  }
+
+
   get defaultParticipation(): Participation {
     return this._defaultParticipation;
   }
