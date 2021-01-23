@@ -1,0 +1,64 @@
+<h2 mat-dialog-title>Create a Delivery</h2>
+
+<mat-dialog-content>
+  <form novalidate [formGroup]="form">
+
+    <table class="full-width" cellspacing="0">
+      <tr>
+        <td *ngFor="let choice of model.promo; let i=index" class="col-md-2">
+          <label>
+            <input type="checkbox" (change)="onCheckChange($event, choice.id)">
+            {{choice.description}}
+          </label>
+        </td>
+      </tr>
+      <tr>
+        <td class="col-md-2">
+          <div formGroupName="address">
+            <mat-form-field class="input-inline" appearance="standard">
+              <mat-label>Street</mat-label>
+              <input formControlName="street" type="text" matInput placeholder="37 rue de Paris"  [(ngModel)]=model.address.street>
+              <mat-error
+                *ngIf="form.get('address').get('street').hasError('maxLength')">
+                Max length: <strong>250</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="input-inline" appearance="standard">
+              <mat-label>Zip Code</mat-label>
+              <input formControlName="code" type="text" matInput placeholder="75000" [(ngModel)]=model.address.code>
+              <mat-error
+                *ngIf="form.get('address').get('code').hasError('maxLength')">
+                Max length: <strong>250</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="input-inline" appearance="standard">
+              <mat-label>City</mat-label>
+              <input formControlName="city" type="text" matInput placeholder="Paris" [(ngModel)]=model.address.city>
+              <mat-error
+                *ngIf=" form.get('address').get('city').hasError('maxLength')">
+                Max length: <strong>250</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="input-inline" appearance="standard">
+              <mat-label>Country</mat-label>
+              <input formControlName="country" type="text" matInput placeholder="France" [(ngModel)]=model.address.country>
+              <mat-error
+                *ngIf="form.get('address').get('country').hasError('maxLength')">
+                Max length: <strong>250</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <!-- required by API, so we put static content which is not editable but sent to the API -->
+    <input type="hidden" formControlName="id" name="id">
+  </form>
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="cancel()">Cancel</button>
+  <button mat-button color="primary" type="submit" (click)="submit()" [disabled]="form.invalid">Save</button>
+</mat-dialog-actions>

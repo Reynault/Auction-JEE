@@ -1,15 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Article} from '../../../shared/interfaces/article';
 import {RouteDescriptor} from '../../../shared/interfaces/route-descriptor';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {DialogComponent} from '../../../shared/form/dialog/dialog.component';
 import {Router} from '@angular/router';
-import {UserService} from '../../../shared/services/user.service';
 import {AuthService} from '../../../shared/services/auth.service';
-import {ArticleService} from '../../../shared/services/article.service';
-import {Category} from '../../../shared/interfaces/category';
-import {AuctionSend} from '../../../shared/interfaces/auction-send';
-import {filter} from 'rxjs/operators';
 import {Delivery} from '../../../shared/interfaces/delivery';
 import {DeliveryService} from '../../../shared/services/delivery.service';
 import {Address} from '../../../shared/interfaces/address';
@@ -37,6 +29,7 @@ export class DeliveriesComponent implements OnInit {
     this._deliveryService
       .getUserDeliveries().subscribe((deliveries: Delivery[]) => {
       this._deliveries = deliveries;
+      console.log(deliveries);
     });
   }
 

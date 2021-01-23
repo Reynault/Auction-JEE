@@ -7,4 +7,5 @@ export interface Article{
   description: string;
   categories: Category[];
   auction: Auction;
+  hasBeenSold: boolean;
 }

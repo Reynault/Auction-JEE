@@ -39,6 +39,8 @@ import { AuctionFormComponent } from './shared/form/auction-form/auction-form.co
 import {MatDialogModule} from '@angular/material/dialog';
 import { DialogComponent } from './shared/form/dialog/dialog.component';
 import { NotAvailableComponent } from './not-available/not-available.component';
+import {DialogDeliveryComponent} from './shared/form/dialog-delivery/dialog-delivery.component';
+import {DeliveryFormComponent} from './shared/form/delivery-form/delivery-form.component';
 
 
 @NgModule({
@@ -61,7 +63,9 @@ import { NotAvailableComponent } from './not-available/not-available.component';
     ParticipationsComponent,
     DeliveriesComponent,
     AuctionFormComponent,
+    DeliveryFormComponent,
     DialogComponent,
+    DialogDeliveryComponent,
     NotAvailableComponent
   ],
   imports: [
