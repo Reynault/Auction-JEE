@@ -3,6 +3,7 @@ package com.ul.springauction.services;
 import com.ul.springauction.DAO.offer.Offer;
 import com.ul.springauction.services.user.UserService;
 import com.ul.springauction.services.validator.DtoValidator;
+import com.ul.springauction.shared.communication.DeliverySender;
 import com.ul.springauction.shared.dto.RegisterAddress;
 import com.ul.springauction.shared.exception.BadRequestException;
 import enumeration.DeliveryStep;
@@ -31,6 +32,8 @@ public class DeliveryService {
     private PromotionService promotionService;
     @Autowired
     private DtoValidator dtoValidator;
+    @Autowired
+    private DeliverySender sender;
 
 
     // Effectue la commande de l'article par l'utilisateur
@@ -70,7 +73,7 @@ public class DeliveryService {
                                     finalPrice = o.applyOffer(participationService, u, a, finalPrice, parameters);
                                 }
                                 Delivery d = createAndAddDeliveryToUser(finalPrice, a, u);
-                                // ajout à la queue a faire
+                                sender.send(d);
                                 return d;
                             }
                         } else {
@@ -96,11 +99,13 @@ public class DeliveryService {
         return d;
     }
 
+
     // Cherche les commandes de l'utilisateur
     public List<Delivery> showAllDeliveries(String token) throws BadRequestException {
         User u = userService.findUser(token);
         return u.getDeliveries();
     }
+
 
     // Cherche une commande en particulier
     public Delivery showOneDelivery(String token, long id) throws BadRequestException {

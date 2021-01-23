@@ -82,7 +82,12 @@ public class UserService {
         // Retrait des 7 premiers caractères de la chaine
         // Car JWT de la forme "Bearer suitedecaractèresindéchiffrables"
         token = token.substring(7);
-        String username = util.extractUsername(token);
+        String username = null;
+        try{
+            username = util.extractUsername(token);
+        } catch (Exception e){
+            throw new BadRequestException(ErrorMessageManager.MISSING_DATA);
+        }
         User u = userRepo.findByLogin(username);
         if (u == null){
             throw new BadRequestException(ErrorMessageManager.MISSING_DATA);

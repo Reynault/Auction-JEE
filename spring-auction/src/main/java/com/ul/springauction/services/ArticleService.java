@@ -161,7 +161,9 @@ public class ArticleService {
         if(u.getSold().contains(articleDel)){
             u.getSold().remove(articleDel);
             userService.saveUpdatedUser(u);
-            auctionService.deleteAuction(articleDel.getAuction());
+            if (articleDel.getAuction() != null){
+                auctionService.deleteAuction(articleDel.getAuction());
+            }
             articleRepo.deleteById(articleDel.getId());
         } else {
             throw new BadRequestException(ErrorMessageManager.USER_DOESNT_HAVE_ARTICLE);

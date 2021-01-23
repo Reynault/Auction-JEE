@@ -1,5 +1,6 @@
 package com.ul.springauction.controller;
 
+import com.ul.springauction.configuration.Authentificated;
 import com.ul.springauction.services.user.UserService;
 import com.ul.springauction.shared.dto.Login;
 import com.ul.springauction.shared.dto.RegisterUser;
@@ -28,6 +29,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/fetchAddress")
+    @Authentificated
     public Address getUserAddress(@RequestHeader(value = "Authorization") String token) throws BadRequestException {
         return userService.getUserAddress(token);
     }

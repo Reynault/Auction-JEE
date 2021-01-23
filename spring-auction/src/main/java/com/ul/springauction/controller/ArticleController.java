@@ -28,6 +28,7 @@ public class ArticleController {
     }
 
     @GetMapping(value = "/my")
+    @Authentificated
     public List<Article> findAllOwnArticle(@RequestHeader(name = "Authorization") String token) throws BadRequestException {
         return articleService.findUserArticles(token);
     }
@@ -38,6 +39,7 @@ public class ArticleController {
     }
 
     @GetMapping(value = "/{id}/my")
+    @Authentificated
     public Article findOwnArticleWithAuction(@RequestHeader(name = "Authorization") String token, @PathVariable long id) throws BadRequestException {
         return articleService.findOwnArticleWithAuction(token, id);
     }
@@ -49,16 +51,19 @@ public class ArticleController {
     }
 
     @PostMapping(value = "/{id}/sell")
+    @Authentificated
     public Article addAuctionToArticle(@RequestHeader(name = "Authorization") String token, @PathVariable long id, @RequestBody AuctionAdd auction) throws BadRequestException {
         return articleService.addAuctionToArticle(token, id, auction);
     }
 
     @DeleteMapping(value = "/{id}/delete")
+    @Authentificated
     public void deleteArticle(@RequestHeader(name = "Authorization") String token, @PathVariable long id) throws BadRequestException {
         articleService.deleteArticle(token, id);
     }
 
     @PostMapping(value = "/{id}/remove")
+    @Authentificated
     public void deleteAuctionFromArticle(@RequestHeader(name = "Authorization") String token, @PathVariable long id) throws BadRequestException {
         articleService.deleteAuctionFromArticle(token, id);
     }

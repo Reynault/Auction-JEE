@@ -1,5 +1,6 @@
 package com.ul.springauction.controller;
 
+import com.ul.springauction.configuration.Authentificated;
 import com.ul.springauction.services.PromotionService;
 import com.ul.springauction.shared.exception.BadRequestException;
 import com.ul.springauction.shared.response.Response;
@@ -25,6 +26,7 @@ public class PromotionController {
     }
 
     @GetMapping(value = "/{id}/checkPrice")
+    @Authentificated
     public Response calculNewPrice(@RequestHeader(value = "Authorization")String token, @PathVariable long id, @RequestParam(required = false)List<Long> o) throws BadRequestException {
         return promotionService.calcuNewPrice(token, id, o);
     }

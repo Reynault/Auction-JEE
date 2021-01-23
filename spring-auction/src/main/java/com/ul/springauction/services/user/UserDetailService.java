@@ -1,7 +1,6 @@
 package com.ul.springauction.services.user;
 
 import com.ul.springauction.DAO.repository.UserRepository;
-import com.ul.springauction.shared.exception.BadRequestException;
 import com.ul.springauction.shared.response.ErrorResponse;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
