@@ -132,7 +132,6 @@ public class DatabaseInit {
             Participation par2 = new Participation(550, u2);
             Participation par3 = new Participation(600, u3);
             Participation par4 = new Participation(450, u3);
-            Participation par5 = new Participation(1200, u1);
 
             em.persist(par1);
             em.persist(par2);
@@ -144,8 +143,8 @@ public class DatabaseInit {
             Auction au1 = new Auction(
                     20,
                     sdf.parse("2020-12-29"),
-                    par5,
-                    Arrays.asList(par3, par2, par5),
+                    par3,
+                    Arrays.asList(par3, par2),
                     a1
             );
             Auction au2 = new Auction(
