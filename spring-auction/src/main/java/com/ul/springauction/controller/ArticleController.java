@@ -1,13 +1,17 @@
 package com.ul.springauction.controller;
 
+import com.ul.springauction.configuration.Authentificated;
 import com.ul.springauction.services.ArticleService;
 import com.ul.springauction.shared.dto.ArticleAdd;
 import com.ul.springauction.shared.dto.AuctionAdd;
 import com.ul.springauction.shared.exception.BadRequestException;
 import model.Article;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RequestMapping(value = "/auction/articles")
@@ -39,6 +43,7 @@ public class ArticleController {
     }
 
     @PostMapping(value = "/submit")
+    @Authentificated
     public Article addArticle(@RequestHeader(name = "Authorization") String token, @RequestBody ArticleAdd article) throws BadRequestException {
         return articleService.addArticle(token, article);
     }

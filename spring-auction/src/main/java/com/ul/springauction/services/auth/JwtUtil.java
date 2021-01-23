@@ -67,8 +67,8 @@ public class JwtUtil {
 
 
     // Valide le token pour filtrage
-    public Boolean validateToken(String token, UserDetails userDetails){
+    public Boolean validateToken(String token, String login){
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (username.equals(login)) && !isTokenExpired(token);
     }
 }
