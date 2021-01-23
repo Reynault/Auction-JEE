@@ -43,7 +43,7 @@ pour arrêter et détruire complètement le conteneur).
 --------------------------
 
 ### Lancement du back Spring
-Une fois que RabbitMQ et la base de données SQL lancés, il ne reste plus qu'a lancé le projet Spring: pour cela ouvrir un autre terminal dans le dossier spring-auction puis 
+Une fois que RabbitMQ et la base de données SQL lancés, il ne reste plus qu'à lancer le projet Spring: pour cela ouvrir un autre terminal dans le dossier spring-auction puis 
 faire la commande :
 ```
 mvn spring-boot:run
