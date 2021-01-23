@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Article} from '../../../shared/interfaces/article';
 import {RouteDescriptor} from '../../../shared/interfaces/route-descriptor';
 import {Router} from '@angular/router';
@@ -80,13 +80,6 @@ export class ParticipationsComponent implements OnInit {
   }
 
   /**
-   * Returns private property _dialogStatus
-   */
-  get dialogStatus(): string {
-    return this._dialogStatus;
-  }
-
-  /**
    * Function to display modal
    */
   showDialog(_id: string): void {
@@ -116,9 +109,8 @@ export class ParticipationsComponent implements OnInit {
   }
 
   getUserLastParticipation(article: Article): Participation{
-    const maxPeak = (article.auction.participations.filter(p => p.login === this._authService.getUsernameStored()))
+    return (article.auction.participations.filter(p => p.login === this._authService.getUsernameStored()))
       .reduce((p, c) => (p.price > c.price) ? p : c);
-    return maxPeak;
 
   }
 

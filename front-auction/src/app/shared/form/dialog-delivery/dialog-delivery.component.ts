@@ -1,5 +1,4 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
-import {AuctionSend} from '../../interfaces/auction-send';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Promotion} from '../../interfaces/promotion';
 import {Address} from '../../interfaces/address';

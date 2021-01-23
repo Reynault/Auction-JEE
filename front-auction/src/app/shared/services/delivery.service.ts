@@ -3,7 +3,6 @@ import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {TokenService} from './token-service';
-import {Router} from '@angular/router';
 import {Delivery} from '../interfaces/delivery';
 import {Address} from '../interfaces/address';
 import {ArticleToDeliver} from '../interfaces/article-to-deliver';
@@ -17,8 +16,7 @@ export class DeliveryService {
   private readonly _defaultDelivery: Delivery;
 
   constructor(private _http: HttpClient,
-              private _token: TokenService,
-              private router: Router) {
+              private _token: TokenService) {
     this._defaultDelivery = {
       id: '-1',
       step: 'No Delivery',
@@ -95,9 +93,5 @@ export class DeliveryService {
     return this._defaultDelivery;
   }
 
-  transformPromotion(promotion: any): any{
-
-    return null;
-  }
 
 }

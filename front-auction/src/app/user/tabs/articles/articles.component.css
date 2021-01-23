@@ -8,7 +8,6 @@ table {
 }
 
 .mat-column-name {
-  word-wrap: break-word !important;
   white-space: unset !important;
   flex: 0 0 10% !important;
   width: 10% !important;
@@ -24,7 +23,6 @@ table {
 }
 
 .mat-column-description {
-  word-wrap: break-word !important;
   white-space: unset !important;
   flex: 0 0 70% !important;
   width: 70% !important;
@@ -40,7 +38,6 @@ table {
 }
 
 .mat-column-actions{
-  word-wrap: break-word !important;
   white-space: unset !important;
   flex: 0 0 8% !important;
   width: 8% !important;

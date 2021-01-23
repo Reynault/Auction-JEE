@@ -12,7 +12,6 @@ table {
 }
 
 .mat-column-name {
-  word-wrap: break-word !important;
   white-space: unset !important;
   flex: 0 0 17% !important;
   width: 10% !important;
@@ -27,8 +26,8 @@ table {
   hyphens: auto;
 }
 
+
 .mat-column-description {
-  word-wrap: break-word !important;
   white-space: unset !important;
   flex: 0 0 17% !important;
   width: 60% !important;
@@ -43,8 +42,8 @@ table {
   hyphens: auto;
 }
 
+
 .mat-column-lastParticipation {
-  word-wrap: break-word !important;
   white-space: unset !important;
   flex: 0 0 17% !important;
   width: 10% !important;
@@ -60,7 +59,6 @@ table {
 }
 
 .mat-column-timeLimit {
-  word-wrap: break-word !important;
   white-space: unset !important;
   flex: 0 0 17% !important;
   width: 10% !important;
@@ -76,7 +74,6 @@ table {
 }
 
 .mat-column-actions {
-  word-wrap: break-word !important;
   white-space: unset !important;
   flex: 0 0 10% !important;
   width: 10% !important;

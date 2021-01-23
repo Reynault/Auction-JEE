@@ -21,8 +21,11 @@ export class ArticleComponent implements OnInit {
   private _backendURL: any;
   private readonly _baseUrl: string;
 
-  constructor(private _router: Router, private _activatedRoute: ActivatedRoute, private _articleService: ArticleService,
-              private _authService: AuthService, private _participationService: ParticipationService) {
+  constructor(private _router: Router,
+              private _activatedRoute: ActivatedRoute,
+              private _articleService: ArticleService,
+              private _authService: AuthService,
+              private _participationService: ParticipationService) {
     this._id = this._activatedRoute.snapshot.url.pop().path;
     this._backendURL = {};
     this._baseUrl = `${environment.backend.protocol}://${environment.backend.host}`;

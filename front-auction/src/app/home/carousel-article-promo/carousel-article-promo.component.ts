@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Article} from '../../shared/interfaces/article';
 import {Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
-import {ArticleService} from '../../shared/services/article.service';
 import {OwlOptions} from 'ngx-owl-carousel-o';
 import {Promotion} from '../../shared/interfaces/promotion';
-import {Observable} from 'rxjs';
 import {PromotionService} from '../../shared/services/promotion.service';
 
 @Component({
@@ -66,13 +63,6 @@ export class CarouselArticlePromoComponent implements OnInit {
       .getPromotions().subscribe((promotions: Promotion[]) => {
       this._promotions = promotions;
     });
-  }
-
-  /**
-   * Function to navigate to current category
-   */
-  navigate(id: string): void {
-    this._router.navigate(['/category', id]);
   }
 
 }

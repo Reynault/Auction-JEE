@@ -17,10 +17,6 @@ export class SearchbarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  clickMenu(): void {
-    this.openDr.emit(true);
-  }
-
   isLogedIn(): boolean {
     return this._authService.hasStoredToken();
   }

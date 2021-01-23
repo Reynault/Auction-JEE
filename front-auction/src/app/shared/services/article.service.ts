@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import {User} from '../interfaces/user';
 import {Observable} from 'rxjs';
-import {defaultIfEmpty, filter} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {TokenService} from './token-service';
-import {Router} from '@angular/router';
 import {Article} from '../interfaces/article';
 import {Category} from '../interfaces/category';
 import {Auction} from '../interfaces/auction';
@@ -22,8 +20,7 @@ export class ArticleService {
   private readonly _defaultArticleSend: ArticleSend;
 
   constructor(private _http: HttpClient,
-              private _token: TokenService,
-              private router: Router) {
+              private _token: TokenService) {
     this._defaultArticle = {
       id: '-1',
       name: 'No Article',
@@ -102,20 +99,11 @@ export class ArticleService {
     return this._defaultArticle;
   }
 
+  // noinspection JSUnusedGlobalSymbols
   get defaultArticleSend(): ArticleSend {
     return this._defaultArticleSend;
   }
 
-  /**
-   * Retourne la liste des recettes
-   */
-  fetch(): Observable<Article[]> {
-    return this._http.get<Article[]>(this._backendURL.allArticles)
-      .pipe(
-        filter(_ => !!_),
-        defaultIfEmpty([])
-      );
-  }
 
   /**
    * Retourne la recette correspondant à l'id courant
@@ -131,10 +119,6 @@ export class ArticleService {
   create(article: ArticleSend): Observable<any>{
     return this._http.post(this._backendURL.addArticle, article);
   }
-
-  // modify(id: string, recipe: any): Observable<any> {
-  //   return this._http.put(this._backendURL.oneArticle.replace(':id', id), recipe);
-  // }
 
   sell(id: string, articleAuction: AuctionSend): Observable<any> {
     return this._http.post(this._backendURL.addAuction.replace(':id', id), articleAuction);

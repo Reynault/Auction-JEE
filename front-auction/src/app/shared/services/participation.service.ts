@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import {User} from '../interfaces/user';
 import {Observable} from 'rxjs';
-import {defaultIfEmpty, filter} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {TokenService} from './token-service';
-import {Router} from '@angular/router';
 import {Participation} from '../interfaces/participation';
 import {ParticipationSend} from '../interfaces/participation-send';
 import {Article} from '../interfaces/article';
@@ -19,8 +17,7 @@ export class ParticipationService {
   private readonly _defaultParticipation: Participation;
 
   constructor(private _http: HttpClient,
-              private _token: TokenService,
-              private router: Router) {
+              private _token: TokenService) {
     this._defaultParticipation = {
       id: '-1',
       price : '0.0',

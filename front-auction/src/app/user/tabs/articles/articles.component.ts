@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {PeriodicElement} from '../../user.component';
 import {Article} from '../../../shared/interfaces/article';
 import {Router} from '@angular/router';
 import {UserService} from '../../../shared/services/user.service';
@@ -7,11 +6,9 @@ import {AuthService} from '../../../shared/services/auth.service';
 import {ArticleService} from '../../../shared/services/article.service';
 import {Category} from '../../../shared/interfaces/category';
 import {RouteDescriptor} from '../../../shared/interfaces/route-descriptor';
-import {filter, map, mergeMap} from 'rxjs/operators';
+import {filter} from 'rxjs/operators';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {Auction} from '../../../shared/interfaces/auction';
 import {AuctionSend} from '../../../shared/interfaces/auction-send';
-import {AuctionFormComponent} from '../../../shared/form/auction-form/auction-form.component';
 import {DialogComponent} from '../../../shared/form/dialog/dialog.component';
 
 @Component({
@@ -70,13 +67,6 @@ export class ArticlesComponent implements OnInit {
 
   getDate(): Date{
     return new Date();
-  }
-
-  /**
-   * Returns private property _dialogStatus
-   */
-  get dialogStatus(): string {
-    return this._dialogStatus;
   }
 
   /**

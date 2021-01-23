@@ -6,8 +6,8 @@
 table {
   width: 100%;
 }
+
 .mat-column-description {
-  word-wrap: break-word !important;
   white-space: unset !important;
   flex: 0 0 17% !important;
   width: 17% !important;
