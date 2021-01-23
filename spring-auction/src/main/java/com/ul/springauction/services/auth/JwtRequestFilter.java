@@ -84,7 +84,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         if (SecurityContextHolder.getContext() == null && !uri.equals("/auction/login") && !uri.equals("/auction/register")){
             // ne se déclanche pas tout le temps
-            response.sendError(401);
+            response.sendError(401, "Unauthorized User");
         }
         chain.doFilter(request, response); // va crée des erreurs 500 que j'ai gérer plus loin dans UserService en BadRequest missing value
     }

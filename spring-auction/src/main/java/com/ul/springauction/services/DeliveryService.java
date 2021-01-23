@@ -97,7 +97,7 @@ public class DeliveryService {
     }
 
     // Cherche les commandes de l'utilisateur
-    public List<Delivery> showAllDeliveries(String token){
+    public List<Delivery> showAllDeliveries(String token) throws BadRequestException {
         User u = userService.findUser(token);
         return u.getDeliveries();
     }

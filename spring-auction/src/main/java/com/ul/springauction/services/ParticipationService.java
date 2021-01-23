@@ -78,7 +78,7 @@ public class ParticipationService {
 
 
     // Cherche les articles où a participer l'utilisateur encore en cours ou s'il est le meilleur
-    public List<Article> getInfoAllParticipation(String token){
+    public List<Article> getInfoAllParticipation(String token) throws BadRequestException {
         User u = userService.findUser(token);
         List<Participation> participations = participationRepository.findAllByBidder(u);
         List<Auction> auctions = auctionService.findAuctionsByParticipations(participations);

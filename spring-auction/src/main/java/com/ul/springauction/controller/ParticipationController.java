@@ -24,7 +24,7 @@ public class ParticipationController {
     }
 
     @GetMapping(value = "/my")
-    public List<Article> getInfoAllParticipation(@RequestHeader(value = "Authorization") String token){
+    public List<Article> getInfoAllParticipation(@RequestHeader(value = "Authorization") String token) throws BadRequestException {
         return partService.getInfoAllParticipation(token);
     }
 

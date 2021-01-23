@@ -23,7 +23,7 @@ public class DeliveryController {
     }
 
     @GetMapping(value = "/deliveries")
-    public List<Delivery> showDeliveries(@RequestHeader(value = "Authorization") String token){
+    public List<Delivery> showDeliveries(@RequestHeader(value = "Authorization") String token) throws BadRequestException {
         return deliveryService.showAllDeliveries(token);
     }
 
