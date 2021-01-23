@@ -24,7 +24,7 @@ public class ArticleController {
     }
 
     @GetMapping(value = "/my")
-    public List<Article> findAllOwnArticle(@RequestHeader(name = "Authorization") String token){
+    public List<Article> findAllOwnArticle(@RequestHeader(name = "Authorization") String token) throws BadRequestException {
         return articleService.findUserArticles(token);
     }
 

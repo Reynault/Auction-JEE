@@ -78,19 +78,23 @@ public class UserService {
 
 
     // Extraction de l'utilisateur en déchiffrant le JWT
-    public User findUser(String token){
+    public User findUser(String token) throws BadRequestException {
         // Retrait des 7 premiers caractères de la chaine
         // Car JWT de la forme "Bearer suitedecaractèresindéchiffrables"
         token = token.substring(7);
         String username = util.extractUsername(token);
-        return userRepo.findByLogin(username);
+        User u = userRepo.findByLogin(username);
+        if (u == null){
+            throw new BadRequestException(ErrorMessageManager.MISSING_DATA);
+        }
+        return u;
     }
 
 
     // Donne l'addresse de l'utilisateur
     public Address getUserAddress(String token) throws BadRequestException {
         User u = findUser(token);
-        if (u.getHome() == null){
+        if (u.getHome() == null) {
             throw new BadRequestException(ErrorMessageManager.USER_DOESNT_HAVE_ADDRESS);
         } else {
             return u.getHome();

@@ -44,7 +44,7 @@ public class ArticleService {
 
 
     // Cherche les articles liés à un utilisateur
-    public List<Article> findUserArticles(String token){
+    public List<Article> findUserArticles(String token) throws BadRequestException {
         User u = userService.findUser(token);
         return u.getSold();
     }

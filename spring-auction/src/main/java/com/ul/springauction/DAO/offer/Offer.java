@@ -8,6 +8,9 @@ import model.User;
 
 import java.util.List;
 
+/**
+ * Classe abstraite d'une offre de réduction
+ */
 public abstract class Offer {
 
     private int nbParam;
@@ -37,4 +40,12 @@ public abstract class Offer {
     }
 
     public abstract double applyOffer(ParticipationService service, User u, Article a, double price, List<Parameter> parameters);
+
+    public int getNbParam() {
+        return nbParam;
+    }
+
+    public void setNbParam(int nbParam) {
+        this.nbParam = nbParam;
+    }
 }
