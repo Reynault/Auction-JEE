@@ -14,6 +14,7 @@ export const environment = {
       allUsers: '/users', // List all users
       login: '/auction/login', // Login
       register: '/auction/register', // Register
+      getUserAddress: '/auction/fetchAddress', // Get user address
       articles: '/auction/articles', // List all auctions
       article: '/auction/articles/:id', // Get information on an article
       addArticle: '/auction/articles/submit', // Add an article (Connected User)
@@ -26,7 +27,9 @@ export const environment = {
       participate: '/auction/participation/:id', // Add a participation to an Auction (Connected User)
       participations: '/auction/participation/my', // Get all user participations
       userDeliveries: '/auction/participation/deliveries', // Get all user deliveries
-      userDelivery: '/auction/participation/:id/deliveries' // Get a delivery
+      userDelivery: '/auction/participation/:id/deliveries', // Get a delivery
+      createDelivery: '/auction/participation/:id/deliver',
+
     }
   }
 };

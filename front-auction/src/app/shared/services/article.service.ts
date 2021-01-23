@@ -50,7 +50,8 @@ export class ArticleService {
             lastname: 'No Last'
           } as User
         }]
-      } as Auction
+      } as Auction,
+      hasBeenSold: false
     };
     this._defaultArticleSend = {
       name: 'Default Article',

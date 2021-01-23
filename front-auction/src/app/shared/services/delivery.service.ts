@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {TokenService} from './token-service';
 import {Router} from '@angular/router';
 import {Delivery} from '../interfaces/delivery';
@@ -69,6 +69,24 @@ export class DeliveryService {
     return this._http.get<Delivery>(this._backendURL.userDelivery.replace(':id', id));
   }
 
+  createDelivery(id: string, promotions: any, address: Address): Observable<Delivery> {
+    let params = new HttpParams();
+    promotions.forEach((x) => {
+      params = params.append('o', x[0].id);
+      console.log(x[0].id);
+    });
+
+    console.log(params);
+
+    console.log(this._http.post<Delivery>(this._backendURL.createDelivery.replace(':id', id), {
+      code: address.code,
+      street: address.street,
+      city: address.city,
+      country: address.country
+    }, {params: params}).subscribe((_) => console.log(_)));
+    return null;
+  }
+
   /**
    * Récupérer une commande
    * @param id, id dela commande
@@ -79,6 +97,11 @@ export class DeliveryService {
 
   get defaultDelivery(): Delivery {
     return this._defaultDelivery;
+  }
+
+  transformPromotion(promotion: any): any{
+
+    return null;
   }
 
 }

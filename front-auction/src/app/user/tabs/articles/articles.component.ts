@@ -40,7 +40,6 @@ export class ArticlesComponent implements OnInit {
     this._articleService
       .getUserArticles().subscribe((articles: Article[]) => {
       this._articles = articles;
-      console.log(articles);
     });
   }
 

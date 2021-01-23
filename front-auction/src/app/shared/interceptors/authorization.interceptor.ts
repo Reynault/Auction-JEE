@@ -24,9 +24,7 @@ export class AuthorizationInterceptor implements HttpInterceptor{
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!this.isValidRequestForInterceptor(request.url)) {
-      console.log('Ajout du token : ' + this._token.get().token);
       const token = this._token.get();
-
       const modifReq = request.clone({
         headers: request.headers
           .append(`login`, this._token.getUser())
@@ -36,7 +34,6 @@ export class AuthorizationInterceptor implements HttpInterceptor{
       console.log(modifReq);
       return this.returnRequest(modifReq, next);
     }else {
-      console.log('Pas besoin du token');
       return this.returnRequest(request, next);
     }
   }
@@ -48,9 +45,6 @@ export class AuthorizationInterceptor implements HttpInterceptor{
     if (position > 0) {
       const destination: string = requestUrl.substr(position + positionIndicator.length);
       for (const address of this.urlsToNotUse) {
-        console.log('Address : ' + address);
-        console.log('Destination : ' + destination);
-        console.log('Test : ' + new RegExp(address).test(destination));
         if (new RegExp(address).test(destination)) {
           return true;
         }
