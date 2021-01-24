@@ -22,6 +22,8 @@ Si vous voulez tester le back JEE, vous devez suivre le README.md présent dans 
 
 Si vous voulez tester le back Spring, vous devez suivre le README.md présent dans le répertoire spring-auction/.
 
+Vous devrez ensuite mettre en place le front, pour ce faire, suivez le README.md présent dans le répertoire front-auction/.
+
 ## Intitulé du projet
 
 On souhaite développer une application web de vente aux enchères. L’application doit
