@@ -1,25 +1,19 @@
 package service.delivery;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.article.ArticleDAOLocal;
 import dao.auction.AuctionDAOLocal;
 import dao.delivery.DeliveryDAOLocal;
 import dao.offer.OfferDAOLocal;
 import dao.participate.ParticipationDAOLocal;
 import dao.user.UserDAOLocal;
-import java.io.IOException;
 import java.util.Collection;
-import java.util.concurrent.TimeoutException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import model.Address;
 import model.Article;
 import model.Delivery;
 import model.User;
-import init.RessourceManager;
-import service.messaging.sender.MessagingServiceLocal;
+import service.messaging.sender.DeliverySenderLocal;
 import shared.ErrorMessageManager;
 import shared.dto.UserAddress;
 import shared.params.PromoParams;
@@ -28,6 +22,8 @@ import web.exceptions.BadValuesException;
 @Stateless
 public class DeliveryService implements DeliveryServiceLocal {
 
+    @EJB
+    private DeliverySenderLocal deliverySender;
     @EJB
     private DeliveryDAOLocal dao;
     @EJB
@@ -40,8 +36,6 @@ public class DeliveryService implements DeliveryServiceLocal {
     private UserDAOLocal userDao;
     @EJB
     private OfferDAOLocal offer;
-    @EJB
-    private MessagingServiceLocal messaging;
 
     @Override
     public Delivery deliver(UserAddress address, PromoParams params, String login, long id) {
@@ -56,32 +50,23 @@ public class DeliveryService implements DeliveryServiceLocal {
                     if (auctionDao.isFinished(article)) {
                         // l'utilisateur est le meilleur participant
                         if (participation.isBestBidder(login, article.getAuction())) {
-                            try {
-                                // récupération de l'addresse
-                                Address a;
-                                if (address != null) {
-                                    a = new Address(address.getCountry(), address.getCity(), address.getStreet(), address.getCode());
-                                } else if (user.getHome() != null) {
-                                    a = user.getHome();
-                                } else {
-                                    throw new BadValuesException(ErrorMessageManager.USER_MUST_HAVE_ADDRESS);
-                                }
-                                // modification de l'addresse de l'utilisateur avec la nouvelle
-                                user = userDao.changeAddress(user, a);
-                                // récupération du nouveaux prix en prenant en compte les promotions
-                                double price = offer.checkPrice(user, article, params);
-                                // envoie de la demande de commande
-                                Delivery delivery = dao.initializeDelivery(a, price, user, article);
-                                ObjectMapper mapper = new ObjectMapper();
-                                messaging.sendMessage(
-                                        mapper.writeValueAsBytes(delivery),
-                                        RessourceManager.PENDING_DELIVERIES
-                                );
-                                return delivery;
-                            } catch (IOException | TimeoutException ex) {
-                                Logger.getLogger(DeliveryService.class.getName()).log(Level.SEVERE, null, ex);
-                                return null;
+                            // récupération de l'addresse
+                            Address a;
+                            if (address != null) {
+                                a = new Address(address.getCountry(), address.getCity(), address.getStreet(), address.getCode());
+                            } else if (user.getHome() != null) {
+                                a = user.getHome();
+                            } else {
+                                throw new BadValuesException(ErrorMessageManager.USER_MUST_HAVE_ADDRESS);
                             }
+                            // modification de l'addresse de l'utilisateur avec la nouvelle
+                            user = userDao.changeAddress(user, a);
+                            // récupération du nouveaux prix en prenant en compte les promotions
+                            double price = offer.checkPrice(user, article, params);
+                            // envoie de la demande de commande
+                            Delivery delivery = dao.initializeDelivery(a, price, user, article);
+                            deliverySender.send(delivery);
+                            return delivery;
                         } else {
                             throw new BadValuesException(ErrorMessageManager.USER_NOT_THE_BEST);
                         }
