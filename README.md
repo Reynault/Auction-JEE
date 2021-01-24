@@ -1,10 +1,25 @@
 # Auction-JEE
 
-## Documentation
+## Suivez la partie Mise en place de l'environnement de ce Readme pour pouvoir tester le projet !
 
-Vous pouvez trouver le sujet [ici](https://github.com/Reynault/Auction-JEE/blob/main/doc/PROJET-2013-En.pdf).
+## Mise en place de l'environnement
 
-Lien vers le Trello utilisé : https://trello.com/b/IxLgXvV6/auction
+Vous pouvez voir qu'il y a plusieurs répertoires, pas de panique !
+
+Voici un descriptif de chaque répertoire:
+- JEE-delivery-manager/ contient l'application de gestion des commandes pour le back JEE
+- auction/ contient le back JEE
+- delivery-manager/ contient l'application de gestion des commandes pour le back spring
+- doc/ contient des informations relatives à notre conception comme des images ou des fichiers draw.io qui est une application permettant de faire des diagrammes
+- front-auction/ contient le front de l'application qui a été fait en Angular
+- lib/ contient des librairies qui vont vous aider pour le déploiement
+- persistence-auction/ contient le projet de persistence avec les entités JPA
+- spring-auction/ contient le back Spring
+
+Pour tester le projet, vous devez d'abord mettre en place les back-end.
+
+Si vous voulez tester le back JEE, vous devez suivre le README.md présent dans le répertoire auction/.
+Si vous voulez tester le back Spring, vous devez suivre le README.md présent dans le répertoire spring/.
 
 ## Intitulé du projet
 
@@ -19,11 +34,7 @@ Les fonctionnalités demandées sont les suivantes:
 * Gestion de la commande d'articles gagnés
 * Gestion du traitement des livraisons
 
-## Mise en place de l'environnement
-
-Chaque dépôt possède un readme indiquant comment l'installer. Il y a deux back, chaqu'un fournissant
-les mêmes fonctionnalités mais d'une manière différente. L'un va être fait à l'aide de JEE et des EJB, l'autre
-à l'aide de Spring Boot. Il y a également un front en Angular.
+Vous pouvez trouver le sujet [ici](https://github.com/Reynault/Auction-JEE/blob/main/doc/PROJET-2013-En.pdf).
 
 ## Développeurs
 
