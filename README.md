@@ -20,7 +20,7 @@ Pour tester le projet, vous devez d'abord mettre en place les back-end.
 
 Si vous voulez tester le back JEE, vous devez suivre le README.md présent dans le répertoire auction/.
 
-Si vous voulez tester le back Spring, vous devez suivre le README.md présent dans le répertoire spring/.
+Si vous voulez tester le back Spring, vous devez suivre le README.md présent dans le répertoire spring-auction/.
 
 ## Intitulé du projet
 
