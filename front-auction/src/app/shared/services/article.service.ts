@@ -73,8 +73,8 @@ export class ArticleService {
    * Récupérer les articles qui sont en vente sur le marché
    * dont la date limite n'est pas encore passée
    */
-  getArticles(): Observable<Article[]> {
-    return this._http.get<Article[]>(this._backendURL.articles);
+  getArticles(params): Observable<Article[]> {
+    return this._http.get<Article[]>(this._backendURL.articles, {params: params});
   }
 
   /**
