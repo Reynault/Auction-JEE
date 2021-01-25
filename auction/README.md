@@ -52,10 +52,6 @@ $ docker-compose up
 
 - Il faut ouvrir le projet persistence qui se trouve à la racine du projet avec netBeans et réaliser un clean & build
 
-- Il faut ensuite lancer le programme principal:
-
-![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/lancer_dans_intell.PNG)
-
 - Il vous faut également ajouter les ressources liées aux queues JMS utilisées pour gérer les commandes.
 - Puis, vous devez ajouter deux queues JMS de cette manière :
 
@@ -65,11 +61,11 @@ $ docker-compose up
 
 ![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_destination_new.PNG)
 
-- La première queue s'appelle ValidatedDeliveries
+- La première queue s'appelle ValidatedDeliveries, il faut ensuite la sauvegarder
 
 ![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_destination_validated.PNG)
 
-- La deuxième queue s'appelle PendingDeliveries
+- La deuxième queue s'appelle PendingDeliveries, il faut ensuite la sauvegarder
 
 ![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_destination_pending.PNG)
 
