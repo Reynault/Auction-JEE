@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping(value = "/participation")
+@RequestMapping(value = "/auction/participation")
 @RestController
 @CrossOrigin(origins = "http://localhost:5201")
 public class ParticipationController {
