@@ -36,7 +36,9 @@ public class PromotionService {
     // Cherche toutes les promotions du jour
     public List<Promotion> getAllPromotion(){
         List<Promotion> promotions = promotionRepository.findAll();
-        promotions.removeIf(p -> !p.isDaily());
+        if (promotions != null) {
+            promotions.removeIf(p -> !p.isDaily());
+        }
         return promotions;
     }
 

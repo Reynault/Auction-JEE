@@ -50,6 +50,17 @@ public class ArticleService {
     }
 
 
+    // Regarde si l'article "a" appartient à "u"
+    public boolean ownArticle(Article a, User u) {
+        for (Article ar : u.getSold()) {
+            if (ar.getId() == a.getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     // Cherche un article particulier et le renvoit uniquement s'il est mit aux enchères
     public Article findArticleWithAuction(long id) throws BadRequestException {
         Article a = articleRepo.findById(id);
