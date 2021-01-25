@@ -169,7 +169,7 @@ public class ArticleService {
         User u = userService.findUser(token);
         Article articleDel = articleRepo.findById(id);
         // On vérifie que l'article lui appartient
-        if(u.getSold().contains(articleDel)){
+        if(ownArticle(articleDel, u)){
             u.getSold().remove(articleDel);
             userService.saveUpdatedUser(u);
             if (articleDel.getAuction() != null){
@@ -187,7 +187,7 @@ public class ArticleService {
         User u = userService.findUser(token);
         Article article = articleRepo.findById(id);
         // On vérifie que l'article lui appartient
-        if(u.getSold().contains(article)){
+        if(ownArticle(article, u)){
             // L'article est bien aux enchères
             if (article.getAuction() != null){
                 auctionService.deleteAuction(article.getAuction());
