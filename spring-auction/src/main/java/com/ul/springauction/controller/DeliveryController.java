@@ -18,7 +18,7 @@ public class DeliveryController {
     private DeliveryService deliveryService;
 
     @PostMapping(value = "/{id}/deliver")
-    public Delivery buyArticle(@RequestHeader(value = "Authorization") String token, long id, @RequestParam(required = false)List<Long> o, @RequestBody RegisterAddress address) throws BadRequestException {
+    public Delivery buyArticle(@RequestHeader(value = "Authorization") String token,@PathVariable long id, @RequestParam(required = false)List<Long> o, @RequestBody RegisterAddress address) throws BadRequestException {
         return deliveryService.buyArticle(token, id, o, address);
     }
 
