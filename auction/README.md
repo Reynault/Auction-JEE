@@ -14,9 +14,8 @@ Pour installer ce projet, il vous faudra:
 - Java 11
 - Docker  
 - Glassfish 5
-- Intell Ij
 - NetBeans
-- De la patience
+- De la patience, beaucoup de patience...
 
 Voici les étapes à suivre:
 
@@ -24,7 +23,6 @@ Voici les étapes à suivre:
 ```
 $ docker-compose up
 ```
-- Ce docker-compose va également mettre en place Rabbit MQ qui est le message broker utilisé dans le projet pour gérer les messages asynchrones
 - Importer le projet sur NetBeans
 - La version du projet est Java 11
 - Ajouter le Serveur GlassFish 5.0 qui doit utiliser Java 1.8
@@ -32,13 +30,15 @@ $ docker-compose up
 - Placer le connecteur JDBC pour mysql qui se trouve dans /lib à la racine
   du projet dans les librairies pour le domaine sur lequel on va servir l'application, c'est
   à dire, ici : Votre installation Glassfish/domains/domain1/lib/ext/
-- Créer le pool de connexion de la manière suivante:
+- Créer le pool de connexion en lancant glassfish et en vous connectant sur le serveur via l'addresse suivante localhost:4848
+- Il faut ensuite créer le pool de la manière suivante:
 
 ![connection pool](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_connection_pools_deployement.PNG)
 
 - Première page :
 
 ![connection pool](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_connection_pools_first.png)
+
 - Deuxième page :
 
 ![connection pool](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_connection_pools_second.png)
@@ -51,18 +51,48 @@ $ docker-compose up
 
 ![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_resources_deployment.PNG)
 
-- Il faut ouvrir le projet persistence qui se trouve à la racine du projet avec netBeans et réaliser un clean & build
-- Il faut également ouvrir le projet Delivery Manager avec Intell IJ, ce projet est sous Spring Boot et doit être lancé avant le projet principal pour pouvoir gérer les demandes de livraison. Pour ce faire, ouvez le projet comme ceci:
+- Il faut ouvrir le projet persistence qui se trouve à la racine du projet avec netBeans
 
-![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/lancer_delivery.PNG)
+![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/ouvrir_persistence.PNG)
 
+- Puis il faut réaliser un clean & build
 
-- Il faut ensuite lancer le programme principal:
+![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/build_persistence.png)
 
-![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/lancer_dans_intell.PNG)
+- Il vous faut également ajouter les ressources liées aux queues JMS utilisées pour gérer les commandes.
+- Puis, vous devez ajouter deux queues JMS de cette manière :
+
+![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_destination.PNG)
+
+- Puis cliquez sur new
+
+![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_destination_new.PNG)
+
+- La première queue s'appelle ValidatedDeliveries, il faut ensuite la sauvegarder
+
+![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_destination_validated.PNG)
+
+- La deuxième queue s'appelle PendingDeliveries, il faut ensuite la sauvegarder
+
+![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_destination_pending.PNG)
 
 - Vous pouvez enfin lancer le projet principal, il faut clean&build le projet principal (Clique droit sur la racine sur netbeans puis Clean & Build)
 - Vous pouvez alors deployer le projet (F6 ou clique droit -> deploy sur la racine du projet)
 - Un bug est connu dans lequel le serveur a du mal à se connecter avec la base de données, pour régler ce problème vous pouvez redémarrer le serveur glassfish de cette manière sur netbeans:
 
 ![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_bo.png)
+
+- Les bugs connus sont ceux avec les messages suivants:
+  - Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'auction.SEQUENCE' doesn't exist
+  - Attempting to execute an operation on a closed EntityManagerFactory.
+- Lorsque vous pouvez enfin déployer le projet, vous pouvez passer à la suite
+- Il faut ensuite mettre en place le projet JEE-delivery-manager qui va permettre de gérer les commandes, pour ce faire, ouvrez le projet avec NetBeans
+
+![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/ouvrir_jee_delivery.PNG)
+
+- Clean&Build
+
+![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/build_jee_delivery.png)
+
+- Vous pouvez ensuite le deploy en appuyant sur F6 en ayant sélectionné la racine du projet comme précédemment
+- Normalement, si toutes les étapes précédentes fonctionnent le projet est correctement lancée !
