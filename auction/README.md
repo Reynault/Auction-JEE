@@ -96,3 +96,5 @@ $ docker-compose up
 
 - Vous pouvez ensuite le deploy en appuyant sur F6 en ayant sélectionné la racine du projet comme précédemment
 - Normalement, si toutes les étapes précédentes fonctionnent le projet est correctement lancée !
+
+REMARQUE : Si vous choisissez de lancer le back Spring, il faut supprimer le conteneur et relancer le docker-compose up (les jeux de données à l'initialisation des backs sont différents)

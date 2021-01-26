@@ -8,8 +8,17 @@
 
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let element"
-          [routerLink]="[baseUrl[0].url, element.id]"> {{element.name}} </td>
+      <td mat-cell *matCellDef="let element">
+        <div [routerLink]="[baseUrl[0].url, element.id]"
+             *ngIf="(toDate(element.auction.timeLimit) > getDate()); else article_outdated">
+          <a class="black" >{{element.name}}</a>
+        </div>
+        <ng-template #article_outdated>
+          <div [routerLink]="[baseUrl[2].url, element.id]">
+            <a class="black">{{element.name}}</a>
+          </div>
+        </ng-template>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="description">

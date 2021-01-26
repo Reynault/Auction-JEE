@@ -29,7 +29,8 @@ export class ParticipationsComponent implements OnInit {
   displayedColumns = ['id', 'name', 'description', 'best', 'last', 'time_limit', 'actions'];
   private _baseUrl: RouteDescriptor[] = [
     {id: 'article', url: '/article'} as RouteDescriptor,
-    {id: 'alreadySell', url: '/not-available'} as RouteDescriptor
+    {id: 'alreadySell', url: '/not-available'} as RouteDescriptor,
+    {id: 'article-not-available', url: '/article-ended'} as RouteDescriptor
   ];
 
   private _dialogStatus: string;
@@ -128,6 +129,14 @@ export class ParticipationsComponent implements OnInit {
     });
   }
 
+  isEndedOrNot(article: Article): number{
+    console.log("TEST");
+    if (this.toDate(article.auction.timeLimit) > this.getDate()){
+      return 0;
+    }else{
+      return 0;
+    }
+  }
 
 
 }

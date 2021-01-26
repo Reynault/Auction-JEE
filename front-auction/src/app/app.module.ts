@@ -40,6 +40,7 @@ import { DialogComponent } from './shared/form/dialog/dialog.component';
 import { NotAvailableComponent } from './not-available/not-available.component';
 import {DialogDeliveryComponent} from './shared/form/dialog-delivery/dialog-delivery.component';
 import {DeliveryFormComponent} from './shared/form/delivery-form/delivery-form.component';
+import {ArticleEndedComponent} from './article-ended/article-ended.component';
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import {DeliveryFormComponent} from './shared/form/delivery-form/delivery-form.c
     ArticleCardComponent,
     ArticlePromotionCardComponent,
     ArticleComponent,
+    ArticleEndedComponent,
     UserComponent,
     UserTabsComponent,
     ArticlesComponent,
