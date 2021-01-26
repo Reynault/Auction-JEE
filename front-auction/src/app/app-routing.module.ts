@@ -8,6 +8,7 @@ import {ArticleComponent} from './article/article.component';
 import {UserComponent} from './user/user.component';
 import {UserArticleComponent} from './user-article/user-article.component';
 import {NotAvailableComponent} from './not-available/not-available.component';
+import {ArticleEndedComponent} from './article-ended/article-ended.component';
 
 const routes: Routes = [
   { path: '',   redirectTo: '/home', pathMatch: 'full' }, // redirect to `first-component`
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'add-article', component: AddArticleComponent },
   { path: 'article/:id', component: ArticleComponent },
+  { path: 'article-ended/:id', component: ArticleEndedComponent },
   { path: 'user', component: UserComponent },
   { path: 'my-article/:id', component: UserArticleComponent },
   { path: 'not-available', component: NotAvailableComponent },
