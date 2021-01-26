@@ -76,15 +76,12 @@ public class ArticleService {
 
 
     // Cherche un article en vente mit par l'utilisateur
-    public Article findOwnArticleWithAuction(String token, long id) throws BadRequestException {
+    public Article findOwnArticle(String token, long id) throws BadRequestException {
         List<Article> articles = findUserArticles(token);
         // On regarde parmis la liste des articles de l'utilisateur il y a celui qui l'on cherche
         for (Article a : articles){
             if (a.getId() == id){
-                if (checkAuctionValide(a)){
-                    return a;
-                }
-                throw new BadRequestException(ErrorMessageManager.NOT_IN_SELL);
+                return a;
             }
         }
         throw new BadRequestException(ErrorMessageManager.USER_DOESNT_HAVE_ARTICLE);
