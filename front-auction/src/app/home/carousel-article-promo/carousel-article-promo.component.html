@@ -1,4 +1,4 @@
-<section>
+<section *ngIf="promotions.length>0; else no_promo">
   <owl-carousel-o [options]="customOptions">
     <ng-container *ngFor="let item of promotions; let i=index">
       <ng-template carouselSlide [width]="150" >
@@ -11,3 +11,9 @@
     </ng-container>
   </owl-carousel-o>
 </section>
+
+<ng-template #no_promo>
+    <div class="">
+      <p>No promotions available</p>
+    </div>
+</ng-template>
