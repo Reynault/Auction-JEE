@@ -3,7 +3,6 @@ import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {TokenService} from './token-service';
-import {Router} from '@angular/router';
 import {Delivery} from '../interfaces/delivery';
 import {Address} from '../interfaces/address';
 import {ArticleToDeliver} from '../interfaces/article-to-deliver';
@@ -17,8 +16,7 @@ export class DeliveryService {
   private readonly _defaultDelivery: Delivery;
 
   constructor(private _http: HttpClient,
-              private _token: TokenService,
-              private router: Router) {
+              private _token: TokenService) {
     this._defaultDelivery = {
       id: '-1',
       step: 'No Delivery',
@@ -73,18 +71,14 @@ export class DeliveryService {
     let params = new HttpParams();
     promotions.forEach((x) => {
       params = params.append('o', x[0].id);
-      console.log(x[0].id);
     });
-
-    console.log(params);
-
-    console.log(this._http.post<Delivery>(this._backendURL.createDelivery.replace(':id', id), {
+    return this._http.post<Delivery>(this._backendURL.createDelivery.replace(':id', id), {
       code: address.code,
       street: address.street,
       city: address.city,
       country: address.country
-    }, {params: params}).subscribe((_) => console.log(_)));
-    return null;
+    }, {params: params});
+
   }
 
   /**
@@ -99,9 +93,5 @@ export class DeliveryService {
     return this._defaultDelivery;
   }
 
-  transformPromotion(promotion: any): any{
-
-    return null;
-  }
 
 }

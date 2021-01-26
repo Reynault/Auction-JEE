@@ -64,7 +64,7 @@ button[mat-fab], a[mat-fab] {
 
 [mat-fab] mat-icon {
   font-size: 2em;
-  line-height: 18.6px;
+  line-height: 19px;
 }
 
 .loader {

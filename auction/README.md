@@ -38,6 +38,7 @@ $ docker-compose up
 - Première page :
 
 ![connection pool](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_connection_pools_first.png)
+
 - Deuxième page :
 
 ![connection pool](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_connection_pools_second.png)
@@ -50,7 +51,13 @@ $ docker-compose up
 
 ![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/jee_resources_deployment.PNG)
 
-- Il faut ouvrir le projet persistence qui se trouve à la racine du projet avec netBeans et réaliser un clean & build
+- Il faut ouvrir le projet persistence qui se trouve à la racine du projet avec netBeans
+
+![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/ouvrir_persistence.PNG)
+
+- Puis il faut réaliser un clean & build
+
+![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/build_persistence.png)
 
 - Il vous faut également ajouter les ressources liées aux queues JMS utilisées pour gérer les commandes.
 - Puis, vous devez ajouter deux queues JMS de cette manière :
@@ -80,6 +87,12 @@ $ docker-compose up
   - Attempting to execute an operation on a closed EntityManagerFactory.
 - Lorsque vous pouvez enfin déployer le projet, vous pouvez passer à la suite
 - Il faut ensuite mettre en place le projet JEE-delivery-manager qui va permettre de gérer les commandes, pour ce faire, ouvrez le projet avec NetBeans
+
+![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/ouvrir_jee_delivery.PNG)
+
 - Clean&Build
-- Vous pouvez ensuite le deploy
+
+![ressources](https://github.com/Reynault/Auction-JEE/blob/main/doc/images/build_jee_delivery.png)
+
+- Vous pouvez ensuite le deploy en appuyant sur F6 en ayant sélectionné la racine du projet comme précédemment
 - Normalement, si toutes les étapes précédentes fonctionnent le projet est correctement lancée !

@@ -63,13 +63,6 @@ export class AuthService {
     );
   }
 
-  modify(_user: string, value: any): Observable<any> {
-    return this._http.put(this._backendURL.profile, value
-    ).pipe(
-      map(_ => this._token.del())
-    );
-  }
-
   get(username: string): Observable<any> {
     return this._http.get(this._backendURL.userProfile.replace(':username', username));
   }

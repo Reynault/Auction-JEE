@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import {Observable, throwError} from 'rxjs';
+import {Observable} from 'rxjs';
 import { User } from '../interfaces/user';
-import {catchError, defaultIfEmpty, filter, map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -35,12 +34,6 @@ export class UserService {
   // private property to store default user
   private readonly _defaultUser: User;
 
-  /**
-   * Function to return request options
-   */
-  private static _options(headerList: object = {}): any {
-    return { headers: new HttpHeaders(Object.assign({ 'Content-Type': 'application/json' }, headerList)) };
-  }
 
   getUserAddress(): Observable<any>{
     return this._http.get<User>(this._backendURL.getUserAddress);

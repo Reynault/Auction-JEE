@@ -1,4 +1,37 @@
 <div class="main-content">
+
+  <div>
+    <div class="main-title">
+      <h1>Search</h1>
+    </div>
+
+    <form novalidate [formGroup]="this.values" class="search-menu-container">
+      <mat-card class="container">
+
+        <mat-form-field class="search-form-field">
+          <mat-label>Categories</mat-label>
+          <input formControlName="c" matInput type="text">
+        </mat-form-field>
+
+        <mat-form-field class="search-form-field">
+          <mat-label>Name</mat-label>
+          <input formControlName="n" matInput type="text">
+        </mat-form-field>
+
+        <div class="overflow-button">
+          <button (click)="launchSearch()" mat-fab class="primary" color="primary">
+            <mat-icon>search</mat-icon>
+          </button>
+        </div>
+
+      </mat-card>
+    </form>
+
+
+    <hr class="margin-separator">
+
+  </div>
+
   <div *ngIf="isLogin()">
     <div class="main-title">
       <h1>Promotions</h1>
@@ -7,7 +40,7 @@
     <app-carousel-article-promo *ngIf="articles.length>0; else no_articles_promo"></app-carousel-article-promo>
 
     <ng-template #no_articles_promo>
-      No Auction available
+      No Promotion available
     </ng-template>
 
     <hr class="margin-separator">

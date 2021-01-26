@@ -57,7 +57,7 @@ public class ParticipationService {
                 throw new BadRequestException(ErrorMessageManager.NOT_IN_SELL);
             } else {
                 // Si l'utilisateur n'est pas propriétaire de l'article
-                if (u.getSold().contains(a)) {
+                if (articleService.ownArticle(a, u)) {
                     throw new BadRequestException(ErrorMessageManager.USER_OWN);
                 } else {
                     // Si la valeur de la participation n'est pas trop petite

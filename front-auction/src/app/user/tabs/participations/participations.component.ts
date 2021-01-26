@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Article} from '../../../shared/interfaces/article';
 import {RouteDescriptor} from '../../../shared/interfaces/route-descriptor';
 import {Router} from '@angular/router';
@@ -47,19 +47,7 @@ export class ParticipationsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._participationService
-      .getParticipations().subscribe((articles: Article[]) => {
-      this._articles = articles;
-      console.log(this._articles[0].hasBeenSold);
-      this._articles.forEach((article: Article) => {
-        this._participations.push(this.getUserLastParticipation(article));
-      });
-      this._userService.getUserAddress().subscribe((address: Address) => {
-        console.log(address);
-        this._address = address;
-        delete this._address.id;
-      });
-    });
+    this.refreshParticipations();
 
     this._promotionService
       .getPromotions().subscribe((promotions: Promotion[]) => {
@@ -92,13 +80,6 @@ export class ParticipationsComponent implements OnInit {
   }
 
   /**
-   * Returns private property _dialogStatus
-   */
-  get dialogStatus(): string {
-    return this._dialogStatus;
-  }
-
-  /**
    * Function to display modal
    */
   showDialog(_id: string): void {
@@ -108,7 +89,7 @@ export class ParticipationsComponent implements OnInit {
     this._deliveryDialog = this._dialog.open(DialogDeliveryComponent, {
       width: '500px',
       disableClose: true,
-      data: {promo : this._promotions, address: this._address}
+      data: {promo : this._promotions, address: this._address, id: _id}
     });
 
     this._deliveryDialog.afterClosed()
@@ -116,22 +97,35 @@ export class ParticipationsComponent implements OnInit {
         filter(_ => !!_))
       .subscribe(
         (_) => {
-          // console.log(_.value);
-          this._deliveryService.createDelivery(_id, _.promo.value, _.address);
+          this.createDelivery(_id, _.promo.value, _.address);
           },
         _ => this._dialogStatus = 'inactive',
         () => this._dialogStatus = 'inactive'
       );
   }
 
-  getUserLastParticipation(article: Article): Participation{
-    // return
-    console.log(article.auction.participations);
-    const maxPeak = (article.auction.participations.filter(p => p.login === this._authService.getUsernameStored()))
-      .reduce((p, c) => (p.price > c.price) ? p : c);
-    console.log(maxPeak);
-    return maxPeak;
+  createDelivery(id: string, promo: [], address: Address): void{
+    this._deliveryService.createDelivery(id, promo, address).subscribe(_ => {this.refreshParticipations(); });
+  }
 
+  getUserLastParticipation(article: Article): Participation{
+    return (article.auction.participations.filter(p => p.login === this._authService.getUsernameStored()))
+      .reduce((p, c) => (p.price > c.price) ? p : c);
+
+  }
+
+  refreshParticipations(): void{
+    this._participationService
+      .getParticipations().subscribe((articles: Article[]) => {
+      this._articles = articles;
+      this._articles.forEach((article: Article) => {
+        this._participations.push(this.getUserLastParticipation(article));
+      });
+      this._userService.getUserAddress().subscribe((address: Address) => {
+        this._address = address;
+        delete this._address.id;
+      });
+    });
   }
 
 

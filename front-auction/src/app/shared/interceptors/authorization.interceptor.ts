@@ -58,7 +58,6 @@ export class AuthorizationInterceptor implements HttpInterceptor{
     return next.handle(request).pipe(
       catchError((error) => {
         let handled = false;
-        // console.error(error);
         if (error instanceof HttpErrorResponse) {
           if (error.error instanceof ErrorEvent) {
           } else {

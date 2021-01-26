@@ -5,10 +5,7 @@ import {ArticleService} from '../shared/services/article.service';
 import {AuthService} from '../shared/services/auth.service';
 import {ParticipationService} from '../shared/services/participation.service';
 import {environment} from '../../environments/environment';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {errorMessages} from '../shared/constants/error.messages';
 import {Participation} from '../shared/interfaces/participation';
-import {RouteDescriptor} from '../shared/interfaces/route-descriptor';
 import {User} from '../shared/interfaces/user';
 
 @Component({
@@ -52,7 +49,6 @@ export class UserArticleComponent implements OnInit {
   initArticle(): void {
     this._articleService
       .getUserArticle(this._id).subscribe((article: Article) => {
-        console.log(article);
         this._article = article;
       }
     );
@@ -79,10 +75,6 @@ export class UserArticleComponent implements OnInit {
 
   get article(): Article {
     return this._article;
-  }
-
-  isLogin(): boolean{
-    return this._authService.hasStoredToken();
   }
 
 }

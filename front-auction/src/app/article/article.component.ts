@@ -21,8 +21,11 @@ export class ArticleComponent implements OnInit {
   private _backendURL: any;
   private readonly _baseUrl: string;
 
-  constructor(private _router: Router, private _activatedRoute: ActivatedRoute, private _articleService: ArticleService,
-              private _authService: AuthService, private _participationService: ParticipationService) {
+  constructor(private _router: Router,
+              private _activatedRoute: ActivatedRoute,
+              private _articleService: ArticleService,
+              private _authService: AuthService,
+              private _participationService: ParticipationService) {
     this._id = this._activatedRoute.snapshot.url.pop().path;
     this._backendURL = {};
     this._baseUrl = `${environment.backend.protocol}://${environment.backend.host}`;
@@ -45,7 +48,6 @@ export class ArticleComponent implements OnInit {
   private _err: string;
 
   private static _buildForm(bestBide: number): FormGroup {
-    console.log(bestBide);
     return new FormGroup({
       value: new FormControl('', Validators.compose([
         Validators.required,
@@ -69,7 +71,6 @@ export class ArticleComponent implements OnInit {
         this._form = ArticleComponent._buildForm(bide);
       },
     (error) => {
-      console.log(error);
       switch (error.status) {
         case 400:
           this._router.navigate(['/not-available']);
@@ -81,7 +82,6 @@ export class ArticleComponent implements OnInit {
 
   submit(): void {
     if (this.form.valid) {
-      console.log(this.form.value);
       this._participationService.participate(this._article.id, this.form.value).subscribe(
         () => {
           // this._router.navigate(['/home']);
@@ -91,7 +91,6 @@ export class ArticleComponent implements OnInit {
           this._err = '';
         },
         (error) => {
-          console.log(error);
           switch (error.status) {
             case 401:
               this._err = errorMessages.wrongData;

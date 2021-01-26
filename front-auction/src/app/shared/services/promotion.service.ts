@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
-import {User} from '../interfaces/user';
 import {Observable} from 'rxjs';
-import {defaultIfEmpty, filter} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {TokenService} from './token-service';
-import {Router} from '@angular/router';
-import {Article} from '../interfaces/article';
 import {Promotion} from '../interfaces/promotion';
 import {Parameter} from '../interfaces/parameter';
 
@@ -19,8 +15,7 @@ export class PromotionService {
   private readonly _defaultPromotion: Promotion;
 
   constructor(private _http: HttpClient,
-              private _token: TokenService,
-              private router: Router) {
+              private _token: TokenService) {
     this._defaultPromotion = {
       id: 'null',
       description: 'Description',
@@ -45,6 +40,14 @@ export class PromotionService {
    */
   getPromotions(): Observable<Promotion[]> {
     return this._http.get<Promotion[]>(this._backendURL.promotions);
+  }
+
+  calculatePromotions(id: string, promotions: any): Observable<any>{
+    let params = new HttpParams();
+    promotions.forEach((x) => {
+      params = params.append('o', x[0].id);
+    });
+    return this._http.get<Promotion[]>(this._backendURL.calculatePromotions.replace(':id', id), {params: params});
   }
 
 }

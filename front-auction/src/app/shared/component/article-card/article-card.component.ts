@@ -38,14 +38,6 @@ export class ArticleCardComponent implements OnInit {
     this._article = value;
   }
 
-  get isDragging(): boolean {
-    return this._isDragging;
-  }
-
-  set isDragging(value: boolean) {
-    this._isDragging = value;
-  }
-
   get baseUrl(): RouteDescriptor[] {
     return this._baseUrl;
   }

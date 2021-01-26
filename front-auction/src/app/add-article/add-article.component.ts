@@ -157,7 +157,7 @@ export class AddArticleComponent implements OnInit {
 
       let categories = [];
       _articleSend.categories.forEach((k, v) => {
-        categories.push(k["name"]);
+        categories.push(k['name']);
       });
       _articleSend.categories = categories;
 

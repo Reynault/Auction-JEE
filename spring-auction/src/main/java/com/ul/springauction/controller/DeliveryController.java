@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping(value = "/participation")
+@RequestMapping(value = "/auction/participation")
 @RestController
 @CrossOrigin(origins = "http://localhost:5201")
 public class DeliveryController {
@@ -18,7 +18,7 @@ public class DeliveryController {
     private DeliveryService deliveryService;
 
     @PostMapping(value = "/{id}/deliver")
-    public Delivery buyArticle(@RequestHeader(value = "Authorization") String token, long id, @RequestParam(required = false)List<Long> o, @RequestBody RegisterAddress address) throws BadRequestException {
+    public Delivery buyArticle(@RequestHeader(value = "Authorization") String token,@PathVariable long id, @RequestParam(required = false)List<Long> o, @RequestBody RegisterAddress address) throws BadRequestException {
         return deliveryService.buyArticle(token, id, o, address);
     }
 

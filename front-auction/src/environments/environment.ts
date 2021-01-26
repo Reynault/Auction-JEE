@@ -24,7 +24,9 @@ export const environment = {
       deleteAuction: '/auction/articles/:id/remove', // Delete Auction (Connected User)
       deleteArticle: '/auction/articles/:id/delete', // Delete Article (Connected User)
       promotions: '/auction/participation/promotions', // Get all products who have promotion (connected User)
+      calculatePromotions: '/auction/participation/:id/checkPrice',
       participate: '/auction/participation/:id', // Add a participation to an Auction (Connected User)
+      participation: '/auction/participation/:id/my',
       participations: '/auction/participation/my', // Get all user participations
       userDeliveries: '/auction/participation/deliveries', // Get all user deliveries
       userDelivery: '/auction/participation/:id/deliveries', // Get a delivery

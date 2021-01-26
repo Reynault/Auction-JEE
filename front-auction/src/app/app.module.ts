@@ -34,7 +34,6 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { UserArticleComponent } from './user-article/user-article.component';
 import { ParticipationsComponent } from './user/tabs/participations/participations.component';
 import { DeliveriesComponent } from './user/tabs/deliveries/deliveries.component';
-import {HttpErrorInterceptor} from './shared/interceptors/http-error.interceptor';
 import { AuctionFormComponent } from './shared/form/auction-form/auction-form.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { DialogComponent } from './shared/form/dialog/dialog.component';
