@@ -36,7 +36,6 @@ public class AuthentificatedFilter {
     @Around("AuthentificatedAnnotation()")
     public Object doSomething(ProceedingJoinPoint pjp) throws Throwable {
 
-        System.out.println("FIOLTERERER R ?");
         HttpServletRequest request = getRequest();
         HttpServletResponse response = getResponse();
 
@@ -49,16 +48,12 @@ public class AuthentificatedFilter {
             String token = authorizationHeader.substring(AUTHENTICATION_SCHEME.length()).trim();
             // Puis on le verifie
             if (!jwtUtil.validateToken(token, login)) {
-                System.out.println("NOT VALID");
-                response.sendError(Response.SC_UNAUTHORIZED);
+                response.sendError(Response.SC_BAD_REQUEST, "Votre session a expirée");
             } else {
-                System.out.println("NAN ?");
                 return pjp.proceed();
             }
         } else {
-            System.out.println("Login : " + login);
-            System.out.println("authorization : " + authorizationHeader);
-            response.sendError(Response.SC_UNAUTHORIZED);
+            response.sendError(Response.SC_BAD_REQUEST, "Nous n'avons pas pu vous identifier");
         }
         return null;
     }

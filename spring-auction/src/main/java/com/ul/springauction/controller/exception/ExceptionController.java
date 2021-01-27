@@ -2,6 +2,7 @@ package com.ul.springauction.controller.exception;
 
 import com.ul.springauction.shared.exception.BadRequestException;
 import com.ul.springauction.shared.response.ErrorResponse;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,5 +20,10 @@ public class ExceptionController {
         return new ErrorResponse(e.getMessage());
     }
 
-
+    @ExceptionHandler(ExpiredJwtException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public @ResponseBody
+    ErrorResponse handleExpiredJwtException(ExpiredJwtException e){
+        return new ErrorResponse("Votre session a expirée");
+    }
 }
