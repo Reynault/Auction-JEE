@@ -33,8 +33,8 @@ public class DtoValidator {
 
     public void validation(DtoObject object) throws BadRequestException {
         ErrorResponse errors = validate(object);
-        if (errors.getMessages().size() > 0){
-            throw new BadRequestException(errors.getMessages().get(0));
+        if (errors.getMessage().size() > 0){
+            throw new BadRequestException(errors.getMessage().get(0));
         }
     }
 }

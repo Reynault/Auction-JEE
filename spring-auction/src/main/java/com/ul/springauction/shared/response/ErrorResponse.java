@@ -8,22 +8,22 @@ import java.util.List;
  */
 public class ErrorResponse implements Response {
 
-    private List<String> messages;
+    private List<String> message;
 
-    public ErrorResponse(List<String> messages){
-        this.messages = messages;
+    public ErrorResponse(List<String> message){
+        this.message = message;
     }
 
     public ErrorResponse(String message){
-        this.messages = new ArrayList<>();
-        this.messages.add(message);
+        this.message = new ArrayList<>();
+        this.message.add(message);
     }
 
-    public void setMessages(List<String> messages) {
-        this.messages = messages;
+    public void setMessage(List<String> message) {
+        this.message = message;
     }
 
-    public List<String> getMessages() {
-        return messages;
+    public List<String> getMessage() {
+        return message;
     }
 }

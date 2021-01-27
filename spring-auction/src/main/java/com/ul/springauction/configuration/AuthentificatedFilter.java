@@ -8,7 +8,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -47,19 +46,14 @@ public class AuthentificatedFilter {
 
         // On extrait le token
         if (authorizationHeader != null && login != null) {
-            try {
-                String token = authorizationHeader.substring(AUTHENTICATION_SCHEME.length()).trim();
-                // Puis on le verifie
-                if (!jwtUtil.validateToken(token, login)) {
-                    System.out.println("NOT VALID");
-                    response.sendError(Response.SC_UNAUTHORIZED);
-                } else {
-                    System.out.println("NAN ?");
-                    return pjp.proceed();
-                }
-            }catch(Exception e){
-                System.out.println("Erreur : "+e.getMessage());
-                return e;
+            String token = authorizationHeader.substring(AUTHENTICATION_SCHEME.length()).trim();
+            // Puis on le verifie
+            if (!jwtUtil.validateToken(token, login)) {
+                System.out.println("NOT VALID");
+                response.sendError(Response.SC_UNAUTHORIZED);
+            } else {
+                System.out.println("NAN ?");
+                return pjp.proceed();
             }
         } else {
             System.out.println("Login : " + login);
