@@ -13,7 +13,6 @@ import java.util.List;
 
 @RequestMapping(value = "/auction/participation")
 @RestController
-@CrossOrigin(origins = "http://localhost:5201")
 public class ParticipationController {
 
     @Autowired

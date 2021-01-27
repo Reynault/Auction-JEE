@@ -1,8 +1,6 @@
 package com.ul.springauction.configuration;
 
 import com.ul.springauction.services.auth.JwtUtil;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.SignatureException;
 import org.apache.catalina.connector.Response;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -38,6 +36,7 @@ public class AuthentificatedFilter {
     @Around("AuthentificatedAnnotation()")
     public Object doSomething(ProceedingJoinPoint pjp) throws Throwable {
 
+        System.out.println("FIOLTERERER R ?");
         HttpServletRequest request = getRequest();
         HttpServletResponse response = getResponse();
 
@@ -49,16 +48,15 @@ public class AuthentificatedFilter {
         if (authorizationHeader != null && login != null) {
             String token = authorizationHeader.substring(AUTHENTICATION_SCHEME.length()).trim();
             // Puis on le verifie
-            try {
-                if (!jwtUtil.validateToken(token, login)) {
-                    response.sendError(Response.SC_UNAUTHORIZED);
-                }else{
-                    return pjp.proceed();
-                }
-            } catch (Exception e) {
+            if (!jwtUtil.validateToken(token, login)) {
+                System.out.println("NOT VALID");
                 response.sendError(Response.SC_UNAUTHORIZED);
+            } else {
+                return pjp.proceed();
             }
         } else {
+            System.out.println("Login : " + login);
+            System.out.println("authorization : " + authorizationHeader);
             response.sendError(Response.SC_UNAUTHORIZED);
         }
         return null;
