@@ -52,3 +52,7 @@ Lorsque le message *Initialisation OK!* s'affiche, il est prêt à être utilis�
 https://github.com/Reynault/Auction-JEE/tree/main/front-auction
 
 Il est également possible de le lancer sous IntelliJ, en ouvrant le dossier spring-auction et une fois ouvert, faire la commande `Run` en haut à droite.
+
+--------------------------
+
+REMARQUE : Si vous choisissez de lancer le back JEE, il faut supprimer le conteneur et relancer le docker-compose up (les jeux de données à l'initialisation des backs sont différents)

@@ -8,8 +8,6 @@ import com.ul.springauction.shared.exception.BadRequestException;
 import model.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RequestMapping(value = "/auction/articles")
@@ -37,7 +35,7 @@ public class ArticleController {
 
     @GetMapping(value = "/{id}/my")
     @Authentificated
-    public Article findOwnArticleWithAuction(@RequestHeader(name = "Authorization") String token, @PathVariable long id) throws BadRequestException {
+    public Article findOwnArticle(@RequestHeader(name = "Authorization") String token, @PathVariable long id) throws BadRequestException {
         return articleService.findOwnArticle(token, id);
     }
 
