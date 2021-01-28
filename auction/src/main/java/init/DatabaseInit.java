@@ -181,7 +181,7 @@ public class DatabaseInit {
                     PromotionType.PARTICIPATION_REWARD
             );
             Promotion p3 = new Promotion(
-                    "Réduction de 50€ si l'article coûte plus de 50€ et si l'enchère a plus de 2 participations",
+                    "Réduction de 20€ si l'article coûte plus de 50€ et si l'enchère a plus de 2 participations",
                     Arrays.asList(
                             new Parameter(1, 50),
                             new Parameter(2, 20),
