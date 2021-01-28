@@ -55,7 +55,7 @@ export class UserArticleComponent implements OnInit {
   }
 
   get participations(): Participation[] {
-    if (this.article.auction.participations.length > 0) {
+    if (this.article.auction?.participations.length > 0) {
       return this.article.auction.participations;
     }
     else {

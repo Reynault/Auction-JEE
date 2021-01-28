@@ -11,7 +11,7 @@
 
     <!-- Product Description -->
     <div class="product-description">
-      <span class="margin-1p" *ngFor="let category of article.categories">{{category.name}}</span>
+      <span class="margin-1p" *ngFor="let category of article?.categories">{{category.name}}</span>
       <h1>{{article.name}}</h1>
       <p>{{article.description}}</p>
     </div>
