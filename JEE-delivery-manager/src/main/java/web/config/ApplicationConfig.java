@@ -20,6 +20,7 @@ public class ApplicationConfig extends Application {
 
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(web.controller.DeliveryController.class);
+        resources.add(web.config.cors.CORSFilter.class);
     }
 
 }
