@@ -164,7 +164,7 @@ public class DatabaseInit {
             Promotion p1 = new Promotion(
                     "Réduction de 100€ si l'article coûte plus de 1000€",
                     Arrays.asList(
-                            new Parameter(1, 500),
+                            new Parameter(1, 1200),
                             new Parameter(2, 100)
                     ),
                     false,
